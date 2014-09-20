@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+
+<?xml-stylesheet type="text/css" href="chrome://global/skin/" ?>
+
+<prefwindow xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" id="idOption">
+	<script type="text/javascript">
+		{
+			document.getElementById('idOption').cancelDialog();
+		}
+		
+		{
+			var windowserviceHandle = Components.classes['@mozilla.org/appshell/window-mediator;1'].getService(Components.interfaces.nsIWindowMediator);
+			
+			{
+				var windowHandle = windowserviceHandle.getMostRecentWindow('navigator:browser');
+				
+				windowHandle.openUILinkIn('chrome://BookRect/content/assets/options.html', 'tab');
+			}
+		}
+	</script>
+</prefwindow>

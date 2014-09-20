@@ -1,0 +1,101 @@
+{
+ "enable_e10s": false, 
+ "is-sdk-bundled": true, 
+ "jetpackID": "bookrect@coderect.com", 
+ "loader": "addon-sdk/lib/sdk/loader/cuddlefish.js", 
+ "main": "main", 
+ "mainPath": "bookrect/main", 
+ "manifest": {
+  "bookrect/main": {
+   "docsSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855", 
+   "jsSHA256": "58f0dab97077407bd323243b1be7da4285398a77c2969f2e81ef7fc11de8454a", 
+   "moduleName": "main", 
+   "packageName": "bookrect", 
+   "requirements": {
+    "chrome": "chrome", 
+    "panel": "sdk/panel", 
+    "self": "sdk/self", 
+    "tabs": "sdk/tabs", 
+    "toolbarbutton": "toolbarbutton/toolbarbutton"
+   }, 
+   "sectionName": "lib"
+  }, 
+  "toolbarbutton/toolbarbutton": {
+   "docsSHA256": "ba10d9efce2cb99088daf32923af7913016d77e50124e1a538f10e92be198ee7", 
+   "jsSHA256": "ca45cb486c1e598beb5fa9be10e8098886db0dfd006348fad265577f3cee0398", 
+   "moduleName": "toolbarbutton", 
+   "packageName": "toolbarbutton", 
+   "requirements": {
+    "listen": "vold-utils/listen", 
+    "unload+": "vold-utils/unload+", 
+    "window-utils": "sdk/deprecated/window-utils"
+   }, 
+   "sectionName": "lib"
+  }, 
+  "vold-utils/listen": {
+   "docsSHA256": "c170691782bf751483772af22962a27f2cd76ef4e2a74bf39f20c8171af54eb8", 
+   "jsSHA256": "b911687ffd224e2c32fabd18d49d943caa9a705203d162bcfeade3b00eb11a77", 
+   "moduleName": "listen", 
+   "packageName": "vold-utils", 
+   "requirements": {
+    "unload+": "vold-utils/unload+"
+   }, 
+   "sectionName": "lib"
+  }, 
+  "vold-utils/unload+": {
+   "docsSHA256": "465618992a8bbf3da6425fd79aaec54b92db0353d9670d8dcc1373d14c25b69b", 
+   "jsSHA256": "cb89594ca469fdb98a5c25313bcd2636c64805cc51628adafd732cf4e13d74ed", 
+   "moduleName": "unload+", 
+   "packageName": "vold-utils", 
+   "requirements": {
+    "sdk/core/heritage": "sdk/core/heritage", 
+    "sdk/core/namespace": "sdk/core/namespace", 
+    "sdk/system/unload": "sdk/system/unload"
+   }, 
+   "sectionName": "lib"
+  }
+ }, 
+ "metadata": {
+  "addon-sdk": {
+   "description": "Add-on development made easy.", 
+   "keywords": [
+    "javascript", 
+    "engine", 
+    "addon", 
+    "extension", 
+    "xulrunner", 
+    "firefox", 
+    "browser"
+   ], 
+   "license": "MPL 2.0", 
+   "name": "addon-sdk"
+  }, 
+  "bookrect": {
+   "main": "main", 
+   "name": "bookrect"
+  }, 
+  "toolbarbutton": {
+   "author": "Erik Vold", 
+   "description": "Toolbar Buttons for Jetpacks", 
+   "keywords": [
+    "toolbar", 
+    "toolbarbutton", 
+    "button", 
+    "ui"
+   ], 
+   "license": "MIT/X11", 
+   "name": "toolbarbutton", 
+   "version": "1.1.1"
+  }, 
+  "vold-utils": {
+   "author": "Erik Vold (http://erikvold.com/) <erikvvold@gmail.com>", 
+   "description": "Utilitys for Jetpacks", 
+   "name": "vold-utils", 
+   "version": "2.0"
+  }
+ }, 
+ "name": "bookrect", 
+ "sdkVersion": "1.14", 
+ "staticArgs": {}, 
+ "verbose": false
+}

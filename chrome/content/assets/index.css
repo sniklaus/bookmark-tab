@@ -1,0 +1,68 @@
+body {
+	cursor:default;
+	
+	margin:0px;
+	border:none;
+	border-spacing:0px;
+	padding:28px;
+	
+	background-color:#FFFFFF;
+}
+
+.cssSearchContainer {
+	margin:0px 0px 10px 0px;
+	border:none;
+	border-spacing:0px;
+	padding:0px;
+}
+
+.cssSearch {
+	cursor:pointer;
+	
+	display:block;
+	position:relative;
+	
+	margin:0px;
+	border:none;
+	border-spacing:0px;
+	padding:6px;
+	
+	background-color:#FFFFFF;
+}
+
+.cssSearchHover {
+	background-color:#CCCCCC;
+}
+
+.cssSearchImage {
+	display:block;
+	position:absolute;
+	
+	top:11px;
+	left:6px;
+}
+
+.cssSearchInput {
+	width:320px;
+	
+	margin:2px 0px 0px 26px;
+	border:1px solid #000000;
+	border-spacing:0px;
+	padding:2px 4px 2px 4px;
+	
+	color:#000000;
+	font-size:12px;
+	font-weight:normal;
+	font-family:Tahoma;
+	text-decoration:none;
+	text-align:left;
+	line-height:1;
+	white-space:normal;
+}
+
+.cssSearchTree {
+	margin:0px 0px 0px 28px;
+	border:none;
+	border-spacing:0px;
+	padding:0px;
+}
