@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		
+		<meta name="viewport" content="width=1000" />
+		
+		<title>Options_strTitle</title>
+		
+		<link rel="icon" type="image/png" href="chrome://BookRect/content/images/basicFavicon.png" />
+		
+		<link rel="stylesheet" type="text/css" href="chrome://BookRect/content/bootstrap.css" />
+		<link rel="stylesheet" type="text/css" href="chrome://BookRect/content/bootstrapCustom.css" />
+		
+		<script type="text/javascript" src="chrome://BookRect/content/jquery.js"></script>
+		
+		<script type="text/javascript" src="chrome://BookRect/content/moment.js"></script>
+		
+		<script type="text/javascript" src="chrome://BookRect/content/src/bookmarks.js"></script>
+		<script type="text/javascript" src="chrome://BookRect/content/src/localisation.js"></script>
+		<script type="text/javascript" src="chrome://BookRect/content/src/preferences.js"></script>
+		
+		<script type="text/javascript" src="chrome://BookRect/content/options.js"></script>
+	</head>
+	<body>
+		<div data-role="page" id="idOptions">
+			<div data-role="header">
+				<h1 id="idOptions_Header_Title">Options_Header_strTitle</h1>
+			</div>
+			
+			<div data-role="content">
+				<table cellpadding="0" cellspacing="0" border="0">
+					<tr>
+						<td style="vertical-align:top;">
+							<div class="ui-bar ui-bar-a" id="idOptions_Navigation_Title">
+								Options_Navigation_strTitle
+							</div>
+							<div class="ui-body ui-body-a" style="border-top:none;">
+								<input data-defaults="true" id="idOptions_Navigation_General" type="button" value="Options_Navigation_strGeneral" />
+								
+								<input data-defaults="true" id="idOptions_Navigation_Stylesheet" type="button" value="Options_Navigation_strStylesheet" />
+							</div>
+						</td>
+						<td style="width:14px;">
+						
+						</td>
+						<td style="vertical-align:top;">
+
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		
+		<div data-role="page" id="idGeneralOptions">
+			<div data-role="header">
+				<h1 id="idGeneralOptions_Header_Title">Options_Header_strTitle</h1>
+				
+				<a class="ui-btn-right" data-role="button" data-corners="false" data-shadow="false" data-rel="popup" id="idGeneralOptions_Header_Popup" href="#idGeneralOptions_Popup">Options_Popup_strTitle</a>
+			</div>
+			
+			<div data-role="content">
+				<table cellpadding="0" cellspacing="0" border="0">
+					<tr>
+						<td style="vertical-align:top;">
+							<div class="ui-bar ui-bar-a" id="idGeneralOptions_Navigation_Title">
+								Options_Navigation_strTitle
+							</div>
+							<div class="ui-body ui-body-a" style="border-top:none;">
+								<input data-defaults="true" id="idGeneralOptions_Navigation_General" type="button" value="Options_Navigation_strGeneral" />
+								
+								<input data-defaults="true" id="idGeneralOptions_Navigation_Stylesheet" type="button" value="Options_Navigation_strStylesheet" />
+							</div>
+						</td>
+						<td style="width:14px;">
+						
+						</td>
+						<td style="vertical-align:top;">
+							<div class="ui-bar ui-bar-a" id="idGeneralOptions_Source_Title">
+								Options_General_Source_strTitle
+							</div>
+							<div class="ui-body ui-body-a" style="border-top:none;">
+								<label>
+									<input data-defaults="true" id="idGeneralOptions_Source_Toolbar" type="checkbox" />
+									Options_General_Source_strToolbar
+								</label>
+								
+								<label>
+									<input data-defaults="true" id="idGeneralOptions_Source_Menu" type="checkbox" />
+									Options_General_Source_strMenu
+								</label>
+								
+								<label>
+									<input data-defaults="true" id="idGeneralOptions_Source_Unfiled" type="checkbox" />
+									Options_General_Source_strUnfiled
+								</label>
+							</div>
+							
+							<div style="height:14px;"></div>
+							
+							<div class="ui-bar ui-bar-a" id="idGeneralOptions_Advanced_Title">
+								Options_General_Advanced_strTitle
+							</div>
+							<div class="ui-body ui-body-a" style="border-top:none;">
+								<label>
+									<input data-defaults="true" id="idGeneralOptions_Advanced_Autostart" type="checkbox" />
+									Options_General_Advanced_strAutostart
+								</label>
+								
+								<label>
+									<input data-defaults="true" id="idGeneralOptions_Advanced_Search" type="checkbox" />
+									Options_General_Advanced_strSearch
+								</label>
+								
+								<label>
+									<input data-defaults="true" id="idGeneralOptions_Advanced_State" type="checkbox" />
+									Options_General_Advanced_strState
+								</label>
+								
+								<label>
+									<input data-defaults="true" id="idGeneralOptions_Advanced_Subfolders" type="checkbox" />
+									Options_General_Advanced_strSubfolders
+								</label>
+							</div>
+						</td>
+					</tr>
+				</table>
+			</div>
+
+			<div class="ui-body ui-body-a" id="idGeneralOptions_Popup">
+				<input data-defaults="true" class="ui-btn-right" id="idGeneralOptions_Popup_Reset" type="button" value="Options_General_Popup_strReset" />
+			</div>
+		</div>
+		
+		<div data-role="page" id="idStylesheetOptions">
+			<div data-role="header">
+				<h1 id="idStylesheetOptions_Header_Title">Options_Header_strTitle</h1>
+				
+				<a class="ui-btn-right" data-role="button" data-corners="false" data-shadow="false" data-rel="popup" id="idStylesheetOptions_Header_Popup" href="#idStylesheetOptions_Popup">Options_Popup_strTitle</a>
+			</div>
+			
+			<div data-role="content">
+				<table cellpadding="0" cellspacing="0" border="0">
+					<tr>
+						<td style="vertical-align:top;">
+							<div class="ui-bar ui-bar-a" id="idStylesheetOptions_Navigation_Title">
+								Options_Navigation_strTitle
+							</div>
+							<div class="ui-body ui-body-a" style="border-top:none;">
+								<input data-defaults="true" id="idStylesheetOptions_Navigation_General" type="button" value="Options_Navigation_strGeneral" />
+								
+								<input data-defaults="true" id="idStylesheetOptions_Navigation_Stylesheet" type="button" value="Options_Navigation_strStylesheet" />
+							</div>
+						</td>
+						<td style="width:14px;">
+						
+						</td>
+						<td style="vertical-align:top;">
+							<div class="ui-bar ui-bar-a" id="idStylesheetOptions_Stylesheet_Title">
+								Options_Stylesheet_strTitle
+							</div>
+							<div class="ui-body ui-body-a" style="border-top:none;">
+								<textarea data-defaults="true" id="idStylesheetOptions_Stylesheet_Index" cols="50"></textarea>
+								
+								<textarea data-defaults="true" id="idStylesheetOptions_Stylesheet_CoderectTree" cols="50"></textarea>
+							</div>
+						</td>
+					</tr>
+				</table>
+			</div>
+
+			<div class="ui-body ui-body-a" id="idStylesheetOptions_Popup">
+				<input data-defaults="true" class="ui-btn-right" id="idStylesheetOptions_Popup_Reset" type="button" value="Options_Stylesheet_Popup_strReset" />
+			</div>
+		</div>
+	</body>
+</html>

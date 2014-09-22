@@ -1,0 +1,24 @@
+general {
+	strOutput:Firefox
+	strType:Attribute
+	strPackage:'BookRect'
+	strName:'Source'
+}
+
+attribute {
+	strName:'boolToolbar'
+	strType:bool
+	strDefault:'true'
+}
+
+attribute {
+	strName:'boolMenu'
+	strType:bool
+	strDefault:'true'
+}
+
+attribute {
+	strName:'boolUnfiled'
+	strType:bool
+	strDefault:'true'
+}

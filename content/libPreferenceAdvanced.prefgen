@@ -1,0 +1,30 @@
+general {
+	strOutput:Firefox
+	strType:Attribute
+	strPackage:'BookRect'
+	strName:'Advanced'
+}
+
+attribute {
+	strName:'boolAutostart'
+	strType:bool
+	strDefault:'true'
+}
+
+attribute {
+	strName:'boolSearch'
+	strType:bool
+	strDefault:'true'
+}
+
+attribute {
+	strName:'boolState'
+	strType:bool
+	strDefault:'false'
+}
+
+attribute {
+	strName:'boolSubfolders'
+	strType:bool
+	strDefault:'true'
+}

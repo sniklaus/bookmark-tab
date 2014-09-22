@@ -1,5 +1,5 @@
-content		BookRect											chrome/content/
+content		BookRect					content/
 
-locale		BookRect		de									chrome/locale/de/
-locale		BookRect		en-US								chrome/locale/en-US/
-locale		BookRect		fr									chrome/locale/fr/
+locale		BookRect		de			locale/de/
+locale		BookRect		en-US		locale/en-US/
+locale		BookRect		fr			locale/fr/

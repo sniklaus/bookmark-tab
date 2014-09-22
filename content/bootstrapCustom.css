@@ -1,0 +1,25 @@
+@font-face {
+	font-family:'Glyphicons Halflings';
+	  
+	src:url('fonts/glyphicons-halflings-regular.woff') format('woff'), url('fonts/glyphicons-halflings-regular.ttf') format('truetype');
+}
+
+body {
+	cursor:default;
+	
+	margin:0px;
+	border:none;
+	border-spacing:0px;
+	padding:0px;
+	
+	background-color:#FFFFFF;
+	
+	color:#333333;
+	font-size:14px;
+	font-weight:normal;
+	font-family:Helvetica;
+	text-decoration:none;
+	text-align:left;
+	line-height:1;
+	white-space:normal;
+}
