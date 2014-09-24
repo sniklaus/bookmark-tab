@@ -89,46 +89,54 @@ var Bookmarks = {
 					var nodeHandle = nodeFolder.root.getChild(intFor1);
 					
 					{
+						var strType = '';
+						var strTitle = '';
+						var strLink = '';
+						var strIcon = '';
+						var strTags = '';
+						var intAccesscount = 0;
+						
 						if (PlacesUtils.nodeIsFolder(nodeHandle) === true) {
-							objectFolder.push({
-								'intIdent': nodeHandle.itemId,
-								'intTimestamp': nodeHandle.lastModified,
-								'intParent': intFolder,
-								'strTitle': nodeHandle.title,
-								'strLink': '',
-								'strType': 'typeFolder',
-								'strIcon': '',
-								'strTags': '',
-								'intAccesscount': 0
-							});
+							strType = 'typeFolder';
+							strTitle = nodeHandle.title;
+							strLink = '';
+							strIcon = '';
+							strTags = '';
+							intAccesscount = 0;
 							
 						} else if (PlacesUtils.nodeIsBookmark(nodeHandle) === true) {
-							objectFolder.push({
-								'intIdent': nodeHandle.itemId,
-								'intTimestamp': nodeHandle.lastModified,
-								'intParent': intFolder,
-								'strType': 'typeBookmark',
-								'strTitle': nodeHandle.title,
-								'strLink': nodeHandle.uri,
-								'strIcon': nodeHandle.icon,
-								'strTags': nodeHandle.tags,
-								'intAccesscount': nodeHandle.accessCount
-							});
+							strType = 'typeBookmark';
+							strTitle = nodeHandle.title;
+							strLink = nodeHandle.uri;
+							strIcon = nodeHandle.icon;
+							strTags = nodeHandle.tags;
+							intAccesscount = nodeHandle.accessCount;
+							
+							if (strIcon.indexOf('moz-anno:favicon:') === -1) {
+								strIcon = 'http://g.etfv.co/' + strLink;
+							}
 							
 						} else if (PlacesUtils.nodeIsSeparator(nodeHandle) === true) {
-							objectFolder.push({
-								'intIdent': nodeHandle.itemId,
-								'intTimestamp': nodeHandle.lastModified,
-								'intParent': intFolder,
-								'strTitle': '',
-								'strLink': '',
-								'strType': 'typeSeparator',
-								'strIcon': '',
-								'strTags': '',
-								'intAccesscount': 0
-							});
+							strType = 'typeSeparator';
+							strTitle = '';
+							strLink = '';
+							strIcon = '';
+							strTags = '';
+							intAccesscount = 0;
 							
 						}
+						
+						objectFolder.push({
+							'intIdent': nodeHandle.itemId,
+							'intTimestamp': nodeHandle.lastModified,
+							'intParent': intFolder,
+							'strType': strType,
+							'strTitle': strTitle,
+							'strLink': strLink,
+							'strIcon': strIcon,
+							'strTags': strTags,
+							'intAccesscount': intAccesscount
+						});
 					}
 				}
 				

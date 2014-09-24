@@ -1,24 +1,50 @@
 'use strict';
 
+require('chrome').Cu.import('resource://gre/modules/Services.jsm');
+
 exports.main = function(optionsHandle) {
 	{
 		if (optionsHandle.loadReason === 'install') {
-			require('sdk/preferences/service').set('browser.newtab.url', 'chrome://BookRect/content/index.html');
+			require('sdk/preferences/service').set('browser.newtab.url', 'about:bookrect');
 			
 		} else if (optionsHandle.loadReason === 'enable') {
-			require('sdk/preferences/service').set('browser.newtab.url', 'chrome://BookRect/content/index.html');
+			require('sdk/preferences/service').set('browser.newtab.url', 'about:bookrect');
 			
 		}
 	}
 	
 	{
-		if (require('sdk/preferences/service').get('browser.newtab.url') === 'chrome://BookRect/content/index.html') {
+		if (require('sdk/preferences/service').get('browser.newtab.url') === 'about:bookrect') {
 			require('sdk/preferences/service').set('extensions.BookRect.Advanced.boolAutostart', true);
 			
-		} else if (require('sdk/preferences/service').get('browser.newtab.url') !== 'chrome://BookRect/content/index.html') {
+		} else if (require('sdk/preferences/service').get('browser.newtab.url') !== 'about:bookrect') {
 			require('sdk/preferences/service').set('extensions.BookRect.Advanced.boolAutostart', false);
 			
 		}
+	}
+	
+	{
+		require('sdk/platform/xpcom').Factory({
+			'contract': '@mozilla.org/network/protocol/about;1?what=bookrect',
+			'register': true,
+			'unregister': true,
+			'Component': require('sdk/core/heritage').Class({
+				'extends': require('sdk/platform/xpcom').Unknown,
+				'interfaces': [ 'nsIAboutModule' ],
+				'newChannel': function(uriHandle) {
+					var channelHandle = Services.io.newChannel('chrome://bookrect/content/index.html', null, null);
+					
+					{
+						channelHandle.originalURI = uriHandle;
+					}
+					
+					return channelHandle;
+				},
+				'getURIFlags': function(uriHandle) {
+					return require('chrome').Ci.nsIAboutModule.ALLOW_SCRIPT;
+				}
+			})
+		});
 	}
 	
 	{	
@@ -47,7 +73,7 @@ exports.main = function(optionsHandle) {
 		var toolbarpanelHandle = require('sdk/panel').Panel({
 			'width': 640,
 			'height': 480,
-			'contentURL': 'chrome://BookRect/content/index.html',
+			'contentURL': 'about:bookrect',
 			'contentScriptFile': [
 				require('sdk/self').data.url('./jquery.js'),
 				require('sdk/self').data.url('./panel.js')
@@ -104,7 +130,7 @@ exports.main = function(optionsHandle) {
 
 exports.onUnload = function(optionsHandle) {
 	{
-		if (require('sdk/preferences/service').get('browser.newtab.url') === 'chrome://BookRect/content/index.html') {
+		if (require('sdk/preferences/service').get('browser.newtab.url') === 'about:bookrect') {
 			require('sdk/preferences/service').reset('browser.newtab.url');
 		}
 	}
