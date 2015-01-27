@@ -11,17 +11,45 @@ var PreferenceSource = {
 		
 	},
 	
-	getBoolToolbar: function() {
-		if (Services.prefs.prefHasUserValue('extensions.BookRect.Source.boolToolbar') === true) {
-			return Services.prefs.getBoolPref('extensions.BookRect.Source.boolToolbar');
+	getStrLayout: function() {
+		if (Services.prefs.prefHasUserValue('extensions.BookRect.Source.strLayout') === true) {
+			return Services.prefs.getCharPref('extensions.BookRect.Source.strLayout');
+		}
+		
+		return '[ [ "folderMenu", "folderToolbar" ], [ "folderUnfiled" ], [] ]';
+	},
+	
+	setStrLayout: function(strLayout) {
+		{
+			Services.prefs.setCharPref('extensions.BookRect.Source.strLayout', strLayout);
+		}
+		
+		{
+			PreferenceSourceObserver.update();
+		}
+	},
+	
+	clearStrLayout: function() {
+		{
+			Services.prefs.clearUserPref('extensions.BookRect.Source.strLayout');
+		}
+		
+		{
+			PreferenceSourceObserver.update();
+		}
+	},
+	
+	getBoolToolbarVisible: function() {
+		if (Services.prefs.prefHasUserValue('extensions.BookRect.Source.boolToolbarVisible') === true) {
+			return Services.prefs.getBoolPref('extensions.BookRect.Source.boolToolbarVisible');
 		}
 		
 		return true;
 	},
 	
-	setBoolToolbar: function(boolToolbar) {
+	setBoolToolbarVisible: function(boolToolbarVisible) {
 		{
-			Services.prefs.setBoolPref('extensions.BookRect.Source.boolToolbar', boolToolbar);
+			Services.prefs.setBoolPref('extensions.BookRect.Source.boolToolbarVisible', boolToolbarVisible);
 		}
 		
 		{
@@ -29,9 +57,9 @@ var PreferenceSource = {
 		}
 	},
 	
-	clearBoolToolbar: function() {
+	clearBoolToolbarVisible: function() {
 		{
-			Services.prefs.clearUserPref('extensions.BookRect.Source.boolToolbar');
+			Services.prefs.clearUserPref('extensions.BookRect.Source.boolToolbarVisible');
 		}
 		
 		{
@@ -39,17 +67,45 @@ var PreferenceSource = {
 		}
 	},
 	
-	getBoolMenu: function() {
-		if (Services.prefs.prefHasUserValue('extensions.BookRect.Source.boolMenu') === true) {
-			return Services.prefs.getBoolPref('extensions.BookRect.Source.boolMenu');
+	getBoolToolbarSubfolder: function() {
+		if (Services.prefs.prefHasUserValue('extensions.BookRect.Source.boolToolbarSubfolder') === true) {
+			return Services.prefs.getBoolPref('extensions.BookRect.Source.boolToolbarSubfolder');
+		}
+		
+		return false;
+	},
+	
+	setBoolToolbarSubfolder: function(boolToolbarSubfolder) {
+		{
+			Services.prefs.setBoolPref('extensions.BookRect.Source.boolToolbarSubfolder', boolToolbarSubfolder);
+		}
+		
+		{
+			PreferenceSourceObserver.update();
+		}
+	},
+	
+	clearBoolToolbarSubfolder: function() {
+		{
+			Services.prefs.clearUserPref('extensions.BookRect.Source.boolToolbarSubfolder');
+		}
+		
+		{
+			PreferenceSourceObserver.update();
+		}
+	},
+	
+	getBoolMenuVisible: function() {
+		if (Services.prefs.prefHasUserValue('extensions.BookRect.Source.boolMenuVisible') === true) {
+			return Services.prefs.getBoolPref('extensions.BookRect.Source.boolMenuVisible');
 		}
 		
 		return true;
 	},
 	
-	setBoolMenu: function(boolMenu) {
+	setBoolMenuVisible: function(boolMenuVisible) {
 		{
-			Services.prefs.setBoolPref('extensions.BookRect.Source.boolMenu', boolMenu);
+			Services.prefs.setBoolPref('extensions.BookRect.Source.boolMenuVisible', boolMenuVisible);
 		}
 		
 		{
@@ -57,9 +113,9 @@ var PreferenceSource = {
 		}
 	},
 	
-	clearBoolMenu: function() {
+	clearBoolMenuVisible: function() {
 		{
-			Services.prefs.clearUserPref('extensions.BookRect.Source.boolMenu');
+			Services.prefs.clearUserPref('extensions.BookRect.Source.boolMenuVisible');
 		}
 		
 		{
@@ -67,17 +123,17 @@ var PreferenceSource = {
 		}
 	},
 	
-	getBoolUnfiled: function() {
-		if (Services.prefs.prefHasUserValue('extensions.BookRect.Source.boolUnfiled') === true) {
-			return Services.prefs.getBoolPref('extensions.BookRect.Source.boolUnfiled');
+	getBoolMenuSubfolder: function() {
+		if (Services.prefs.prefHasUserValue('extensions.BookRect.Source.boolMenuSubfolder') === true) {
+			return Services.prefs.getBoolPref('extensions.BookRect.Source.boolMenuSubfolder');
 		}
 		
 		return true;
 	},
 	
-	setBoolUnfiled: function(boolUnfiled) {
+	setBoolMenuSubfolder: function(boolMenuSubfolder) {
 		{
-			Services.prefs.setBoolPref('extensions.BookRect.Source.boolUnfiled', boolUnfiled);
+			Services.prefs.setBoolPref('extensions.BookRect.Source.boolMenuSubfolder', boolMenuSubfolder);
 		}
 		
 		{
@@ -85,9 +141,65 @@ var PreferenceSource = {
 		}
 	},
 	
-	clearBoolUnfiled: function() {
+	clearBoolMenuSubfolder: function() {
 		{
-			Services.prefs.clearUserPref('extensions.BookRect.Source.boolUnfiled');
+			Services.prefs.clearUserPref('extensions.BookRect.Source.boolMenuSubfolder');
+		}
+		
+		{
+			PreferenceSourceObserver.update();
+		}
+	},
+	
+	getBoolUnfiledVisible: function() {
+		if (Services.prefs.prefHasUserValue('extensions.BookRect.Source.boolUnfiledVisible') === true) {
+			return Services.prefs.getBoolPref('extensions.BookRect.Source.boolUnfiledVisible');
+		}
+		
+		return true;
+	},
+	
+	setBoolUnfiledVisible: function(boolUnfiledVisible) {
+		{
+			Services.prefs.setBoolPref('extensions.BookRect.Source.boolUnfiledVisible', boolUnfiledVisible);
+		}
+		
+		{
+			PreferenceSourceObserver.update();
+		}
+	},
+	
+	clearBoolUnfiledVisible: function() {
+		{
+			Services.prefs.clearUserPref('extensions.BookRect.Source.boolUnfiledVisible');
+		}
+		
+		{
+			PreferenceSourceObserver.update();
+		}
+	},
+	
+	getBoolUnfiledSubfolder: function() {
+		if (Services.prefs.prefHasUserValue('extensions.BookRect.Source.boolUnfiledSubfolder') === true) {
+			return Services.prefs.getBoolPref('extensions.BookRect.Source.boolUnfiledSubfolder');
+		}
+		
+		return true;
+	},
+	
+	setBoolUnfiledSubfolder: function(boolUnfiledSubfolder) {
+		{
+			Services.prefs.setBoolPref('extensions.BookRect.Source.boolUnfiledSubfolder', boolUnfiledSubfolder);
+		}
+		
+		{
+			PreferenceSourceObserver.update();
+		}
+	},
+	
+	clearBoolUnfiledSubfolder: function() {
+		{
+			Services.prefs.clearUserPref('extensions.BookRect.Source.boolUnfiledSubfolder');
 		}
 		
 		{
@@ -101,11 +213,19 @@ var PreferenceSource = {
 		}
 		
 		{
-			PreferenceSource.clearBoolToolbar();
+			PreferenceSource.clearStrLayout();
 			
-			PreferenceSource.clearBoolMenu();
+			PreferenceSource.clearBoolToolbarVisible();
 			
-			PreferenceSource.clearBoolUnfiled();
+			PreferenceSource.clearBoolToolbarSubfolder();
+			
+			PreferenceSource.clearBoolMenuVisible();
+			
+			PreferenceSource.clearBoolMenuSubfolder();
+			
+			PreferenceSource.clearBoolUnfiledVisible();
+			
+			PreferenceSource.clearBoolUnfiledSubfolder();
 		}
 		
 		{

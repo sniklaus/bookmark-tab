@@ -19,8 +19,9 @@
 }
 
 jQuery(document).ready(function() {
+	/*
 	{
-		jQuery('#idTree')
+		jQuery('#idIndex_Tree')
 			.jstree({
 				'core': {
 					'data': function(parentHandle, callbackHandle) {
@@ -84,7 +85,52 @@ jQuery(document).ready(function() {
 			})
 		;
 	}
+	*/
+	
+	{
+		var strLayout = JSON.parse(PreferenceSource.getStrLayout());
+		
+		for (var intFor1 = 0; intFor1 < strLayout.length; intFor1 += 1) {
+			for (var intFor2 = 0; intFor2 < strLayout[intFor1].length; intFor2 += 1) {
+				jQuery('li[name="' + strLayout[intFor1][intFor2] + '"]')
+					.detach()
+					.appendTo(jQuery('#idIndex_ModalConfigure').find('ol').eq(intFor1))
+				;
+			}
+		}
+	}
+	
+	{
+		jQuery('#idIndex_ModalConfigure').find('ol')
+			.sortable({
+				'group': 'Index_ModalConfigure',
+				'placeholder': '<hr></hr>',
+				'onDrop': function(itemHandle, containerHandle, functionSuper) {
+					{
+						functionSuper(itemHandle, containerHandle);
+					}
+					
+					{
+						var strLayout = [ [], [], [] ];
+						
+						jQuery('#idIndex_ModalConfigure').find('ol').each(function(intFor1) {
+							jQuery(this).find('li').each(function() {
+								strLayout[intFor1].push(jQuery(this).attr('name'));
+							});
+						});
+						
+						PreferenceSource.setStrLayout(JSON.stringify(strLayout));
+					}
+				}
+			})
+		;
+	}
+	
+	{
+		Modal.updateShow('#idIndex_ModalConfigure');
+	}
 });
+
 /*
 'intIdent': nodeHandle.itemId,
 'intTimestamp' nodeHandle.lastModified,

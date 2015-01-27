@@ -13,6 +13,7 @@
 		<link rel="stylesheet" type="text/css" href="chrome://BookRect/content/bootstrapCustom.css" />
 		
 		<link rel="stylesheet" type="text/css" href="chrome://BookRect/content/jqueryJstree.css" />
+		<link rel="stylesheet" type="text/css" href="chrome://BookRect/content/jquerySortable.css" />
 		
 		<script type="text/javascript" src="chrome://BookRect/content/jquery.js"></script>
 		<script type="text/javascript" src="chrome://BookRect/content/jqueryJstree.js"></script>
@@ -21,6 +22,8 @@
 		<script type="text/javascript" src="chrome://BookRect/content/moment.js"></script>
 		
 		<script type="text/javascript" src="chrome://BookRect/content/libBookmarks.js"></script>
+		<script type="text/javascript" src="chrome://BookRect/content/libLanguage.js"></script>
+		<script type="text/javascript" src="chrome://BookRect/content/libModal.js"></script>
 		<script type="text/javascript" src="chrome://BookRect/content/libPreferenceAdvanced.js"></script>
 		<script type="text/javascript" src="chrome://BookRect/content/libPreferenceAdvancedObserver.js"></script>
 		<script type="text/javascript" src="chrome://BookRect/content/libPreferenceSource.js"></script>
@@ -29,20 +32,102 @@
 		<script type="text/javascript" src="chrome://BookRect/content/index.js"></script>
 	</head>
 	<body>
-		<div id="idTree"></div>
-	
-		<table>
+		<table cellpadding="0" cellspacing="0" border="0" style="width:100%;">
 			<tr>
-				<td>
+				<td style="width:33%; vertical-align:top;">
+					<div id="idIndex_Tree"></div>
+				</td>
+				<td style="width:33%; vertical-align:top;">
 					
 				</td>
-				<td>
-				
-				</td>
-				<td>
-				
+				<td style="width:33%; vertical-align:top;">
+					
 				</td>
 			</tr>
 		</table>
+		
+		<div class="modal-overlay"></div>
+		<div class="modal-dialog" id="idIndex_ModalConfigure" style="max-width:1000px;">
+			<div class="panel panel-default modal-content">
+				<div class="panel-body">
+					<table cellpadding="0" cellspacing="0" border="0" style="width:100%; height:500px;">
+						<tr>
+							<td style="width:33%; vertical-align:top;">
+								<ol style="margin:0px; padding:0px; list-style-type:none;">
+									<li name="folderToolbar">
+										<div class="panel panel-default" style="margin:10px;">
+											<div class="panel-heading">
+												@string/Index_ModalConfigure_Toolbar_Caption
+											</div>
+											<div class="panel-body">
+												<a class="btn btn-primary" id="idIndex_ModalConfigure_Toolbar_Visible">
+													@string/Index_ModalConfigure_Toolbar_Visible
+													<span class="glyphicon glyphicon-unchecked pull-right"></span>
+												</a>
+												
+												<div style="height:15px;"></div>
+												
+												<a class="btn btn-primary" id="idIndex_ModalConfigure_Toolbar_Subfolder">
+													@string/Index_ModalConfigure_Toolbar_Subfolder
+													<span class="glyphicon glyphicon-unchecked pull-right"></span>
+												</a>
+											</div>
+										</div>
+									</li>
+								</ol>
+							</td>
+							<td style="width:33%; vertical-align:top;">
+								<ol style="margin:0px; padding:0px; list-style-type:none;">
+									<li name="folderMenu">
+										<div class="panel panel-default" style="margin:10px;">
+											<div class="panel-heading">
+												@string/Index_ModalConfigure_Menu_Caption
+											</div>
+											<div class="panel-body">
+												<a class="btn btn-primary" id="idIndex_ModalConfigure_Menu_Visible">
+													@string/Index_ModalConfigure_Menu_Visible
+													<span class="glyphicon glyphicon-unchecked pull-right"></span>
+												</a>
+												
+												<div style="height:15px;"></div>
+												
+												<a class="btn btn-primary" id="idIndex_ModalConfigure_Menu_Subfolder">
+													@string/Index_ModalConfigure_Menu_Subfolder
+													<span class="glyphicon glyphicon-unchecked pull-right"></span>
+												</a>
+											</div>
+										</div>
+									</li>
+								</ol>
+							</td>
+							<td style="width:33%; vertical-align:top;">
+								<ol style="margin:0px; padding:0px; list-style-type:none;">
+									<li name="folderUnfiled">
+										<div class="panel panel-default" style="margin:10px;">
+											<div class="panel-heading">
+												@string/Index_ModalConfigure_Unfiled_Caption
+											</div>
+											<div class="panel-body">
+												<a class="btn btn-primary" id="idIndex_ModalConfigure_Unfiled_Visible">
+													@string/Index_ModalConfigure_Unfiled_Visible
+													<span class="glyphicon glyphicon-unchecked pull-right"></span>
+												</a>
+												
+												<div style="height:15px;"></div>
+												
+												<a class="btn btn-primary" id="idIndex_ModalConfigure_Unfiled_Subfolder">
+													@string/Index_ModalConfigure_Unfiled_Subfolder
+													<span class="glyphicon glyphicon-unchecked pull-right"></span>
+												</a>
+											</div>
+										</div>
+									</li>
+								</ol>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
 	</body>
 </html>

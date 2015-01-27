@@ -1,0 +1,16 @@
+.dragged {
+    display:block;
+	position:absolute;
+	
+	z-index:1000;
+}
+
+.placeholder {
+    display:block;
+	position:relative;
+}
+
+.placeholder:before {
+    display:block;
+	position:absolute;
+}

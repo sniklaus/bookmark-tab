@@ -6,19 +6,43 @@ general {
 }
 
 attribute {
-	strName:'boolToolbar'
+	strName:'strLayout'
+	strType:str
+	strDefault:"'[ [ \"folderMenu\", \"folderToolbar\" ], [ \"folderUnfiled\" ], [] ]'"
+}
+
+attribute {
+	strName:'boolToolbarVisible'
 	strType:bool
 	strDefault:'true'
 }
 
 attribute {
-	strName:'boolMenu'
+	strName:'boolToolbarSubfolder'
+	strType:bool
+	strDefault:'false'
+}
+
+attribute {
+	strName:'boolMenuVisible'
 	strType:bool
 	strDefault:'true'
 }
 
 attribute {
-	strName:'boolUnfiled'
+	strName:'boolMenuSubfolder'
+	strType:bool
+	strDefault:'true'
+}
+
+attribute {
+	strName:'boolUnfiledVisible'
+	strType:bool
+	strDefault:'true'
+}
+
+attribute {
+	strName:'boolUnfiledSubfolder'
 	strType:bool
 	strDefault:'true'
 }

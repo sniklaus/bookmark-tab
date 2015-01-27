@@ -17,68 +17,62 @@ var Bookmarks = {
 		{
 			if (intFolder === 0) {
 				if (PlacesUtils.toolbarFolderId !== undefined) {
-					if (PreferenceSource.getBoolToolbar() === true) {
-						if (PreferenceAdvanced.getBoolSubfolders() === true) {
-							objectFolder.push({
-								'intIdent': PlacesUtils.toolbarFolderId,
-								'intTimestamp': 0,
-								'intParent': 0,
-								'strType': 'typeFolder',
-								'strTitle': '@string/Toolbar',
-								'strLink': '',
-								'strIcon': '',
-								'strTags': '',
-								'intAccesscount': 0
-							});
-							
-						} else if (PreferenceAdvanced.getBoolSubfolders() === false) {
-							objectFolder.push.apply(objectFolder, Bookmarks.updateEnumerate(PlacesUtils.toolbarFolderId));
-							
-						}
+					if (PreferenceAdvanced.getBoolSubfolders() === true) {
+						objectFolder.push({
+							'intIdent': PlacesUtils.toolbarFolderId,
+							'intTimestamp': 0,
+							'intParent': 0,
+							'strType': 'typeFolder',
+							'strTitle': '@string/Toolbar',
+							'strLink': '',
+							'strIcon': '',
+							'strTags': '',
+							'intAccesscount': 0
+						});
+						
+					} else if (PreferenceAdvanced.getBoolSubfolders() === false) {
+						objectFolder.push.apply(objectFolder, Bookmarks.updateEnumerate(PlacesUtils.toolbarFolderId));
+						
 					}
 				}
 
 				if (PlacesUtils.bookmarksMenuFolderId !== undefined) {
-					if (PreferenceSource.getBoolMenu() === true) {
-						if (PreferenceAdvanced.getBoolSubfolders() === true) {
-							objectFolder.push({
-								'intIdent': PlacesUtils.bookmarksMenuFolderId,
-								'intTimestamp': 0,
-								'intParent': 0,
-								'strType': 'typeFolder',
-								'strTitle': '@string/Menu',
-								'strLink': '',
-								'strIcon': '',
-								'strTags': '',
-								'intAccesscount': 0
-							});
-							
-						} else if (PreferenceAdvanced.getBoolSubfolders() === false) {
-							objectFolder.push.apply(objectFolder, Bookmarks.updateEnumerate(PlacesUtils.bookmarksMenuFolderId));
-							
-						}
+					if (PreferenceAdvanced.getBoolSubfolders() === true) {
+						objectFolder.push({
+							'intIdent': PlacesUtils.bookmarksMenuFolderId,
+							'intTimestamp': 0,
+							'intParent': 0,
+							'strType': 'typeFolder',
+							'strTitle': '@string/Menu',
+							'strLink': '',
+							'strIcon': '',
+							'strTags': '',
+							'intAccesscount': 0
+						});
+						
+					} else if (PreferenceAdvanced.getBoolSubfolders() === false) {
+						objectFolder.push.apply(objectFolder, Bookmarks.updateEnumerate(PlacesUtils.bookmarksMenuFolderId));
+						
 					}
 				}
 
 				if (PlacesUtils.unfiledBookmarksFolderId !== undefined) {
-					if (PreferenceSource.getBoolUnfiled() === true) {
-						if (PreferenceAdvanced.getBoolSubfolders() === true) {
-							objectFolder.push({
-								'intIdent': PlacesUtils.unfiledBookmarksFolderId,
-								'intTimestamp': 0,
-								'intParent': 0,
-								'strType': 'typeFolder',
-								'strTitle': '@string/Unfiled',
-								'strLink': '',
-								'strIcon': '',
-								'strTags': '',
-								'intAccesscount': 0
-							});
-							
-						} else if (PreferenceAdvanced.getBoolSubfolders() === false) {
-							objectFolder.push.apply(objectFolder, Bookmarks.updateEnumerate(PlacesUtils.unfiledBookmarksFolderId));
-							
-						}
+					if (PreferenceAdvanced.getBoolSubfolders() === true) {
+						objectFolder.push({
+							'intIdent': PlacesUtils.unfiledBookmarksFolderId,
+							'intTimestamp': 0,
+							'intParent': 0,
+							'strType': 'typeFolder',
+							'strTitle': '@string/Unfiled',
+							'strLink': '',
+							'strIcon': '',
+							'strTags': '',
+							'intAccesscount': 0
+						});
+						
+					} else if (PreferenceAdvanced.getBoolSubfolders() === false) {
+						objectFolder.push.apply(objectFolder, Bookmarks.updateEnumerate(PlacesUtils.unfiledBookmarksFolderId));
+						
 					}
 				}
 				
