@@ -12,11 +12,41 @@
 		<link rel="stylesheet" type="text/css" href="chrome://BookRect/content/bootstrap.css" />
 		<link rel="stylesheet" type="text/css" href="chrome://BookRect/content/bootstrapCustom.css" />
 		
-		<link rel="stylesheet" type="text/css" href="chrome://BookRect/content/jqueryJstree.css" />
+		<link rel="stylesheet" type="text/css" href="chrome://BookRect/content/jqueryFancytree.css" />
 		<link rel="stylesheet" type="text/css" href="chrome://BookRect/content/jquerySortable.css" />
 		
+		<style>
+.cssSortable {
+	margin:0px;
+	border:none;
+	border-spacing:0px;
+	padding:0px;
+	
+	list-style-type:none;
+}
+
+.cssSortable li {
+	margin:0px;
+	border:none;
+	border-spacing:0px;
+	padding:10px;
+}
+
+.cssSortable .panel {
+	margin:0px;
+	border:1px solid #DDDDDD;
+	border-spacing:0px;
+	padding:0px;
+}
+
+.cssSortable .panel-heading {
+	cursor:move;
+}
+		</style>
+		
 		<script type="text/javascript" src="chrome://BookRect/content/jquery.js"></script>
-		<script type="text/javascript" src="chrome://BookRect/content/jqueryJstree.js"></script>
+		<script type="text/javascript" src="chrome://BookRect/content/jqueryUi.js"></script>
+		<script type="text/javascript" src="chrome://BookRect/content/jqueryFancytree.js"></script>
 		<script type="text/javascript" src="chrome://BookRect/content/jquerySortable.js"></script>
 		
 		<script type="text/javascript" src="chrome://BookRect/content/moment.js"></script>
@@ -35,27 +65,31 @@
 		<table cellpadding="0" cellspacing="0" border="0" style="width:100%;">
 			<tr>
 				<td style="width:33%; vertical-align:top;">
-					<div id="idIndex_Tree"></div>
+					<div name="folderToolbar"></div>
 				</td>
 				<td style="width:33%; vertical-align:top;">
-					
+					<div name="folderMenu"></div>
 				</td>
 				<td style="width:33%; vertical-align:top;">
-					
+					<div name="folderUnfiled"></div>
 				</td>
 			</tr>
 		</table>
+		
+		<div class="btn btn-primary" id="idIndex_Configure" style="position:fixed; right:15px; bottom:15px; z-index:10000;">
+			<span class="glyphicon glyphicon-cog"></span>
+		</div>
 		
 		<div class="modal-overlay"></div>
 		<div class="modal-dialog" id="idIndex_ModalConfigure" style="max-width:1000px;">
 			<div class="panel panel-default modal-content">
 				<div class="panel-body">
-					<table cellpadding="0" cellspacing="0" border="0" style="width:100%; height:500px;">
+					<table cellpadding="0" cellspacing="0" border="0" style="width:100%; height:600px;">
 						<tr>
 							<td style="width:33%; vertical-align:top;">
-								<ol style="margin:0px; padding:0px; list-style-type:none;">
+								<ol class="cssSortable">
 									<li name="folderToolbar">
-										<div class="panel panel-default" style="margin:10px;">
+										<div class="panel panel-default">
 											<div class="panel-heading">
 												@string/Index_ModalConfigure_Toolbar_Caption
 											</div>
@@ -77,9 +111,9 @@
 								</ol>
 							</td>
 							<td style="width:33%; vertical-align:top;">
-								<ol style="margin:0px; padding:0px; list-style-type:none;">
+								<ol class="cssSortable">
 									<li name="folderMenu">
-										<div class="panel panel-default" style="margin:10px;">
+										<div class="panel panel-default">
 											<div class="panel-heading">
 												@string/Index_ModalConfigure_Menu_Caption
 											</div>
@@ -101,9 +135,9 @@
 								</ol>
 							</td>
 							<td style="width:33%; vertical-align:top;">
-								<ol style="margin:0px; padding:0px; list-style-type:none;">
+								<ol class="cssSortable">
 									<li name="folderUnfiled">
-										<div class="panel panel-default" style="margin:10px;">
+										<div class="panel panel-default">
 											<div class="panel-heading">
 												@string/Index_ModalConfigure_Unfiled_Caption
 											</div>

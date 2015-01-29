@@ -11,15 +11,52 @@ var Bookmarks = {
 		
 	},
 	
-	updateEnumerate: function(intFolder) {
+	updateFancytree: function(boolRoot, intFolder) {
 		var objectFolder = [];
 		
 		{
-			if (intFolder === 0) {
-				if (PlacesUtils.toolbarFolderId !== undefined) {
-					if (PreferenceAdvanced.getBoolSubfolders() === true) {
+			var objectBookmarks = Bookmarks.updateFolder(boolRoot, intFolder);
+			
+			for (var intFor1 = 0; intFor1 < objectBookmarks.length; intFor1 += 1) {
+				var objectBookmark = objectBookmarks[intFor1];
+				
+				{
+					if (objectBookmark.strType === 'typeFolder') {
 						objectFolder.push({
-							'intIdent': PlacesUtils.toolbarFolderId,
+							'key': String(objectBookmark.intIdent),
+							'title': objectBookmark.strTitle,
+							'icon': 'chrome://BookRect/content/images/treeFolder.png',
+							'folder': true,
+							'lazy': true
+						});
+						
+					} else if (objectBookmark.strType === 'typeBookmark') {
+						objectFolder.push({
+							'key': String(objectBookmark.intIdent),
+							'title': objectBookmark.strTitle,
+							'title': '<a href="' + objectBookmark.strLink + '">' + objectBookmark.strTitle + '</a>',
+							'icon': objectBookmark.strIcon,
+							'folder': false,
+							'lazy': false
+						});
+						
+					}
+				}
+			}
+		}
+		
+		return objectFolder;
+	},
+	
+	updateFolder: function(boolRoot, intFolder) {
+		var objectFolder = [];
+		
+		{
+			if (boolRoot === true) {
+				if (intFolder === PlacesUtils.toolbarFolderId) {
+					if (PreferenceSource.getBoolToolbarSubfolder() === true) {
+						objectFolder.push({
+							'intIdent': intFolder,
 							'intTimestamp': 0,
 							'intParent': 0,
 							'strType': 'typeFolder',
@@ -30,16 +67,15 @@ var Bookmarks = {
 							'intAccesscount': 0
 						});
 						
-					} else if (PreferenceAdvanced.getBoolSubfolders() === false) {
-						objectFolder.push.apply(objectFolder, Bookmarks.updateEnumerate(PlacesUtils.toolbarFolderId));
+					} else if (PreferenceSource.getBoolToolbarSubfolder() === false) {
+						objectFolder.push.apply(objectFolder, Bookmarks.updateFolder(false, intFolder));
 						
 					}
-				}
-
-				if (PlacesUtils.bookmarksMenuFolderId !== undefined) {
-					if (PreferenceAdvanced.getBoolSubfolders() === true) {
+					
+				} else if (intFolder === PlacesUtils.bookmarksMenuFolderId) {
+					if (PreferenceSource.getBoolMenuSubfolder() === true) {
 						objectFolder.push({
-							'intIdent': PlacesUtils.bookmarksMenuFolderId,
+							'intIdent': intFolder,
 							'intTimestamp': 0,
 							'intParent': 0,
 							'strType': 'typeFolder',
@@ -50,16 +86,15 @@ var Bookmarks = {
 							'intAccesscount': 0
 						});
 						
-					} else if (PreferenceAdvanced.getBoolSubfolders() === false) {
-						objectFolder.push.apply(objectFolder, Bookmarks.updateEnumerate(PlacesUtils.bookmarksMenuFolderId));
+					} else if (PreferenceSource.getBoolMenuSubfolder() === false) {
+						objectFolder.push.apply(objectFolder, Bookmarks.updateFolder(false, intFolder));
 						
 					}
-				}
-
-				if (PlacesUtils.unfiledBookmarksFolderId !== undefined) {
-					if (PreferenceAdvanced.getBoolSubfolders() === true) {
+					
+				} else if (intFolder === PlacesUtils.unfiledBookmarksFolderId) {
+					if (PreferenceSource.getBoolUnfiledSubfolder() === true) {
 						objectFolder.push({
-							'intIdent': PlacesUtils.unfiledBookmarksFolderId,
+							'intIdent': intFolder,
 							'intTimestamp': 0,
 							'intParent': 0,
 							'strType': 'typeFolder',
@@ -70,13 +105,18 @@ var Bookmarks = {
 							'intAccesscount': 0
 						});
 						
-					} else if (PreferenceAdvanced.getBoolSubfolders() === false) {
-						objectFolder.push.apply(objectFolder, Bookmarks.updateEnumerate(PlacesUtils.unfiledBookmarksFolderId));
+					} else if (PreferenceSource.getBoolUnfiledSubfolder() === false) {
+						objectFolder.push.apply(objectFolder, Bookmarks.updateFolder(false, intFolder));
 						
 					}
+					
 				}
 				
-			} else if (intFolder !== 0) {
+			}
+		}
+		
+		{
+			if (boolRoot === false) {
 				var nodeFolder = PlacesUtils.getFolderContents(intFolder);
 				
 				for (var intFor1 = 0; intFor1 < nodeFolder.root.childCount; intFor1 += 1) {
@@ -133,7 +173,6 @@ var Bookmarks = {
 						});
 					}
 				}
-				
 			}
 		}
 		
