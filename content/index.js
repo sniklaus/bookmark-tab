@@ -69,129 +69,70 @@ jQuery(document).ready(function() {
 					}
 					
 					jQuery('table').eq(0).find('div[name="' + strLayout[intFor1][intFor2] + '"]')
-						.fancytree({
-							'clickFolderMode': 2,
-							'keyboard': false,
-							'selectMode': 1,
-							'toggleEffect': false,
-							'source': Bookmarks.updateFancytree(true, intFolder),
-							'lazyLoad': function(eventHandle, dataHandle) {
+						.treeview({
+							'intIdent': 0,
+							'functionData': function(intParent) {
+								var objectFolder = [];
+								
 								{
-									dataHandle.result = Bookmarks.updateFancytree(false, parseInt(dataHandle.node.key, 10));
-								}
-							}
-						})
-					;
-				}
-				
-				/*
-				{
-					var intRoot = 0;
-					
-					if (strLayout[intFor1][intFor2] === 'folderToolbar') {
-						intRoot = PlacesUtils.toolbarFolderId;
-						
-					} else if (strLayout[intFor1][intFor2] === 'folderMenu') {
-						intRoot = PlacesUtils.bookmarksMenuFolderId;
-						
-					} else if (strLayout[intFor1][intFor2] === 'folderUnfiled') {
-						intRoot = PlacesUtils.unfiledBookmarksFolderId;
-						
-					}
-					
-					jQuery('table').eq(0).find('div[name="' + strLayout[intFor1][intFor2] + '"]')
-						.jstree({
-							'core': {
-								'animation': false,
-								'check_callback': false,
-								'dblclick_toggle': false,
-								'multiple': false,
-								'worker': false,
-								'themes': {
-									'url': 'chrome://bookrect/content/',
-									'dir': 'content',
-									'name': false,
-									'dots': true,
-									'icons': true
-								},
-								'data': function(parentHandle, callbackHandle) {
-									var objectData = [];
+									var objectBookmarks = [];
 									
-									{
-										var objectBookmarks = [];
+									if (intParent === 0) {
+										objectBookmarks = Bookmarks.updateFolder(true, intFolder);
 										
-										if (parentHandle.id === '#') {
-											objectBookmarks = Bookmarks.updateRoot(intRoot);
-											
-										} else if (parentHandle.id !== '#') {
-											objectBookmarks = Bookmarks.updateFolder(parseInt(parentHandle.id, 10));
-											
-										}
+									} else if (intParent !== 0) {
+										objectBookmarks = Bookmarks.updateFolder(false, intParent);
 										
-										for (var intFor1 = 0; intFor1 < objectBookmarks.length; intFor1 += 1) {
-											var objectBookmark = objectBookmarks[intFor1];
-											
-											{
-												if (objectBookmark.strType === 'typeFolder') {
-													objectData.push({
-														'parent': parentHandle.id,
-														'id': String(objectBookmark.intIdent),
-														'text': objectBookmark.strTitle,
-														'icon': 'chrome://BookRect/content/images/treeFolder.png',
-														'children': true
-													});
-													
-												} else if (objectBookmark.strType === 'typeBookmark') {
-													objectData.push({
-														'parent': parentHandle.id,
-														'id': String(objectBookmark.intIdent),
-														'text': objectBookmark.strTitle,
-														'icon': objectBookmark.strIcon,
-														'children': false,
-														'a_attr': {
-															'href': objectBookmark.strLink
-														} 
-													});
-													
-												}
+									}
+									
+									for (var intFor1 = 0; intFor1 < objectBookmarks.length; intFor1 += 1) {
+										var objectBookmark = objectBookmarks[intFor1];
+										
+										{
+											if (objectBookmark.strType === 'typeFolder') {
+												objectFolder.push({
+													'intIdent': objectBookmark.intIdent,
+													'intParent': intParent,
+													'strType': 'typeFolder',
+													'strImage': objectBookmark.strIcon,
+													'strTitle': objectBookmark.strTitle,
+													'functionOpen': function(intIdent) {
+														
+													},
+													'functionClose': function(intIdent) {
+														
+													}
+												});
+												
+											} else if (objectBookmark.strType === 'typeBookmark') {
+												objectFolder.push({
+													'intIdent': objectBookmark.intIdent,
+													'intParent': intParent,
+													'strType': 'typeLink',
+													'strImage': objectBookmark.strIcon,
+													'strTitle': objectBookmark.strTitle,
+													'strLink': objectBookmark.strLink
+												});
+												
+											} else if (objectBookmark.strType === 'typeSeparator') {
+												objectFolder.push({
+													'intIdent': objectBookmark.intIdent,
+													'intParent': intParent,
+													'strType': 'typeSeparator'
+												});
+												
 											}
 										}
 									}
-									
-									callbackHandle.call(this, objectData);
 								}
-							},
-							'plugins': [ 'wholerow', 'state' ],
-							'state': {
-								'key': 'jstree' + intRoot,
-								'events': 'select_node.jstree'
+								
+								console.log("functiondata:" + objectFolder);
+								
+								return objectFolder;
 							}
 						})
-						//.off('select_node.jstree')
-						.on('select_node.jstree', function(nodeHandle, selectedHandle) {
-							if (selectedHandle.node.a_attr.href === '#') {
-								{
-									selectedHandle.instance.toggle_node(selectedHandle.node.id);
-								}
-								
-								{
-									selectedHandle.instance.deselect_all();
-								}
-								
-							} else if (selectedHandle.node.a_attr.href !== '#') {
-								{
-									window.location.href = selectedHandle.node.a_attr.href;
-								}
-								
-							}
-						})
-					;
-					
-					jQuery('table').eq(0).find('.jstree-no-dots')
-						.removeClass('jstree-no-dots')
 					;
 				}
-				*/
 			}
 		}
 	}

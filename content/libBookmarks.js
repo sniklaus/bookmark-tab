@@ -11,43 +11,6 @@ var Bookmarks = {
 		
 	},
 	
-	updateFancytree: function(boolRoot, intFolder) {
-		var objectFolder = [];
-		
-		{
-			var objectBookmarks = Bookmarks.updateFolder(boolRoot, intFolder);
-			
-			for (var intFor1 = 0; intFor1 < objectBookmarks.length; intFor1 += 1) {
-				var objectBookmark = objectBookmarks[intFor1];
-				
-				{
-					if (objectBookmark.strType === 'typeFolder') {
-						objectFolder.push({
-							'key': String(objectBookmark.intIdent),
-							'title': objectBookmark.strTitle,
-							'icon': 'chrome://BookRect/content/images/treeFolder.png',
-							'folder': true,
-							'lazy': true
-						});
-						
-					} else if (objectBookmark.strType === 'typeBookmark') {
-						objectFolder.push({
-							'key': String(objectBookmark.intIdent),
-							'title': objectBookmark.strTitle,
-							'title': '<a href="' + objectBookmark.strLink + '">' + objectBookmark.strTitle + '</a>',
-							'icon': objectBookmark.strIcon,
-							'folder': false,
-							'lazy': false
-						});
-						
-					}
-				}
-			}
-		}
-		
-		return objectFolder;
-	},
-	
 	updateFolder: function(boolRoot, intFolder) {
 		var objectFolder = [];
 		
