@@ -13,8 +13,8 @@ var Treeview = {
 				return this;
 			}
 			
-			jQuery.fn.treeviewLink = function(settingsHandle) {
-				Treeview.updateLink.call(this, settingsHandle);
+			jQuery.fn.treeviewBookmark = function(settingsHandle) {
+				Treeview.updateBookmark.call(this, settingsHandle);
 				
 				return this;
 			}
@@ -33,7 +33,7 @@ var Treeview = {
 			
 			jQuery.fn.treeviewFolder = null;
 			
-			jQuery.fn.treeviewLink = null;
+			jQuery.fn.treeviewBookmark = null;
 			
 			jQuery.fn.treeviewSeparator = null;
 		}
@@ -41,13 +41,27 @@ var Treeview = {
 	
 	update: function(settingsHandle) {
 		{
+			if (settingsHandle === 'refresh') {
+				settingsHandle = jQuery(this).data('settingsHandle');
+			}
+		}
+		
+		{
 			jQuery(this)
 				.empty()
 			;
 		}
 		
 		{
-			var objectNodes = settingsHandle.functionData(settingsHandle.intIdent);
+			jQuery(this)
+				.data({
+					'settingsHandle': settingsHandle
+				})
+			;
+		}
+		
+		{
+			var objectNodes = settingsHandle.functionData.call(this, settingsHandle.intIdent);
 			
 			for (var intFor1 = 0; intFor1 < objectNodes.length; intFor1 += 1) {
 				var objectNode = objectNodes[intFor1];
@@ -56,18 +70,24 @@ var Treeview = {
 					if (objectNode.strType === 'typeFolder') {
 						Treeview.updateFolder.call(this, {
 							'functionData': settingsHandle.functionData,
+							'functionOpen': settingsHandle.functionOpen,
+							'functionClose': settingsHandle.functionClose,
 							'objectNode': objectNode
 						});
 						
-					} else if (objectNode.strType === 'typeLink') {
-						Treeview.updateLink.call(this, {
+					} else if (objectNode.strType === 'typeBookmark') {
+						Treeview.updateBookmark.call(this, {
 							'functionData': settingsHandle.functionData,
+							'functionOpen': settingsHandle.functionOpen,
+							'functionClose': settingsHandle.functionClose,
 							'objectNode': objectNode
 						});
 						
 					} else if (objectNode.strType === 'typeSeparator') {
 						Treeview.updateSeparator.call(this, {
 							'functionData': settingsHandle.functionData,
+							'functionOpen': settingsHandle.functionOpen,
+							'functionClose': settingsHandle.functionClose,
 							'objectNode': objectNode
 						});
 						
@@ -80,52 +100,42 @@ var Treeview = {
 	updateFolder: function(settingsHandle) {
 		jQuery(this)
 			.append(jQuery('<div></div>')
-				.addClass('cssTreeNodeContainer')
+				.addClass('cssTreeviewNodeContainer')
 				.append(jQuery('<div></div>')
 					.addClass('cssTreeviewNode')
 					.data({
 						'settingsHandle': settingsHandle
-					})
-					.off('mouseenter')
-					.on('mouseenter', function() {
-						jQuery(this)
-							.addClass('cssTreeviewNodeHover')
-						;
-					})
-					.off('mouseleave')
-					.on('mouseleave', function() {
-						jQuery(this)
-							.removeClass('cssTreeviewNodeHover')
-						;
 					})
 					.off('click')
 					.on('click', function() {
 						var settingsHandle = jQuery(this).data('settingsHandle');
 						
 						{
-							if (jQuery(this).closest('.cssTreeNodeContainer').children('.cssTreeviewNodePlaceholder').children().length === 0) {
+							if (jQuery(this).closest('.cssTreeviewNodeContainer').find('.cssTreeviewNodePlaceholder').children().length === 0) {
 								{
-									jQuery(this).closest('.cssTreeNodeContainer').children('.cssTreeviewNodePlaceholder')
+									jQuery(this).closest('.cssTreeviewNodeContainer').find('.cssTreeviewNodePlaceholder')
 										.treeview({
 											'intIdent': settingsHandle.objectNode.intIdent,
-											'functionData': settingsHandle.functionData
+											'functionData': settingsHandle.functionData,
+											'functionOpen': settingsHandle.functionOpen,
+											'functionClose': settingsHandle.functionClose
 										})
 									;
 								}
 								
 								{
-									settingsHandle.objectNode.functionOpen(settingsHandle.objectNode.intIdent);
+									settingsHandle.functionOpen(settingsHandle.objectNode.intIdent);
 								}
 								
-							} else if (jQuery(this).closest('.cssTreeNodeContainer').children('.cssTreeviewNodePlaceholder').children().length !== 0) {
+							} else if (jQuery(this).closest('.cssTreeviewNodeContainer').find('.cssTreeviewNodePlaceholder').children().length !== 0) {
 								{
-									jQuery(this).closest('.cssTreeNodeContainer').children('.cssTreeviewNodePlaceholder')
+									jQuery(this).closest('.cssTreeviewNodeContainer').find('.cssTreeviewNodePlaceholder')
 										.empty()
 									;
 								}
 								
 								{
-									settingsHandle.objectNode.functionClose(settingsHandle.objectNode.intIdent);
+									settingsHandle.functionClose(settingsHandle.objectNode.intIdent);
 								}
 								
 							}
@@ -144,11 +154,11 @@ var Treeview = {
 						.text(settingsHandle.objectNode.strTitle)
 					)
 					.each(function() {
-						if (settingsHandle.objectNode.strExtension !== undefined) {
+						if (settingsHandle.objectNode.objectExtension !== undefined) {
 							jQuery(this)
 								.append(jQuery('<div></div>')
 									.addClass('cssTreeviewNodeExtension')
-									.text(settingsHandle.objectNode.strExtension)
+									.append(settingsHandle.objectNode.objectExtension)
 								)
 							;
 						}
@@ -161,25 +171,12 @@ var Treeview = {
 		;
 	},
 	
-	updateLink: function(settingsHandle) {
-		console.log("updateLink");
+	updateBookmark: function(settingsHandle) {
 		jQuery(this)
 			.append(jQuery('<a></a>')
 				.addClass('cssTreeviewNode')
 				.attr({
 					'href': settingsHandle.objectNode.strLink
-				})
-				.off('mouseenter')
-				.on('mouseenter', function() {
-					jQuery(this)
-						.addClass('cssTreeviewNodeHover')
-					;
-				})
-				.off('mouseleave')
-				.on('mouseleave', function() {
-					jQuery(this)
-						.removeClass('cssTreeviewNodeHover')
-					;
 				})
 				.append(jQuery('<div></div>')
 					.addClass('cssTreeviewNodeImage')
@@ -194,11 +191,11 @@ var Treeview = {
 					.text(settingsHandle.objectNode.strTitle)
 				)
 				.each(function() {
-					if (settingsHandle.objectNode.strExtension !== undefined) {
+					if (settingsHandle.objectNode.objectExtension !== undefined) {
 						jQuery(this)
 							.append(jQuery('<div></div>')
 								.addClass('cssTreeviewNodeExtension')
-								.text(settingsHandle.objectNode.strExtension)
+								.append(settingsHandle.objectNode.objectExtension)
 							)
 						;
 					}

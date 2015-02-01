@@ -1,0 +1,24 @@
+general {
+	strOutput:Firefox
+	strType:Database
+	strPackage:'BookRect'
+	strName:'Layout'
+}
+
+attribute {
+	strName:'intColumn'
+	strType:int
+	strDefault:''
+}
+
+attribute {
+	strName:'intPosition'
+	strType:int
+	strDefault:''
+}
+
+attribute {
+	strName:'intItem'
+	strType:int
+	strDefault:''
+}
