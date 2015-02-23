@@ -176,7 +176,8 @@ var Treeview = {
 			.append(jQuery('<a></a>')
 				.addClass('cssTreeviewNode')
 				.attr({
-					'href': settingsHandle.objectNode.strLink
+					'href': settingsHandle.objectNode.strLink,
+					'title': settingsHandle.objectNode.strTitle
 				})
 				.append(jQuery('<div></div>')
 					.addClass('cssTreeviewNodeImage')
