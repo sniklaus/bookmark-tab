@@ -17,13 +17,13 @@
 
 PreferenceLayoutObserver.addObserver(function() {
 	for (var intFor1 = 0; intFor1 < 3; intFor1 += 1) {
-		jQuery('table').eq(0).find('td').eq(intFor1).find('.cssTreeview')
+		jQuery('table:eq(0)').find('td:eq(' + intFor1 + ')').find('.cssTreeview')
 			.treeview('refresh')
 		;
 	}
 	
 	for (var intFor1 = 0; intFor1 < 3; intFor1 += 1) {
-		jQuery('table').eq(1).find('td').eq(intFor1 + 1).find('.cssTreeview')
+		jQuery('table:eq(1)').find('td:eq(' + (intFor1 + 1) + ')').find('.cssTreeview')
 			.treeview('refresh')
 		;
 	}
@@ -32,7 +32,7 @@ PreferenceLayoutObserver.addObserver(function() {
 jQuery(document).ready(function() {
 	{
 		for (var intFor1 = 0; intFor1 < 3; intFor1 += 1) {
-			jQuery('table').eq(0).find('td').eq(intFor1).find('.cssTreeview')
+			jQuery('table:eq(0)').find('td:eq(' + intFor1 + ')').find('.cssTreeview')
 				.data({
 					'intColumn': intFor1
 				})
@@ -92,7 +92,7 @@ jQuery(document).ready(function() {
 	
 	{
 		/*
-		jQuery('table').eq(0).find('td').find('.cssTreeview').each(function() {
+		jQuery('table:eq(0)').find('td').find('.cssTreeview').each(function() {
 			if (jQuery(this).children().length === 0) {
 				jQuery(this).closest('td')
 					.remove()
@@ -114,7 +114,7 @@ jQuery(document).ready(function() {
 	}
 	
 	{
-		jQuery('table').eq(1).find('td').eq(0).find('.cssTreeview')
+		jQuery('table:eq(1)').find('td:eq(0)').find('.cssTreeview')
 			.treeview({
 				'intIdent': 0,
 				'functionData': function(intIdent) {
@@ -212,7 +212,7 @@ jQuery(document).ready(function() {
 	
 	{
 		for (var intFor1 = 0; intFor1 < 3; intFor1 += 1) {
-			jQuery('table').eq(1).find('td').eq(intFor1 + 1).find('.cssTreeview')
+			jQuery('table:eq(1)').find('td:eq(' + (intFor1 + 1) + ')').find('.cssTreeview')
 				.data({
 					'intColumn': intFor1
 				})
@@ -315,7 +315,7 @@ jQuery(document).ready(function() {
 		// TODO: bookmarks not sortable
 		
 		for (var intFor1 = 0; intFor1 < 3; intFor1 += 1) {
-			jQuery('table').eq(1).find('td').eq(intFor1 + 1).find('.cssTreeview')
+			jQuery('table:eq(1)').find('td:eq(' + (intFor1 + 1) + ')').find('.cssTreeview')
 				.sortable({
 					'group': 'Index_ModalConfigure',
 					'containerSelector': '.cssTreeview',
@@ -340,7 +340,7 @@ jQuery(document).ready(function() {
 							
 							PreferenceLayout.transactionOpen();
 							
-							jQuery('table').eq(1).find('td').find('.cssTreeview').slice(1).each(function(intFor1) {
+							jQuery('table:eq(1)').find('td').find('.cssTreeview').slice(1).each(function(intFor1) {
 								jQuery(this).find('.cssTreeviewNodeContainer').each(function(intFor2) {
 									PreferenceLayout.intIdent = 0;
 									PreferenceLayout.intColumn = intFor1;
