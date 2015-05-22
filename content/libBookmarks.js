@@ -22,7 +22,7 @@ var Bookmarks = {
 						'intTimestamp': 0,
 						'intParent': 0,
 						'strType': 'typeFolder',
-						'strImage': 'chrome://BookRect/content/images/treeviewFolder.png',
+						'strImage': 'chrome://BookRect/content/images/folder.png',
 						'strTitle': PlacesUtils.bookmarks.getItemTitle(PlacesUtils.toolbarFolderId),
 						'strLink': '',
 						'strTags': '',
@@ -36,7 +36,7 @@ var Bookmarks = {
 						'intTimestamp': 0,
 						'intParent': 0,
 						'strType': 'typeFolder',
-						'strImage': 'chrome://BookRect/content/images/treeviewFolder.png',
+						'strImage': 'chrome://BookRect/content/images/folder.png',
 						'strTitle': PlacesUtils.bookmarks.getItemTitle(PlacesUtils.bookmarksMenuFolderId),
 						'strLink': '',
 						'strTags': '',
@@ -50,7 +50,7 @@ var Bookmarks = {
 						'intTimestamp': 0,
 						'intParent': 0,
 						'strType': 'typeFolder',
-						'strImage': 'chrome://BookRect/content/images/treeviewFolder.png',
+						'strImage': 'chrome://BookRect/content/images/folder.png',
 						'strTitle': PlacesUtils.bookmarks.getItemTitle(PlacesUtils.unfiledBookmarksFolderId),
 						'strLink': '',
 						'strTags': '',
@@ -71,7 +71,7 @@ var Bookmarks = {
 								'intTimestamp': nodeHandle.lastModified,
 								'intParent': intFolder,
 								'strType': 'typeFolder',
-								'strImage': 'chrome://BookRect/content/images/treeviewFolder.png',
+								'strImage': 'chrome://BookRect/content/images/folder.png',
 								'strTitle': nodeHandle.title,
 								'strLink': '',
 								'strTags': '',
@@ -136,7 +136,7 @@ var Bookmarks = {
 			if (PlacesUtils.bookmarks.getItemType(intItem) === PlacesUtils.bookmarks.TYPE_FOLDER) {
 				objectBookmark.intIdent = intItem;
 				objectBookmark.strType = 'typeFolder';
-				objectBookmark.strImage = 'chrome://BookRect/content/images/treeviewFolder.png';
+				objectBookmark.strImage = 'chrome://BookRect/content/images/folder.png';
 				objectBookmark.strTitle = PlacesUtils.bookmarks.getItemTitle(intItem);
 				
 			} else if (PlacesUtils.bookmarks.getItemType(intItem) === PlacesUtils.bookmarks.TYPE_BOOKMARK) {

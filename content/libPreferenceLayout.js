@@ -28,12 +28,12 @@ var PreferenceLayout = {
 			// @formatter:off
 			PreferenceLayout.sqlserviceHandle.executeSimpleSQL(
 				'CREATE TABLE IF NOT EXISTS PreferenceLayout ' +
-				'  ( ' +
-				'     intIdent INTEGER PRIMARY KEY AUTOINCREMENT, ' +
-				'     intColumn INTEGER, ' +
-				'     intPosition INTEGER, ' +
-				'     intItem INTEGER ' +
-				'  ) '
+				'	( ' +
+				'		intIdent INTEGER PRIMARY KEY AUTOINCREMENT, ' +
+				'		intColumn INTEGER, ' +
+				'		intPosition INTEGER, ' +
+				'		intItem INTEGER ' +
+				'	) '
 			);
 			// @formatter:on
 		}
@@ -45,13 +45,13 @@ var PreferenceLayout = {
 				// @formatter:off
 				PreferenceLayout.statementCreate = PreferenceLayout.sqlserviceHandle.createStatement(
 					'INSERT INTO PreferenceLayout ' +
-					'	(' + 
+					'	( ' + 
 					'		intColumn, ' +
 					'		intPosition, ' +
 					'		intItem ' +
 					'	) ' +
 					'VALUES ' +
-					'	(' +
+					'	( ' +
 					'		:PARAM' + (intIndex += 1) + ', ' +
 					'		:PARAM' + (intIndex += 1) + ', ' +
 					'		:PARAM' + (intIndex += 1) + ' ' +

@@ -10,7 +10,7 @@
  "manifest": {
   "bookrect/main": {
    "docsSHA256": null, 
-   "jsSHA256": "d0f939a3f07f42fb218e00e39975a1af8669c5e00c2d07d7a6ecae9447c5f78e", 
+   "jsSHA256": "5dd4135306e7a2a7c1eb97e122f711814c8ec0e688090e0d0649b3e057146d39", 
    "moduleName": "main", 
    "packageName": "bookrect", 
    "requirements": {

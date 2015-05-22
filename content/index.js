@@ -15,6 +15,10 @@
 	}
 }
 
+PreferenceAdvancedObserver.addObserver(function() {
+
+});
+
 PreferenceLayoutObserver.addObserver(function() {
 	for (var intFor1 = 0; intFor1 < 3; intFor1 += 1) {
 		jQuery('table:eq(0)').find('td:eq(' + intFor1 + ')').find('.cssTreeview')
@@ -107,7 +111,9 @@ jQuery(document).ready(function() {
 			.off('click')
 			.on('click', function() {
 				{
-					Modal.updateShow('#idIndex_ModalConfigure');
+					jQuery('#idIndex_ModalConfigure');
+						.modalShow()
+					;
 				}
 			})
 		;

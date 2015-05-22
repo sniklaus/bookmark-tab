@@ -21,10 +21,10 @@
 		<em:creator>CodeRect</em:creator>
 		<em:homepageURL>http://www.coderect.com/</em:homepageURL>
 		
-		<em:optionsURL>chrome://BookRect/content/options.xul</em:optionsURL>
+		<em:optionsURL>chrome://BookRect/content/settings.xul</em:optionsURL>
 		<em:optionsType>1</em:optionsType>
 		
-		<em:iconURL>chrome://BookRect/content/images/bodyIcon.png</em:iconURL>
+		<em:iconURL>chrome://BookRect/content/images/icon.png</em:iconURL>
 		
 		<em:localized>
 			<Description>

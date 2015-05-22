@@ -4,12 +4,8 @@ require('chrome').Cu.import('resource://gre/modules/Services.jsm');
 
 exports.main = function(optionsHandle) {
 	{
-		if (optionsHandle.loadReason === 'install') {
+		if (optionsHandle.loadReason !== 'startup') {
 			require('sdk/preferences/service').set('browser.newtab.url', 'about:bookrect');
-			
-		} else if (optionsHandle.loadReason === 'enable') {
-			require('sdk/preferences/service').set('browser.newtab.url', 'about:bookrect');
-			
 		}
 	}
 	
@@ -26,8 +22,6 @@ exports.main = function(optionsHandle) {
 	{
 		require('sdk/platform/xpcom').Factory({
 			'contract': '@mozilla.org/network/protocol/about;1?what=bookrect',
-			'register': true,
-			'unregister': true,
 			'Component': require('sdk/core/heritage').Class({
 				'extends': require('sdk/platform/xpcom').Unknown,
 				'interfaces': [ 'nsIAboutModule' ],
@@ -51,7 +45,7 @@ exports.main = function(optionsHandle) {
 		var toolbarbuttonHandle = require('sdk/ui/button/toggle').ToggleButton({
 			'id': 'idBookRect_Toolbarbutton',
 			'label': 'BookRect',
-			'icon': 'chrome://BookRect/content/images/bodyFavicon.png'
+			'icon': 'chrome://BookRect/content/images/icon.png'
 		});
 
 		{
@@ -105,7 +99,7 @@ exports.main = function(optionsHandle) {
 				}
 			});
 			
-			toolbarpanelHandle.port.on('eventClickLeft', function(strHref) {
+			toolbarpanelHandle.port.on('eventNavigate', function(strHref) {
 				{
 					toolbarpanelHandle.hide();
 				}
@@ -115,7 +109,7 @@ exports.main = function(optionsHandle) {
 				}
 			});
 			
-			toolbarpanelHandle.port.on('eventClickMiddle', function(strHref) {
+			toolbarpanelHandle.port.on('eventOpen', function(strHref) {
 				{
 					toolbarpanelHandle.hide();
 				}

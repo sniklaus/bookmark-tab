@@ -11,7 +11,7 @@
 		}
 		
 		{
-			Services.wm.getMostRecentWindow('navigator:browser').openUILinkIn('chrome://BookRect/content/options.html', 'tab');
+			Services.wm.getMostRecentWindow('navigator:browser').openUILinkIn('chrome://BookRect/content/settings.html', 'tab');
 		}
 	</script>
 </prefwindow>
