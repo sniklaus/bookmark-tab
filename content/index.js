@@ -1,5 +1,7 @@
 'use strict';
 
+// TODO: bei search: escapeStringForLIKE
+
 {
 	var windowHandle = window
 		.QueryInterface(Components.interfaces.nsIInterfaceRequestor).getInterface(Components.interfaces.nsIWebNavigation)
@@ -166,6 +168,8 @@ jQuery(document).ready(function() {
 											'ORDER BY intPosition DESC ',
 											[]
 										);
+										
+										PreferenceLayout.selectNext();
 										
 										if (PreferenceLayout.intIdent === 0) {
 											PreferenceLayout.intIdent = 0;

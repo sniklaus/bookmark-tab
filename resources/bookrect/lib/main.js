@@ -83,7 +83,7 @@ exports.main = function(optionsHandle) {
 				}
 				
 				{
-					toolbarpanelHandle.port.emit('eventShow');
+					toolbarpanelHandle.port.emit('eventShow', {});
 				}
 			});
 			
@@ -95,27 +95,27 @@ exports.main = function(optionsHandle) {
 				}
 				
 				{
-					toolbarpanelHandle.port.emit('eventHide');
+					toolbarpanelHandle.port.emit('eventHide', {});
 				}
 			});
 			
-			toolbarpanelHandle.port.on('eventNavigate', function(strHref) {
+			toolbarpanelHandle.port.on('eventNavigate', function(objectEvent) {
 				{
 					toolbarpanelHandle.hide();
 				}
 				
 				{
-					require('sdk/tabs').activeTab.url = strHref;
+					require('sdk/tabs').activeTab.url = objectEvent.strLink;
 				}
 			});
 			
-			toolbarpanelHandle.port.on('eventOpen', function(strHref) {
+			toolbarpanelHandle.port.on('eventOpen', function(objectEvent) {
 				{
 					toolbarpanelHandle.hide();
 				}
 				
 				{
-					require('sdk/tabs').open(strHref);
+					require('sdk/tabs').open(objectEvent.strLink);
 				}
 			});
 		}

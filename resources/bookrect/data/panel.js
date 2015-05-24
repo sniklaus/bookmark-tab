@@ -1,10 +1,10 @@
 'use strict';
 
-self.port.on('eventShow', function() {
+self.port.on('eventShow', function(objectEvent) {
 	
 });
 
-self.port.on('eventHide', function() {
+self.port.on('eventHide', function(objectEvent) {
 	
 });
 
@@ -25,10 +25,14 @@ jQuery(document).ready(function() {
 				
 				{
 					if (eventHandle.which === 1) {
-						self.port.emit('eventNavigate', jQuery(eventHandle.target).closest('a').attr('href'));
+						self.port.emit('eventNavigate', {
+							'strLink': jQuery(eventHandle.target).closest('a').attr('href')
+						});
 						
 					} else if (eventHandle.which === 2) {
-						self.port.emit('eventOpen', jQuery(eventHandle.target).closest('a').attr('href'));
+						self.port.emit('eventOpen', {
+							'strLink': jQuery(eventHandle.target).closest('a').attr('href')
+						});
 						
 					}
 				}
