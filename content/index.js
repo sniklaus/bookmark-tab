@@ -113,7 +113,7 @@ jQuery(document).ready(function() {
 			.off('click')
 			.on('click', function() {
 				{
-					jQuery('#idIndex_ModalConfigure');
+					jQuery('#idIndex_ModalConfigure')
 						.modalShow()
 					;
 				}
