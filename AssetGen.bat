@@ -24,3 +24,5 @@ IF /I "%1" == "RELEASE" (
 	xcopy "%~dp0\..\GenRect\AssetGen\sortable.css" "%~dp0\content\sortable.css" /F /R /Y
 	xcopy "%~dp0\..\GenRect\AssetGen\sortable.js" "%~dp0\content\sortable.js" /F /R /Y
 )
+
+xcopy "%~dp0\..\GenRect\AssetGen\jquery.js" "%~dp0\resources\bookrect\data\jquery.js" /F /R /Y
