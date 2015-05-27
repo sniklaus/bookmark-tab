@@ -18,11 +18,9 @@ IF /I "%1" == "RELEASE" (
 		java -jar %YUICOMPRESSOR% --type js -o "content\%%~nf%%~xf" "%~dp0\..\GenRect\AssetGen\%%~nf%%~xf"
 	)
 
-	xcopy "%~dp0\..\GenRect\AssetGen\jquery.js" "%~dp0\content\jquery.js" /F /R /Y
-	xcopy "%~dp0\..\GenRect\AssetGen\moment.js" "%~dp0\content\moment.js" /F /R /Y
-	xcopy "%~dp0\..\GenRect\AssetGen\bootstrap.css" "%~dp0\content\bootstrap.css" /F /R /Y
-	xcopy "%~dp0\..\GenRect\AssetGen\sortable.css" "%~dp0\content\sortable.css" /F /R /Y
-	xcopy "%~dp0\..\GenRect\AssetGen\sortable.js" "%~dp0\content\sortable.js" /F /R /Y
+	xcopy "%~dp0\..\GenRect\AssetGen\jquery.js" "%~dp0\content\" /F /R /Y
+	xcopy "%~dp0\..\GenRect\AssetGen\moment.js" "%~dp0\content\" /F /R /Y
+	xcopy "%~dp0\..\GenRect\AssetGen\bootstrap.css" "%~dp0\content\" /F /R /Y
+	xcopy "%~dp0\..\GenRect\AssetGen\sortable.css" "%~dp0\content\" /F /R /Y
+	xcopy "%~dp0\..\GenRect\AssetGen\sortable.js" "%~dp0\content\" /F /R /Y
 )
-
-xcopy "%~dp0\..\GenRect\AssetGen\jquery.js" "%~dp0\resources\bookrect\data\jquery.js" /F /R /Y

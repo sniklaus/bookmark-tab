@@ -1,6 +1,11 @@
 'use strict';
 
-require('chrome').Cu.import('resource://gre/modules/Services.jsm');
+var Components = {
+	'utils': require('chrome').Cu,
+	'interfaces': require('chrome').Ci
+};
+
+Components.utils.import('resource://gre/modules/Services.jsm');
 
 exports.main = function(optionsHandle) {
 	{
@@ -35,7 +40,7 @@ exports.main = function(optionsHandle) {
 					return channelHandle;
 				},
 				'getURIFlags': function(uriHandle) {
-					return require('chrome').Ci.nsIAboutModule.ALLOW_SCRIPT;
+					return Components.interfaces.nsIAboutModule.ALLOW_SCRIPT;
 				}
 			})
 		});
