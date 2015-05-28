@@ -1,11 +1,9 @@
 'use strict';
 
-var Components = {
-	'utils': require('chrome').Cu,
-	'interfaces': require('chrome').Ci
-};
+var Cu = require('chrome').Cu;
+var Ci = require('chrome').Ci;
 
-Components.utils.import('resource://gre/modules/Services.jsm');
+Cu.import('resource://gre/modules/Services.jsm');
 
 exports.main = function(optionsHandle) {
 	{
@@ -40,7 +38,7 @@ exports.main = function(optionsHandle) {
 					return channelHandle;
 				},
 				'getURIFlags': function(uriHandle) {
-					return Components.interfaces.nsIAboutModule.ALLOW_SCRIPT;
+					return Ci.nsIAboutModule.ALLOW_SCRIPT;
 				}
 			})
 		});
@@ -52,7 +50,7 @@ exports.main = function(optionsHandle) {
 			'label': 'BookRect',
 			'icon': 'chrome://BookRect/content/images/icon.png'
 		});
-
+		
 		{
 			toolbarbuttonHandle.on('click', function(stateHandle) {
 				{
