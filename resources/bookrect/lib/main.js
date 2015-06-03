@@ -1,32 +1,292 @@
 'use strict';
 
-var Cu = require('chrome').Cu;
-var Ci = require('chrome').Ci;
+var requireBookmarks = require('sdk/places/bookmarks');
+var requireChrome = require('chrome');
+var requireHeritage = require('sdk/core/heritage');
+var requirePagemod = require('sdk/page-mod');
+var requirePanel = require('sdk/panel');
+var requirePreferences = require('sdk/preferences/service');
+var requireSelf = require('sdk/self');
+var requireTabs = require('sdk/tabs');
+var requireToggle = require('sdk/ui/button/toggle');
+var requireXpcom = require('sdk/platform/xpcom');
 
-Cu.import('resource://gre/modules/Services.jsm');
+requireChrome.Cu.import('resource://gre/modules/PlacesUtils.jsm');
+requireChrome.Cu.import('resource://gre/modules/Services.jsm');
+
+var Bookmarks = {
+	init: function() {
+		
+	},
+	
+	dispel: function() {
+		
+	},
+	
+	bind: function(bindHandle) {
+		bindHandle.port.on('bookmarksNavigate', function(objectArguments) {
+			Bookmarks.navigate.call(bindHandle, objectArguments, function(objectArguments) {
+				bindHandle.port.emit('bookmarksNavigate', objectArguments);
+			});
+		});
+		
+		bindHandle.port.on('bookmarksPeek', function(objectArguments) {
+			Bookmarks.peek.call(bindHandle, objectArguments, function(objectArguments) {
+				bindHandle.port.emit('bookmarksPeek', objectArguments);
+			});
+		});
+		
+		bindHandle.port.on('bookmarksList', function(objectArguments) {
+			Bookmarks.list.call(bindHandle, objectArguments, function(objectArguments) {
+				bindHandle.port.emit('bookmarksList', objectArguments);
+			});
+		});
+		
+		bindHandle.port.on('bookmarksSearch', function(objectArguments) {
+			Bookmarks.search.call(bindHandle, objectArguments, function(objectArguments) {
+				bindHandle.port.emit('bookmarksSearch', objectArguments);
+			});
+		});
+	},
+	
+	navigate: function(objectArguments, functionCallback) {
+		{
+			if (this.hide !== undefined) {
+				this.hide();
+			}
+		}
+		
+		{
+			if (objectArguments.strTab === 'tabCurrent') {
+				requireTabs.activeTab.url = objectArguments.strLink;
+				
+			} else if (objectArguments.strTab === 'tabNew') {
+				requireTabs.open(objectArguments.strLink);
+				
+			}
+		}
+		
+		functionCallback({});
+	},
+	
+	peek: function(objectArguments, functionCallback) {
+		var Lookup_resultHandle = [];
+		
+		var functionLookup = function() {
+			{
+				for (var intFor1 = 0; intFor1 < objectArguments.intIdent.length; intFor1 += 1) {
+					var intIdent = objectArguments.intIdent[intFor1];
+					
+					{
+						if (PlacesUtils.bookmarks.getItemType(intIdent) === PlacesUtils.bookmarks.TYPE_FOLDER) {
+							Lookup_resultHandle.push({
+								'intIdent': intIdent,
+								'strType': 'typeFolder',
+								'strImage': 'chrome://bookrect/content/images/folder.png',
+								'strTitle': PlacesUtils.bookmarks.getItemTitle(intIdent),
+								'strLink': ''
+							});
+							
+						} else if (PlacesUtils.bookmarks.getItemType(intIdent) === PlacesUtils.bookmarks.TYPE_BOOKMARK) {
+							Lookup_resultHandle.push({
+								'intIdent': intIdent,
+								'strType': 'typeBookmark',
+								'strImage': 'http://grabicon.com/icon?domain=' + PlacesUtils.bookmarks.getBookmarkURI(intIdent).spec + '&size=16',
+								'strTitle': PlacesUtils.bookmarks.getItemTitle(intIdent),
+								'strLink': PlacesUtils.bookmarks.getBookmarkURI(intIdent)
+							});
+							
+						} else if (PlacesUtils.bookmarks.getItemType(intIdent) === PlacesUtils.bookmarks.TYPE_SEPARATOR) {
+							Lookup_resultHandle.push({
+								'intIdent': intIdent,
+								'strType': 'typeSeparator',
+								'strImage': '',
+								'strTitle': '',
+								'strLink': ''
+							});
+							
+						}
+					}
+				}
+			}
+			
+			functionCallback({
+				'strCallback': objectArguments.strCallback,
+				'resultHandle': Lookup_resultHandle
+			});
+		};
+		
+		functionLookup();
+	},
+	
+	list: function(objectArguments, functionCallback) {
+		var Lookup_resultHandle = [];
+		
+		var functionLookup = function() {
+			{
+				if (objectArguments.intIdent === 0) {
+					{
+						Lookup_resultHandle.push({
+							'intIdent': PlacesUtils.toolbarFolderId,
+							'intTimestamp': 0,
+							'intParent': 0,
+							'strType': 'typeFolder',
+							'strImage': 'chrome://bookrect/content/images/folder.png',
+							'strTitle': PlacesUtils.bookmarks.getItemTitle(PlacesUtils.toolbarFolderId),
+							'strLink': '',
+							'strTags': '',
+							'intAccesscount': 0
+						});
+					}
+					
+					{
+						Lookup_resultHandle.push({
+							'intIdent': PlacesUtils.bookmarksMenuFolderId,
+							'intTimestamp': 0,
+							'intParent': 0,
+							'strType': 'typeFolder',
+							'strImage': 'chrome://bookrect/content/images/folder.png',
+							'strTitle': PlacesUtils.bookmarks.getItemTitle(PlacesUtils.bookmarksMenuFolderId),
+							'strLink': '',
+							'strTags': '',
+							'intAccesscount': 0
+						});
+					}
+					
+					{
+						Lookup_resultHandle.push({
+							'intIdent': PlacesUtils.unfiledBookmarksFolderId,
+							'intTimestamp': 0,
+							'intParent': 0,
+							'strType': 'typeFolder',
+							'strImage': 'chrome://bookrect/content/images/folder.png',
+							'strTitle': PlacesUtils.bookmarks.getItemTitle(PlacesUtils.unfiledBookmarksFolderId),
+							'strLink': '',
+							'strTags': '',
+							'intAccesscount': 0
+						});
+					}
+					
+				} else if (objectArguments.intIdent !== 0) {
+					{
+						var nodeFolder = PlacesUtils.getFolderContents(objectArguments.intIdent);
+						
+						for (var intFor1 = 0; intFor1 < nodeFolder.root.childCount; intFor1 += 1) {
+							var nodeHandle = nodeFolder.root.getChild(intFor1);
+							
+							{
+								if (PlacesUtils.nodeIsFolder(nodeHandle) === true) {
+									Lookup_resultHandle.push({
+										'intIdent': nodeHandle.itemId,
+										'intTimestamp': nodeHandle.lastModified,
+										'intParent': objectArguments.intIdent,
+										'strType': 'typeFolder',
+										'strImage': 'chrome://bookrect/content/images/folder.png',
+										'strTitle': nodeHandle.title,
+										'strLink': '',
+										'strTags': '',
+										'intAccesscount': 0
+									});
+									
+								} else if (PlacesUtils.nodeIsBookmark(nodeHandle) === true) {
+									Lookup_resultHandle.push({
+										'intIdent': nodeHandle.itemId,
+										'intTimestamp': nodeHandle.lastModified,
+										'intParent': objectArguments.intIdent,
+										'strType': 'typeBookmark',
+										'strImage': 'http://grabicon.com/icon?domain=' + nodeHandle.uri + '&size=16',
+										'strTitle': nodeHandle.title,
+										'strLink': nodeHandle.uri,
+										'strTags': nodeHandle.tags,
+										'intAccesscount': nodeHandle.accessCount
+									});
+									
+								} else if (PlacesUtils.nodeIsSeparator(nodeHandle) === true) {
+									Lookup_resultHandle.push({
+										'intIdent': nodeHandle.itemId,
+										'intTimestamp': nodeHandle.lastModified,
+										'intParent': objectArguments.intIdent,
+										'strType': 'typeSeparator',
+										'strImage': '',
+										'strTitle': '',
+										'strLink': '',
+										'strTags': '',
+										'intAccesscount': 0
+									});
+									
+								}
+							}
+							
+							{
+								if (PlacesUtils.nodeIsBookmark(nodeHandle) === true) {
+									if (nodeHandle.icon.indexOf('moz-anno:favicon:') !== -1) {
+										Lookup_resultHandle[Lookup_resultHandle.length - 1].strImage = nodeHandle.icon;
+									}
+								}
+							}
+						}
+					}
+					
+				}
+			}
+			
+			functionCallback({
+				'strCallback': objectArguments.strCallback,
+				'resultHandle': Lookup_resultHandle
+			});
+		};
+		
+		functionLookup();
+	},
+	
+	search: function(objectArguments, functionCallback) {
+		// https://developer.mozilla.org/en-US/docs/Mozilla/Tech/Places/Retrieving_part_of_the_bookmarks_tree
+		// var query1 = historyService.getNewQuery();
+		// query1.searchTerms = "firefox";
+		
+		requireBookmarks.search([{
+			'url': objectArguments.strSearch
+		}, {
+			'tags': objectArguments.strSearch
+		}]).on('end', function(resultHandle) {
+			
+		});
+	}
+};
+Bookmarks.init();
 
 exports.main = function(optionsHandle) {
 	{
-		if (optionsHandle.loadReason !== 'startup') {
-			require('sdk/preferences/service').set('browser.newtab.url', 'about:bookrect');
+		if (optionsHandle.loadReason === 'install') {
+			requirePreferences.set('browser.newtab.url', 'about:bookrect');
+			
+		} else if (optionsHandle.loadReason === 'enable') {
+			requirePreferences.set('browser.newtab.url', 'about:bookrect');
+			
+		} else if (optionsHandle.loadReason === 'upgrade') {
+			requirePreferences.set('browser.newtab.url', 'about:bookrect');
+			
+		} else if (optionsHandle.loadReason === 'downgrade') {
+			requirePreferences.set('browser.newtab.url', 'about:bookrect');
+			
 		}
 	}
 	
 	{
-		if (require('sdk/preferences/service').get('browser.newtab.url') === 'about:bookrect') {
-			require('sdk/preferences/service').set('extensions.BookRect.Advanced.boolAutostart', true);
+		if (requirePreferences.get('browser.newtab.url') === 'about:bookrect') {
+			requirePreferences.set('extensions.BookRect.Advanced.boolAutostart', true);
 			
-		} else if (require('sdk/preferences/service').get('browser.newtab.url') !== 'about:bookrect') {
-			require('sdk/preferences/service').set('extensions.BookRect.Advanced.boolAutostart', false);
+		} else if (requirePreferences.get('browser.newtab.url') !== 'about:bookrect') {
+			requirePreferences.set('extensions.BookRect.Advanced.boolAutostart', false);
 			
 		}
 	}
 	
 	{
-		require('sdk/platform/xpcom').Factory({
+		requireXpcom.Factory({
 			'contract': '@mozilla.org/network/protocol/about;1?what=bookrect',
-			'Component': require('sdk/core/heritage').Class({
-				'extends': require('sdk/platform/xpcom').Unknown,
+			'Component': requireHeritage.Class({
+				'extends': requireXpcom.Unknown,
 				'interfaces': [ 'nsIAboutModule' ],
 				'newChannel': function(uriHandle) {
 					var channelHandle = Services.io.newChannel('chrome://bookrect/content/index.html', null, null);
@@ -38,97 +298,78 @@ exports.main = function(optionsHandle) {
 					return channelHandle;
 				},
 				'getURIFlags': function(uriHandle) {
-					return Ci.nsIAboutModule.ALLOW_SCRIPT;
+					return requireChrome.Ci.nsIAboutModule.ALLOW_SCRIPT;
 				}
 			})
 		});
 	}
 	
+	{
+		requirePagemod.PageMod({
+			'include': [ 'about:bookrect', 'chrome://bookrect/content/index.html' ],
+			'contentScriptFile': [ requireSelf.data.url('./index.js') ],
+		    'onAttach': function(workerHandle) {
+				{
+					Bookmarks.bind(workerHandle);
+				}
+		    }
+		});
+	}
+	
 	{	
-		var toolbarbuttonHandle = require('sdk/ui/button/toggle').ToggleButton({
-			'id': 'idBookRect_Toolbarbutton',
+		var toolbarbuttonHandle = requireToggle.ToggleButton({
+			'id': 'idToolbarbutton',
 			'label': 'BookRect',
-			'icon': 'chrome://BookRect/content/images/icon.png'
+			'icon': 'chrome://bookrect/content/images/icon.png'
 		});
 		
 		{
 			toolbarbuttonHandle.on('click', function(stateHandle) {
-				{
-					if (stateHandle.checked === true) {
-						toolbarpanelHandle.show({
-							'position': toolbarbuttonHandle
-						});
-						
-					} else if (stateHandle.checked === false) {
-						toolbarpanelHandle.hide();
-						
-					}
+				if (stateHandle.checked === true) {
+					toolbarpanelHandle.show({
+						'position': toolbarbuttonHandle
+					});
+				}
+			});
+			
+			toolbarbuttonHandle.on('click', function(stateHandle) {
+				if (stateHandle.checked === false) {
+					toolbarpanelHandle.hide();
 				}
 			});
 		}
 		
-		var toolbarpanelHandle = require('sdk/panel').Panel({
+		var toolbarpanelHandle = requirePanel.Panel({
 			'width': 640,
 			'height': 480,
-			'contentURL': 'about:bookrect',
-			'contentScriptFile': [
-				require('sdk/self').data.url('./jquery.js'),
-				require('sdk/self').data.url('./panel.js')
-			]
+			'contentURL': 'chrome://bookrect/content/index.html',
+			'contentScriptFile': [ requireSelf.data.url('./index.js') ]
 		});
 		
 		{
 			toolbarpanelHandle.on('show', function() {
-				{
-					toolbarbuttonHandle.state('window', {
-						'checked': true
-					});
-				}
-				
-				{
-					toolbarpanelHandle.port.emit('eventShow', {});
-				}
+				toolbarbuttonHandle.state('window', {
+					'checked': true
+				});
 			});
 			
 			toolbarpanelHandle.on('hide', function() {
-				{
-					toolbarbuttonHandle.state('window', {
-						'checked': false
-					});
-				}
-				
-				{
-					toolbarpanelHandle.port.emit('eventHide', {});
-				}
+				toolbarbuttonHandle.state('window', {
+					'checked': false
+				});
 			});
-			
-			toolbarpanelHandle.port.on('eventNavigate', function(objectEvent) {
-				{
-					toolbarpanelHandle.hide();
-				}
-				
-				{
-					require('sdk/tabs').activeTab.url = objectEvent.strLink;
-				}
-			});
-			
-			toolbarpanelHandle.port.on('eventOpen', function(objectEvent) {
-				{
-					toolbarpanelHandle.hide();
-				}
-				
-				{
-					require('sdk/tabs').open(objectEvent.strLink);
-				}
-			});
+		}
+		
+		{
+			Bookmarks.bind(toolbarpanelHandle);
 		}
 	}
 };
 
 exports.onUnload = function(optionsHandle) {
 	{
-		if (require('sdk/preferences/service').get('browser.newtab.url') === 'about:bookrect') {
-			require('sdk/preferences/service').reset('browser.newtab.url');
+		if (requirePreferences.get('browser.newtab.url') === 'about:bookrect') {
+			requirePreferences.reset('browser.newtab.url');
 		}
 	}
 };

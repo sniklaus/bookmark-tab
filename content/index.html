@@ -9,11 +9,11 @@
 		
 		<link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAxlBMVEUAAABOWZ5BTZhCTZhHUpt7g7d5gbZ5grZ5grZ6grZsda9tdq9tdrBtd7Bsdq9ye7Jye7JzfLN0fbNxerJdaKdeaadfaahfaqhha6ldZ6dfaahfaqhjbat/h7mAh7mFjLx8hLh3gLV6grZ6grdfaahgaqlibKpha6ljbapRXKBSXKBUX6JTXqFSXaH///+uuNXEzOHx9Pvb4O+5wtv8/f+zvdi+x97m6vXr7/edqcujrs6/x97V2+vg5fGNmcKXo8jJ0eXQ1ucIdJUyAAAALnRSTlMACR0dI1BRUVJSiIiIiIi8vb29vdbW1tbW4uLi4uzs7Ozs7Ozx8fHx8f39/f39FstVagAAALZJREFUeNptz8cWgkAMBVAYR8Xee1fAnoQBBOz+/0+ZgaVmlXcX7ySG8TumKLV3x6PbsoSZZlkbLq7JlWb9itQiqtMn+vEDIn9cFgzWgBDD8AHB5dazGFqzAHk88PCzbDK45KUZgjuSw3BS4N85A1xQHTRE4PlxCqHaM2yJdyKKAGKydemcQde8AVYdhmKfMsCAugV9WGXCohAVjdLDTFnvremWvDbdssyeEYWmc97bjXzO/PP7F9bvG7XExUxsAAAAAElFTkSuQmCC" />
 		
-		<script type="text/javascript" src="chrome://BookRect/content/jquery.js"></script>
+		<script type="text/javascript" src="chrome://bookrect/content/jquery.js"></script>
 		
-		<script type="text/javascript" src="chrome://BookRect/content/moment.js"></script>
+		<script type="text/javascript" src="chrome://bookrect/content/moment.js"></script>
 		
-		<link rel="stylesheet" type="text/css" href="chrome://BookRect/content/bootstrap.css" />
+		<link rel="stylesheet" type="text/css" href="chrome://bookrect/content/bootstrap.css" />
 		<style type="text/css">
 			.modal-overlay {
 				display:none;
@@ -45,8 +45,25 @@
 			}
 		</style>
 		
-		<link rel="stylesheet" type="text/css" href="chrome://BookRect/content/sortable.css" />
-		<script type="text/javascript" src="chrome://BookRect/content/sortable.js"></script>
+		<style type="text/css">
+			.dragged {
+				display:block;
+				position:absolute;
+				
+				z-index:1000;
+			}
+			
+			.placeholder {
+				display:block;
+				position:relative;
+			}
+			
+			.placeholder:before {
+				display:block;
+				position:absolute;
+			}
+		</style>
+		<script type="text/javascript" src="chrome://bookrect/content/sortable.js"></script>
 		
 		<script type="text/javascript">
 			Components.utils.import('resource://gre/modules/Services.jsm');
@@ -56,7 +73,7 @@
 					var strStrings = [];
 					
 					{
-						var enumeratorHandle = Services.strings.createBundle('chrome://BookRect/locale/strings.properties').getSimpleEnumeration();
+						var enumeratorHandle = Services.strings.createBundle('chrome://bookrect/locale/strings.properties').getSimpleEnumeration();
 						
 						do {
 							if (enumeratorHandle.hasMoreElements() === false) {
@@ -78,21 +95,86 @@
 				}
 			};
 		</script>
-		<script type="text/javascript" src="chrome://BookRect/content/libEffects.js"></script>
-		<script type="text/javascript" src="chrome://BookRect/content/libLanguage.js"></script>
-		<script type="text/javascript" src="chrome://BookRect/content/libModal.js"></script>
+		<link rel="stylesheet" type="text/css" href="chrome://bookrect/content/libTreeview.css" />
+		<script type="text/javascript" src="chrome://bookrect/content/libLanguage.js"></script>
+		<script type="text/javascript" src="chrome://bookrect/content/libModal.js"></script>
+		<script type="text/javascript" src="chrome://bookrect/content/libTreeview.js"></script>
 		
-		<script type="text/javascript" src="chrome://BookRect/content/libPreferenceAdvanced.js"></script>
-		<script type="text/javascript" src="chrome://BookRect/content/libPreferenceAdvancedObserver.js"></script>
-		<script type="text/javascript" src="chrome://BookRect/content/libPreferenceLayout.js"></script>
-		<script type="text/javascript" src="chrome://BookRect/content/libPreferenceLayoutObserver.js"></script>
+		<script type="text/javascript" src="chrome://bookrect/content/libPreferenceAdvanced.js"></script>
+		<script type="text/javascript" src="chrome://bookrect/content/libPreferenceAdvancedObserver.js"></script>
+		<script type="text/javascript" src="chrome://bookrect/content/libPreferenceLayout.js"></script>
+		<script type="text/javascript" src="chrome://bookrect/content/libPreferenceLayoutObserver.js"></script>
 		
-		<script type="text/javascript" src="chrome://BookRect/content/libBookmarks.js"></script>
-		
-		<link rel="stylesheet" type="text/css" href="chrome://BookRect/content/libTreeview.css" />
-		<script type="text/javascript" src="chrome://BookRect/content/libTreeview.js"></script>
-		
-		<script type="text/javascript" src="chrome://BookRect/content/index.js"></script>
+		<style type="text/css">
+			body {
+				cursor:default;
+				
+				margin:0px;
+				border:none;
+				border-spacing:0px;
+				padding:28px;
+				
+				background-color:#FFFFFF;
+			}
+			
+			.cssSearchContainer {
+				margin:0px 0px 10px 0px;
+				border:none;
+				border-spacing:0px;
+				padding:0px;
+			}
+			
+			.cssSearch {
+				cursor:pointer;
+				
+				display:block;
+				position:relative;
+				
+				margin:0px;
+				border:none;
+				border-spacing:0px;
+				padding:6px;
+				
+				background-color:#FFFFFF;
+			}
+			
+			.cssSearchHover {
+				background-color:#CCCCCC;
+			}
+			
+			.cssSearchImage {
+				display:block;
+				position:absolute;
+				
+				top:11px;
+				left:6px;
+			}
+			
+			.cssSearchInput {
+				width:320px;
+				
+				margin:2px 0px 0px 26px;
+				border:1px solid #000000;
+				border-spacing:0px;
+				padding:2px 4px 2px 4px;
+				
+				color:#000000;
+				font-size:12px;
+				font-weight:normal;
+				font-family:Tahoma;
+				text-decoration:none;
+				text-align:left;
+				line-height:1;
+				white-space:normal;
+			}
+			
+			.cssSearchTree {
+				margin:0px 0px 0px 28px;
+				border:none;
+				border-spacing:0px;
+				padding:0px;
+			}
+		</style>
 	</head>
 	<body>
 		<table cellpadding="0" cellspacing="0" border="0" style="width:100%; table-layout:fixed;">
@@ -115,19 +197,19 @@
 			</tr>
 		</table>
 		
-		<div class="btn btn-primary" id="idIndex_Configure" style="position:fixed; right:15px; bottom:15px; z-index:10000;">
+		<div class="btn btn-primary" id="idSettings_Layout" style="position:fixed; right:15px; bottom:15px; z-index:10000;">
 			<span class="glyphicon glyphicon-cog"></span>
 		</div>
 		
 		<div class="modal-overlay"></div>
-		<div class="modal-dialog" id="idIndex_ModalConfigure" style="max-width:90%;">
+		<div class="modal-dialog" id="idSettings_ModalLayout" style="max-width:90%;">
 			<div class="panel panel-default modal-content">
 				<div class="panel-body">
 					<table cellpadding="0" cellspacing="0" border="0" style="width:100%; table-layout:fixed;">
 						<tr>
 							<td style="width:25%; padding:10px; vertical-align:top;">
 								<a class="btn btn-primary" style="cursor:default;">
-									@string/Index_ModalConfigure_Available
+									@string/Settings_ModalLayout_Available
 								</a>
 								
 								<div style="height:10px;"></div>
@@ -138,7 +220,7 @@
 							</td>
 							<td style="width:25%; padding:10px; vertical-align:top;">
 								<a class="btn btn-primary" style="cursor:default;">
-									@string/Index_ModalConfigure_SelectedFirst
+									@string/Settings_ModalLayout_First
 								</a>
 								
 								<div style="height:10px;"></div>
@@ -149,7 +231,7 @@
 							</td>
 							<td style="width:25%; padding:10px; vertical-align:top;">
 								<a class="btn btn-primary" style="cursor:default;">
-									@string/Index_ModalConfigure_SelectedSecond
+									@string/Settings_ModalLayout_Second
 								</a>
 								
 								<div style="height:10px;"></div>
@@ -160,7 +242,7 @@
 							</td>
 							<td style="width:25%; padding:10px; vertical-align:top;">
 								<a class="btn btn-primary" style="cursor:default;">
-									@string/Index_ModalConfigure_SelectedThird
+									@string/Settings_ModalLayout_Third
 								</a>
 								
 								<div style="height:10px;"></div>

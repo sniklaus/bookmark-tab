@@ -10,13 +10,15 @@
  "manifest": {
   "bookrect/main": {
    "docsSHA256": null, 
-   "jsSHA256": "46a81f54e84a288e4380a08524c0567d32bd537b9125c6bff0c83c1c597820f4", 
+   "jsSHA256": "9a3a23a114733d7011f5794d85431557c778a3a162170d6795772b5aa985b3b0", 
    "moduleName": "main", 
    "packageName": "bookrect", 
    "requirements": {
     "chrome": "chrome", 
     "sdk/core/heritage": "sdk/core/heritage", 
+    "sdk/page-mod": "sdk/page-mod", 
     "sdk/panel": "sdk/panel", 
+    "sdk/places/bookmarks": "sdk/places/bookmarks", 
     "sdk/platform/xpcom": "sdk/platform/xpcom", 
     "sdk/preferences/service": "sdk/preferences/service", 
     "sdk/self": "sdk/self", 
