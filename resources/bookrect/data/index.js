@@ -1,5 +1,28 @@
 'use strict';
 
+var Panel = {
+	init: function() {
+		{
+			self.port.on('panelShow', Panel.showCallback);
+			
+			self.port.on('panelHide', Panel.hideCallback);
+		}
+	},
+	
+	dispel: function() {
+		
+	},
+	
+	showCallback: function(objectArguments) {
+		
+	},
+	
+	hideCallback: function(objectArguments) {
+		
+	}
+};
+Panel.init();
+
 self.port.on('bookmarksList', function(objectArguments) {
 	jQuery('#' + objectArguments.strCallback)
 		.treeviewData({
@@ -26,14 +49,14 @@ PreferenceAdvancedObserver.addObserver(function() {
 
 PreferenceLayoutObserver.addObserver(function() {
 	for (var intFor1 = 0; intFor1 < 3; intFor1 += 1) {
-		jQuery('table:eq(0)').find('td:eq(' + intFor1 + ')').find('.cssTreeview')
-			.trigger('update')
+		jQuery('table').eq(0).find('td').eq(intFor1).find('.cssTreeview')
+			.triggerHandler('update')
 		;
 	}
 	
 	for (var intFor1 = 0; intFor1 < 3; intFor1 += 1) {
-		jQuery('table:eq(1)').find('td:eq(' + (intFor1 + 1) + ')').find('.cssTreeview')
-			.trigger('update')
+		jQuery('table').eq(1).find('td').eq(intFor1 + 1).find('.cssTreeview')
+			.triggerHandler('update')
 		;
 	}
 });
@@ -52,7 +75,7 @@ PreferenceLayoutObserver.addObserver(function() {
 
 {
 	for (var intFor1 = 0; intFor1 < 3; intFor1 += 1) {
-		jQuery('table:eq(0)').find('td:eq(' + intFor1 + ')').find('.cssTreeview')
+		jQuery('table').eq(0).find('td').eq(intFor1).find('.cssTreeview')
 			.data({
 				'intColumn': intFor1
 			})
@@ -198,8 +221,8 @@ PreferenceLayoutObserver.addObserver(function() {
 			})
 		;
 		
-		jQuery('table:eq(0)').find('td:eq(' + intFor1 + ')').find('.cssTreeview')
-			.trigger('update')
+		jQuery('table').eq(0).find('td').eq(intFor1).find('.cssTreeview')
+			.triggerHandler('update')
 		;
 	}
 }
@@ -218,7 +241,7 @@ PreferenceLayoutObserver.addObserver(function() {
 }
 
 {
-	jQuery('table:eq(1)').find('td:eq(0)').find('.cssTreeview')
+	jQuery('table').eq(1).find('td').eq(0).find('.cssTreeview')
 		.off('update')
 		.on('update', function() {
 			return; // TODO: remove
@@ -329,14 +352,14 @@ PreferenceLayoutObserver.addObserver(function() {
 		})
 	;
 	
-	jQuery('table:eq(1)').find('td:eq(0)').find('.cssTreeview')
-		.trigger('update')
+	jQuery('table').eq(1).find('td').eq(0).find('.cssTreeview')
+		.triggerHandler('update')
 	;
 }
 
 {
 	for (var intFor1 = 0; intFor1 < 3; intFor1 += 1) {
-		jQuery('table:eq(1)').find('td:eq(' + (intFor1 + 1) + ')').find('.cssTreeview')
+		jQuery('table').eq(1).find('td').eq(intFor1 + 1).find('.cssTreeview')
 			.data({
 				'intColumn': intFor1
 			})
@@ -445,8 +468,8 @@ PreferenceLayoutObserver.addObserver(function() {
 			})
 		;
 		
-		jQuery('table:eq(1)').find('td:eq(' + (intFor1 + 1) + ')').find('.cssTreeview')
-			.trigger('update')
+		jQuery('table').eq(1).find('td').eq(intFor1 + 1).find('.cssTreeview')
+			.triggerHandler('update')
 		;
 	}
 }
@@ -456,7 +479,7 @@ PreferenceLayoutObserver.addObserver(function() {
 	// TODO: bookmarks not sortable
 	
 	for (var intFor1 = 0; intFor1 < 3; intFor1 += 1) {
-		jQuery('table:eq(1)').find('td:eq(' + (intFor1 + 1) + ')').find('.cssTreeview')
+		jQuery('table').eq(1).find('td').eq(intFor1 + 1).find('.cssTreeview')
 			.sortable({
 				'group': 'Index_ModalConfigure',
 				'containerSelector': '.cssTreeview',
@@ -481,7 +504,7 @@ PreferenceLayoutObserver.addObserver(function() {
 						
 						PreferenceLayout.transactionOpen();
 						
-						jQuery('table:eq(1)').find('td').find('.cssTreeview').slice(1).each(function(intFor1) {
+						jQuery('table').eq(1).find('td').find('.cssTreeview').slice(1).each(function(intFor1) {
 							jQuery(this).find('.cssTreeviewNodeContainer').each(function(intFor2) {
 								PreferenceLayout.intIdent = 0;
 								PreferenceLayout.intColumn = intFor1;

@@ -351,12 +351,16 @@ exports.main = function(optionsHandle) {
 				toolbarbuttonHandle.state('window', {
 					'checked': true
 				});
+				
+				toolbarpanelHandle.port.emit('panelShow', {});
 			});
 			
 			toolbarpanelHandle.on('hide', function() {
 				toolbarbuttonHandle.state('window', {
 					'checked': false
 				});
+				
+				toolbarpanelHandle.port.emit('panelHide', {});
 			});
 		}
 		
