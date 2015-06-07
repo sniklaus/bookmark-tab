@@ -49,15 +49,11 @@ PreferenceAdvancedObserver.addObserver(function() {
 
 PreferenceLayoutObserver.addObserver(function() {
 	for (var intFor1 = 0; intFor1 < 3; intFor1 += 1) {
-		jQuery('table').eq(0).find('td').eq(intFor1).find('.cssTreeview')
-			.triggerHandler('update')
-		;
+		jQuery('table').eq(0).find('td').eq(intFor1).find('.cssTreeview').triggerHandler('update');
 	}
 	
 	for (var intFor1 = 0; intFor1 < 3; intFor1 += 1) {
-		jQuery('table').eq(1).find('td').eq(intFor1 + 1).find('.cssTreeview')
-			.triggerHandler('update')
-		;
+		jQuery('table').eq(1).find('td').eq(intFor1 + 1).find('.cssTreeview').triggerHandler('update');
 	}
 });
 
@@ -221,9 +217,7 @@ PreferenceLayoutObserver.addObserver(function() {
 			})
 		;
 		
-		jQuery('table').eq(0).find('td').eq(intFor1).find('.cssTreeview')
-			.triggerHandler('update')
-		;
+		jQuery('table').eq(0).find('td').eq(intFor1).find('.cssTreeview').triggerHandler('update');
 	}
 }
 
@@ -352,9 +346,7 @@ PreferenceLayoutObserver.addObserver(function() {
 		})
 	;
 	
-	jQuery('table').eq(1).find('td').eq(0).find('.cssTreeview')
-		.triggerHandler('update')
-	;
+	jQuery('table').eq(1).find('td').eq(0).find('.cssTreeview').triggerHandler('update');
 }
 
 {
@@ -468,9 +460,7 @@ PreferenceLayoutObserver.addObserver(function() {
 			})
 		;
 		
-		jQuery('table').eq(1).find('td').eq(intFor1 + 1).find('.cssTreeview')
-			.triggerHandler('update')
-		;
+		jQuery('table').eq(1).find('td').eq(intFor1 + 1).find('.cssTreeview').triggerHandler('update');
 	}
 }
 
