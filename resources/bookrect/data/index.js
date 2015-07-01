@@ -90,11 +90,11 @@ PreferenceLayoutObserver.addObserver(function() {
 							};
 							
 							{
-								objectArguments.strCallback += Math.random().toString(36).substring(2);
+								objectArguments.strCallback += Math.random().toString(36).substr(2);
 								
-								objectArguments.strCallback += Math.random().toString(36).substring(2);
+								objectArguments.strCallback += Math.random().toString(36).substr(2);
 								
-								objectArguments.strCallback += Math.random().toString(36).substring(2);
+								objectArguments.strCallback += Math.random().toString(36).substr(2);
 							}
 							
 							{
