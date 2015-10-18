@@ -11,6 +11,7 @@ var requireTabs = require('sdk/tabs');
 var requireToggle = require('sdk/ui/button/toggle');
 var requireXpcom = require('sdk/platform/xpcom');
 
+requireChrome.Cu.import("resource:///modules/NewTabURL.jsm");
 requireChrome.Cu.import('resource://gre/modules/PlacesUtils.jsm');
 requireChrome.Cu.import('resource://gre/modules/Services.jsm');
 
@@ -258,25 +259,25 @@ Bookmarks.init();
 exports.main = function(optionsHandle) {
 	{
 		if (optionsHandle.loadReason === 'install') {
-			requirePreferences.set('browser.newtab.url', 'about:bookrect');
+			NewTabURL.override('about:bookrect');
 			
 		} else if (optionsHandle.loadReason === 'enable') {
-			requirePreferences.set('browser.newtab.url', 'about:bookrect');
+			NewTabURL.override('about:bookrect');
 			
 		} else if (optionsHandle.loadReason === 'upgrade') {
-			requirePreferences.set('browser.newtab.url', 'about:bookrect');
+			NewTabURL.override('about:bookrect');
 			
 		} else if (optionsHandle.loadReason === 'downgrade') {
-			requirePreferences.set('browser.newtab.url', 'about:bookrect');
+			NewTabURL.override('about:bookrect');
 			
 		}
 	}
 	
 	{
-		if (requirePreferences.get('browser.newtab.url') === 'about:bookrect') {
+		if (NewTabURL.get() === 'about:bookrect') {
 			requirePreferences.set('extensions.BookRect.Advanced.boolAutostart', true);
 			
-		} else if (requirePreferences.get('browser.newtab.url') !== 'about:bookrect') {
+		} else if (NewTabURL.get() !== 'about:bookrect') {
 			requirePreferences.set('extensions.BookRect.Advanced.boolAutostart', false);
 			
 		}
@@ -372,8 +373,8 @@ exports.main = function(optionsHandle) {
 
 exports.onUnload = function(optionsHandle) {
 	{
-		if (requirePreferences.get('browser.newtab.url') === 'about:bookrect') {
-			requirePreferences.reset('browser.newtab.url');
+		if (NewTabURL.get() === 'about:bookrect') {
+			requirePreferences.reset();
 		}
 	}
 };

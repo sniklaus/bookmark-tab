@@ -5,16 +5,16 @@ var Treeview = {
 				{
 					objectArguments = jQuery.extend({
 						'intIdent': 0,
-						'functionData': function() {
+						'functionOpen': function(objectNode) {
 							
 						},
-						'functionOpen': function() {
+						'functionData': function(objectNode) {
 							
 						},
-						'functionClose': function() {
+						'functionClose': function(objectNode) {
 							
 						},
-						'functionClick': function() {
+						'functionClick': function(objectNode, eventHandle) {
 							
 						}
 					}, objectArguments);
@@ -33,7 +33,7 @@ var Treeview = {
 				}
 				
 				{
-					jQuery(this).closest('.cssTreeview').data('functionOpen').call(this, {
+					jQuery(this).closest('.cssTreeview').data('functionOpen').call(jQuery(this), {
 						'intIdent': objectArguments.intIdent
 					});
 				}
@@ -53,10 +53,6 @@ var Treeview = {
 				{
 					for (var intFor1 = 0; intFor1 < objectArguments.objectNode.length; intFor1 += 1) {
 						var objectNode = objectArguments.objectNode[intFor1];
-						
-						{
-							// jQuery(this).closest('.cssTreeview').data('functionData').call(this, objectNode);
-						}
 						
 						{
 							if (objectNode.strType === 'typeFolder') {
@@ -81,6 +77,14 @@ var Treeview = {
 								;
 								
 							}
+						}
+						
+						{
+							jQuery(this).find('.cssTreeviewNode').last()
+								.each(function() {
+									jQuery(this).closest('.cssTreeview').data('functionData').call(jQuery(this), objectNode);
+								})
+							;
 						}
 					}
 				}
@@ -164,16 +168,6 @@ var Treeview = {
 									.addClass('cssTreeviewNodeTitle')
 									.text(objectArguments.objectNode.strTitle)
 								)
-								.each(function() {
-									if (objectArguments.objectNode.objectExtension !== undefined) {
-										jQuery(this)
-											.append(jQuery('<div></div>')
-												.addClass('cssTreeviewNodeExtension')
-												.append(objectArguments.objectNode.objectExtension)
-											)
-										;
-									}
-								})
 							)
 							.append(jQuery('<div></div>')
 								.addClass('cssTreeviewNodePlaceholder')
@@ -196,41 +190,34 @@ var Treeview = {
 				
 				{
 					jQuery(this)
-						.append(jQuery('<a></a>')
-							.addClass('cssTreeviewNode')
-							.attr({
-								'href': objectArguments.objectNode.strLink,
-								'title': objectArguments.objectNode.strTitle
-							})
-							.data({
-								'intIdent': objectArguments.objectNode.intIdent,
-								'strType': objectArguments.objectNode.strType,
-								'strImage': objectArguments.objectNode.strImage,
-								'strTitle': objectArguments.objectNode.strTitle,
-								'strLink': objectArguments.objectNode.strLink
-							})
-							.append(jQuery('<div></div>')
-								.addClass('cssTreeviewNodeImage')
-								.append(jQuery('<img></img>')
-									.attr({
-										'src': objectArguments.objectNode.strImage
-									})
+						.append(jQuery('<div></div>')
+							.addClass('cssTreeviewNodeContainer')
+							.append(jQuery('<a></a>')
+								.addClass('cssTreeviewNode')
+								.attr({
+									'href': objectArguments.objectNode.strLink,
+									'title': objectArguments.objectNode.strTitle
+								})
+								.data({
+									'intIdent': objectArguments.objectNode.intIdent,
+									'strType': objectArguments.objectNode.strType,
+									'strImage': objectArguments.objectNode.strImage,
+									'strTitle': objectArguments.objectNode.strTitle,
+									'strLink': objectArguments.objectNode.strLink
+								})
+								.append(jQuery('<div></div>')
+									.addClass('cssTreeviewNodeImage')
+									.append(jQuery('<img></img>')
+										.attr({
+											'src': objectArguments.objectNode.strImage
+										})
+									)
+								)
+								.append(jQuery('<div></div>')
+									.addClass('cssTreeviewNodeTitle')
+									.text(objectArguments.objectNode.strTitle)
 								)
 							)
-							.append(jQuery('<div></div>')
-								.addClass('cssTreeviewNodeTitle')
-								.text(objectArguments.objectNode.strTitle)
-							)
-							.each(function() {
-								if (objectArguments.objectNode.objectExtension !== undefined) {
-									jQuery(this)
-										.append(jQuery('<div></div>')
-											.addClass('cssTreeviewNodeExtension')
-											.append(objectArguments.objectNode.objectExtension)
-										)
-									;
-								}
-							})
 						)
 					;
 				}
@@ -260,6 +247,7 @@ var Treeview = {
 		}
 		
 		{
+			/*
 			jQuery(window)
 				.off('click')
 				.on('click', function(eventHandle) {
@@ -272,7 +260,7 @@ var Treeview = {
 					}
 					
 					{
-						jQuery(eventHandle.target).closest('.cssTreeview').data('functionClick').call(this, {
+						jQuery(eventHandle.target).closest('.cssTreeview').data('functionClick').call(jQuery(this), {
 							'intIdent': jQuery(eventHandle.target).closest('.cssTreeviewNode').data('intIdent'),
 							'strType': jQuery(eventHandle.target).closest('.cssTreeviewNode').data('strType'),
 							'strImage': jQuery(eventHandle.target).closest('.cssTreeviewNode').data('strImage'),
@@ -282,6 +270,7 @@ var Treeview = {
 					}
 				})
 			;
+			*/
 		}
 	},
 	
