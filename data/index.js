@@ -74,6 +74,17 @@ PreferenceLayoutObserver.addObserver(function() {
 }
 
 {
+	jQuery('#idGeneral_Search').find('input')
+		.off('input')
+		.on('input', function() {
+			self.port.emit('bookmarksSearch', {
+				'strSearch': jQuery(this).val()
+			});
+		})
+	;
+}
+
+{
 	jQuery('#idGeneral_Bookmarks').find('.cssTreeview').each(function(intFor1) {
 		jQuery(this)
 			.data({
@@ -289,7 +300,9 @@ PreferenceLayoutObserver.addObserver(function() {
 											'position': 'absolute',
 											'right': '7px',
 											'top': '7px',
-											'font-size': '14px'
+											'width': '18px',
+											'font-size': '14px',
+											'text-align': 'center'
 										})
 										.data({
 											'intIdent': 0,
@@ -412,9 +425,7 @@ PreferenceLayoutObserver.addObserver(function() {
 			.triggerHandler('update')
 		;
 	});
-}
-
-{
+	
 	jQuery('#idSettings_ModalLayout').find('.cssTreeview').slice(1, 4).each(function(intFor1) {
 		jQuery(this)
 			.data({
@@ -426,10 +437,6 @@ PreferenceLayoutObserver.addObserver(function() {
 					.treeview({
 						'intIdent': 0,
 						'functionOpen': function(objectNode) {
-							if (objectNode.intIdent !== 0) {
-								return;
-							}
-							
 							var objectArguments = {
 								'strCallback': '',
 								'intIdent': 0
@@ -488,6 +495,9 @@ PreferenceLayoutObserver.addObserver(function() {
 						'functionData': function(objectNode) {
 							{
 								jQuery(this)
+									.css({
+										'cursor': 'move'
+									})
 									.append(jQuery('<div></div>')
 										.addClass('cssTreeviewNodeExtension')
 										.addClass('glyphicon')
@@ -498,7 +508,9 @@ PreferenceLayoutObserver.addObserver(function() {
 											'position': 'absolute',
 											'right': '7px',
 											'top': '7px',
-											'font-size': '14px'
+											'width': '18px',
+											'font-size': '14px',
+											'text-align': 'center'
 										})
 										.data({
 											'intIdent': 0,
@@ -545,16 +557,16 @@ PreferenceLayoutObserver.addObserver(function() {
 							}
 							
 							{
-								if (objectNode.strType === 'typeBookmark') {
+								if (objectNode.strType === 'typeFolder') {
+									jQuery(this)
+										.off('click')
+									;
+									
+								} else if (objectNode.strType === 'typeBookmark') {
 									jQuery(this)
 										.attr({
 											'href': '#'
 										})
-									;
-									
-								} else if (objectNode.strType === 'typeSeparator') {
-									jQuery(this).find('.cssTreeviewNodeExtension')
-										.remove()
 									;
 									
 								}
@@ -571,8 +583,12 @@ PreferenceLayoutObserver.addObserver(function() {
 			})
 		;
 		
-		// TODO: cursor:move
-		// TODO: bookmarks not sortable
+		jQuery(this)
+			.triggerHandler('update')
+		;
+	});
+	
+	jQuery('#idSettings_ModalLayout').find('.cssTreeview').slice(1, 4).each(function(intFor1) {
 		jQuery(this)
 			.sortable({
 				'group': 'Index_ModalConfigure',
@@ -621,10 +637,6 @@ PreferenceLayoutObserver.addObserver(function() {
 					}
 				}
 			})
-		;
-		
-		jQuery(this)
-			.triggerHandler('update')
 		;
 	});
 }

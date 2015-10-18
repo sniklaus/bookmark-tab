@@ -94,7 +94,7 @@ var Bookmarks = {
 								'strType': 'typeBookmark',
 								'strImage': 'http://grabicon.com/icon?domain=' + PlacesUtils.bookmarks.getBookmarkURI(intIdent).spec + '&size=16',
 								'strTitle': PlacesUtils.bookmarks.getItemTitle(intIdent),
-								'strLink': PlacesUtils.bookmarks.getBookmarkURI(intIdent)
+								'strLink': PlacesUtils.bookmarks.getBookmarkURI(intIdent).spec
 							});
 							
 						} else if (PlacesUtils.bookmarks.getItemType(intIdent) === PlacesUtils.bookmarks.TYPE_SEPARATOR) {
@@ -170,42 +170,42 @@ var Bookmarks = {
 					
 				} else if (objectArguments.intIdent !== 0) {
 					{
-						var nodeFolder = PlacesUtils.getFolderContents(objectArguments.intIdent);
+						var objectFolder = PlacesUtils.getFolderContents(objectArguments.intIdent);
 						
-						for (var intFor1 = 0; intFor1 < nodeFolder.root.childCount; intFor1 += 1) {
-							var nodeHandle = nodeFolder.root.getChild(intFor1);
+						for (var intFor1 = 0; intFor1 < objectFolder.root.childCount; intFor1 += 1) {
+							var objectNode = objectFolder.root.getChild(intFor1);
 							
 							{
-								if (PlacesUtils.nodeIsFolder(nodeHandle) === true) {
+								if (PlacesUtils.nodeIsFolder(objectNode) === true) {
 									Lookup_resultHandle.push({
-										'intIdent': nodeHandle.itemId,
-										'intTimestamp': nodeHandle.lastModified,
+										'intIdent': objectNode.itemId,
+										'intTimestamp': objectNode.lastModified,
 										'intParent': objectArguments.intIdent,
 										'strType': 'typeFolder',
 										'strImage': 'chrome://bookrect/content/images/folder.png',
-										'strTitle': nodeHandle.title,
+										'strTitle': objectNode.title,
 										'strLink': '',
 										'strTags': '',
 										'intAccesscount': 0
 									});
 									
-								} else if (PlacesUtils.nodeIsBookmark(nodeHandle) === true) {
+								} else if (PlacesUtils.nodeIsBookmark(objectNode) === true) {
 									Lookup_resultHandle.push({
-										'intIdent': nodeHandle.itemId,
-										'intTimestamp': nodeHandle.lastModified,
+										'intIdent': objectNode.itemId,
+										'intTimestamp': objectNode.lastModified,
 										'intParent': objectArguments.intIdent,
 										'strType': 'typeBookmark',
-										'strImage': 'http://grabicon.com/icon?domain=' + nodeHandle.uri + '&size=16',
-										'strTitle': nodeHandle.title,
-										'strLink': nodeHandle.uri,
-										'strTags': nodeHandle.tags,
-										'intAccesscount': nodeHandle.accessCount
+										'strImage': 'http://grabicon.com/icon?domain=' + objectNode.uri + '&size=16',
+										'strTitle': objectNode.title,
+										'strLink': objectNode.uri,
+										'strTags': objectNode.tags,
+										'intAccesscount': objectNode.accessCount
 									});
 									
-								} else if (PlacesUtils.nodeIsSeparator(nodeHandle) === true) {
+								} else if (PlacesUtils.nodeIsSeparator(objectNode) === true) {
 									Lookup_resultHandle.push({
-										'intIdent': nodeHandle.itemId,
-										'intTimestamp': nodeHandle.lastModified,
+										'intIdent': objectNode.itemId,
+										'intTimestamp': objectNode.lastModified,
 										'intParent': objectArguments.intIdent,
 										'strType': 'typeSeparator',
 										'strImage': '',
@@ -219,9 +219,9 @@ var Bookmarks = {
 							}
 							
 							{
-								if (PlacesUtils.nodeIsBookmark(nodeHandle) === true) {
-									if (nodeHandle.icon.indexOf('moz-anno:favicon:') !== -1) {
-										Lookup_resultHandle[Lookup_resultHandle.length - 1].strImage = nodeHandle.icon;
+								if (PlacesUtils.nodeIsBookmark(objectNode) === true) {
+									if (objectNode.icon.indexOf('moz-anno:favicon:') !== -1) {
+										Lookup_resultHandle[Lookup_resultHandle.length - 1].strImage = objectNode.icon;
 									}
 								}
 							}
@@ -241,16 +241,16 @@ var Bookmarks = {
 	},
 	
 	search: function(objectArguments, functionCallback) {
-		// https://developer.mozilla.org/en-US/docs/Mozilla/Tech/Places/Retrieving_part_of_the_bookmarks_tree
-		// var query1 = historyService.getNewQuery();
-		// query1.searchTerms = "firefox";
-		
-		requireBookmarks.search([{
-			'url': objectArguments.strSearch
+		requireBookmarks.search({
+			'query': objectArguments.strSearch
 		}, {
-			'tags': objectArguments.strSearch
-		}]).on('end', function(resultHandle) {
-			
+			'count': 10,
+			'sort': 'title',
+			'descending': false
+		}).on('end', function(resultHandle) {
+			for (var intFor1 = 0; intFor1 < resultHandle.length; intFor1 += 1) {
+				console.log(resultHandle[intFor1]);
+			}
 		});
 	}
 };
@@ -270,10 +270,11 @@ exports.main = function(optionsHandle) {
 		} else if (optionsHandle.loadReason === 'downgrade') {
 			NewTabURL.override('about:bookrect');
 			
+		} else if (requirePreferences.get('extensions.BookRect.Advanced.boolAutostart') === true) {
+			NewTabURL.override('about:bookrect');
+			
 		}
-	}
-	
-	{
+		
 		if (NewTabURL.get() === 'about:bookrect') {
 			requirePreferences.set('extensions.BookRect.Advanced.boolAutostart', true);
 			
