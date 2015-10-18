@@ -40,7 +40,11 @@ self.port.on('bookmarksPeek', function(objectArguments) {
 });
 
 self.port.on('bookmarksSearch', function(objectArguments) {
-	
+	jQuery('#idGeneral_Search').find('.cssTreeview')
+		.treeviewData({
+			'objectNode': objectArguments.resultHandle
+		})
+	;
 });
 
 PreferenceAdvancedObserver.addObserver(function() {
@@ -81,6 +85,64 @@ PreferenceLayoutObserver.addObserver(function() {
 				'strSearch': jQuery(this).val()
 			});
 		})
+	;
+}
+
+{
+	jQuery('#idGeneral_Search').find('.cssTreeview')
+		.off('update')
+		.on('update', function() {
+			jQuery(this)
+				.treeview({
+					'intIdent': 0,
+					'functionOpen': function(objectNode) {
+						
+					},
+					'functionData': function(objectNode) {
+						
+					},
+					'functionClose': function(objectNode) {
+						
+					},
+					'functionClick': function(objectNode, eventHandle) {
+						if (eventHandle.which !== 1) {
+							if (eventHandle.which !== 2) {
+								return;
+							}
+						}
+						
+						{
+							eventHandle.stopPropagation();
+							
+							eventHandle.preventDefault();
+						}
+						
+						var objectArguments = {
+							'strTab': '',
+							'strLink': objectNode.strLink
+						};
+						
+						{
+							if (eventHandle.which === 1) {
+								objectArguments.strTab = 'tabCurrent';
+								
+							} else if (eventHandle.which === 2) {
+								objectArguments.strTab = 'tabNew';
+								
+							}
+						}
+						
+						{
+							self.port.emit('bookmarksNavigate', objectArguments);
+						}
+					}
+				})
+			;
+		})
+	;
+	
+	jQuery('#idGeneral_Search').find('.cssTreeview')
+		.triggerHandler('update')
 	;
 }
 
@@ -291,25 +353,8 @@ PreferenceLayoutObserver.addObserver(function() {
 							{
 								jQuery(this)
 									.append(jQuery('<div></div>')
-										.addClass('cssTreeviewNodeExtension')
 										.addClass('glyphicon')
 										.addClass('glyphicon-plus')
-										.css({
-											'cursor': 'alias',
-											'display': 'block',
-											'position': 'absolute',
-											'right': '7px',
-											'top': '7px',
-											'width': '18px',
-											'font-size': '14px',
-											'text-align': 'center'
-										})
-										.data({
-											'intIdent': 0,
-											'intColumn': 0,
-											'intPosition': 0,
-											'intItem': objectNode.intIdent
-										})
 										.off('click')
 										.on('click', function(eventHandle) {
 											{
@@ -329,7 +374,7 @@ PreferenceLayoutObserver.addObserver(function() {
 													'SELECT * ' +
 													'FROM   PreferenceLayout ' +
 													'WHERE  intItem = :PARAM0 ',
-													[ String(jQuery(this).data('intItem')) ]
+													[ String(jQuery(this).closest('.cssTreeviewNodeContainer').data('intIdent')) ]
 												);
 												
 												PreferenceLayout.selectNext();
@@ -362,18 +407,18 @@ PreferenceLayoutObserver.addObserver(function() {
 												PreferenceLayout.selectNext();
 												
 												if (PreferenceLayout.intIdent === 0) {
-													PreferenceLayout.intIdent = jQuery(this).data('intIdent');
-													PreferenceLayout.intColumn = jQuery(this).data('intColumn');
+													PreferenceLayout.intIdent = 0;
+													PreferenceLayout.intColumn = 0;
 													PreferenceLayout.intPosition = 0;
-													PreferenceLayout.intItem = jQuery(this).data('intItem');
+													PreferenceLayout.intItem = jQuery(this).closest('.cssTreeviewNodeContainer').data('intIdent');
 													
 													PreferenceLayout.create();
 													
 												} else if (PreferenceLayout.intIdent !== 0) {
-													PreferenceLayout.intIdent = jQuery(this).data('intIdent');
-													PreferenceLayout.intColumn = jQuery(this).data('intColumn');
+													PreferenceLayout.intIdent = 0;
+													PreferenceLayout.intColumn = 0;
 													PreferenceLayout.intPosition = PreferenceLayout.intPosition + 1;
-													PreferenceLayout.intItem = jQuery(this).data('intItem');
+													PreferenceLayout.intItem = jQuery(this).closest('.cssTreeviewNodeContainer').data('intIdent');
 													
 													PreferenceLayout.create();
 													
@@ -495,29 +540,9 @@ PreferenceLayoutObserver.addObserver(function() {
 						'functionData': function(objectNode) {
 							{
 								jQuery(this)
-									.css({
-										'cursor': 'move'
-									})
 									.append(jQuery('<div></div>')
-										.addClass('cssTreeviewNodeExtension')
 										.addClass('glyphicon')
 										.addClass('glyphicon-minus')
-										.css({
-											'cursor': 'alias',
-											'display': 'block',
-											'position': 'absolute',
-											'right': '7px',
-											'top': '7px',
-											'width': '18px',
-											'font-size': '14px',
-											'text-align': 'center'
-										})
-										.data({
-											'intIdent': 0,
-											'intColumn': 0,
-											'intPosition': 0,
-											'intItem': objectNode.intIdent
-										})
 										.off('click')
 										.on('click', function(eventHandle) {
 											{
@@ -533,7 +558,7 @@ PreferenceLayoutObserver.addObserver(function() {
 													'SELECT * ' +
 													'FROM   PreferenceLayout ' +
 													'WHERE  intItem = :PARAM0 ',
-													[ String(jQuery(this).data('intItem')) ]
+													[ String(jQuery(this).closest('.cssTreeviewNodeContainer').data('intIdent')) ]
 												);
 												
 												PreferenceLayout.selectNext();
@@ -619,7 +644,7 @@ PreferenceLayoutObserver.addObserver(function() {
 								PreferenceLayout.intIdent = 0;
 								PreferenceLayout.intColumn = intFor1;
 								PreferenceLayout.intPosition = intFor2;
-								PreferenceLayout.intItem = jQuery(this).find('.cssTreeviewNodeExtension').data('intItem');
+								PreferenceLayout.intItem = jQuery(this).data('intIdent');
 								
 								PreferenceLayout.create();
 							});

@@ -117,143 +117,171 @@
 				background-color:#FFFFFF;
 			}
 			
-			.cssSearchContainer {
+			#idGeneral_Search {
 				margin:0px 0px 10px 0px;
 				border:none;
 				border-spacing:0px;
 				padding:0px;
 			}
 			
-			.cssSearch {
-				cursor:pointer;
+			#idGeneral_Bookmarks table {
+				width:100%;
 				
+				table-layout:fixed;
+			}
+			
+			#idGeneral_Bookmarks table > tbody > tr > td {
+				width:33%;
+				
+				vertical-align:top;
+			}
+			
+			#idSettings_Layout {
 				display:block;
-				position:relative;
+				position:fixed;
+				
+				right:15px;
+				bottom:15px;
+				
+				z-index:10000;
+			}
+			
+			#idSettings_ModalLayout {
+				max-width:90%;
+			}
+			
+			#idSettings_ModalLayout table {
+				width:100%;
+				
+				table-layout:fixed;
+			}
+			
+			#idSettings_ModalLayout table > tbody > tr > td {
+				width:25%;
 				
 				margin:0px;
 				border:none;
 				border-spacing:0px;
-				padding:6px;
+				padding:10px;
 				
-				background-color:#FFFFFF;
+				vertical-align:top;
 			}
 			
-			.cssSearchHover {
-				background-color:#CCCCCC;
+			#idSettings_ModalLayout table > tbody > tr > td > a.btn {
+				cursor:default;
 			}
 			
-			.cssSearchImage {
+			#idSettings_ModalLayout table > tbody > tr > td > div.cssTreeview {
+				height:400px;
+				
+				margin:10px 0px 0px 0px;
+				border:none;
+				border-spacing:0px;
+				padding:0px 10px 0px 0px;
+				
+				overflow-y:scroll;
+			}
+			
+			#idSettings_ModalLayout table > tbody > tr > td:nth-of-type(1) > div.cssTreeview .cssTreeviewNode {
+				cursor:pointer;
+			}
+			
+			#idSettings_ModalLayout table > tbody > tr > td > div.cssTreeview .cssTreeviewNode {
+				cursor:move;
+			}
+			
+			#idSettings_ModalLayout table > tbody > tr > td > div.cssTreeview .cssTreeviewNode > div.glyphicon {
+				cursor:alias;
+				
 				display:block;
 				position:absolute;
 				
-				top:11px;
-				left:6px;
-			}
-			
-			.cssSearchInput {
-				width:320px;
+				right:7px;
+				top:7px;
 				
-				margin:2px 0px 0px 26px;
-				border:1px solid #000000;
-				border-spacing:0px;
-				padding:2px 4px 2px 4px;
+				width:18px;
 				
-				color:#000000;
-				font-size:12px;
-				font-weight:normal;
-				font-family:Tahoma;
-				text-decoration:none;
-				text-align:left;
-				line-height:1;
-				white-space:normal;
-			}
-			
-			.cssSearchTree {
-				margin:0px 0px 0px 28px;
-				border:none;
-				border-spacing:0px;
-				padding:0px;
+				font-size:14px;
+				text-align:center;
 			}
 		</style>
 	</head>
 	<body>
 		<div id="idGeneral_Search">
 			<input class="form-control" type="text" placeholder="@string/General_Search" />
+			
+			<div class="cssTreeview">
+			
+			</div>
 		</div>
 		
 		<div id="idGeneral_Bookmarks">
-			<table cellpadding="0" cellspacing="0" border="0" style="width:100%; table-layout:fixed;">
-				<tr>
-					<td style="width:33%; vertical-align:top;">
-						<div class="cssTreeview">
-						
-						</div>
-					</td>
-					<td style="width:33%; vertical-align:top;">
-						<div class="cssTreeview">
-						
-						</div>
-					</td>
-					<td style="width:33%; vertical-align:top;">
-						<div class="cssTreeview">
-						
-						</div>
-					</td>
-				</tr>
+			<table cellpadding="0" cellspacing="0" border="0">
+				<tbody>
+					<tr>
+						<td>
+							<div class="cssTreeview">
+							
+							</div>
+						</td>
+						<td>
+							<div class="cssTreeview">
+							
+							</div>
+						</td>
+						<td>
+							<div class="cssTreeview">
+							
+							</div>
+						</td>
+					</tr>
+				</tbody>
 			</table>
 		</div>
 		
-		<div class="btn btn-primary" id="idSettings_Layout" style="position:fixed; right:15px; bottom:15px; z-index:10000;">
+		<div class="btn btn-primary" id="idSettings_Layout">
 			<span class="glyphicon glyphicon-cog"></span>
 		</div>
 		
 		<div class="modal-overlay"></div>
-		<div class="modal-dialog" id="idSettings_ModalLayout" style="max-width:90%;">
+		<div class="modal-dialog" id="idSettings_ModalLayout">
 			<div class="panel panel-default modal-content">
 				<div class="panel-body">
-					<table cellpadding="0" cellspacing="0" border="0" style="width:100%; table-layout:fixed;">
+					<table cellpadding="0" cellspacing="0" border="0">
 						<tr>
-							<td style="width:25%; padding:10px; vertical-align:top;">
-								<a class="btn btn-primary" style="cursor:default;">
+							<td>
+								<a class="btn btn-primary">
 									@string/Settings_ModalLayout_Available
 								</a>
 								
-								<div style="height:10px;"></div>
-								
-								<div class="cssTreeview" style="height:400px; padding:0px 10px 0px 0px; overflow-y:scroll;">
+								<div class="cssTreeview">
 									
 								</div>
 							</td>
-							<td style="width:25%; padding:10px; vertical-align:top;">
-								<a class="btn btn-primary" style="cursor:default;">
+							<td>
+								<a class="btn btn-primary">
 									@string/Settings_ModalLayout_First
 								</a>
 								
-								<div style="height:10px;"></div>
-								
-								<div class="cssTreeview" style="height:400px; padding:0px 10px 0px 0px; overflow-y:scroll;">
+								<div class="cssTreeview">
 									
 								</div>
 							</td>
-							<td style="width:25%; padding:10px; vertical-align:top;">
-								<a class="btn btn-primary" style="cursor:default;">
+							<td>
+								<a class="btn btn-primary">
 									@string/Settings_ModalLayout_Second
 								</a>
 								
-								<div style="height:10px;"></div>
-								
-								<div class="cssTreeview" style="height:400px; padding:0px 10px 0px 0px; overflow-y:scroll;">
+								<div class="cssTreeview">
 									
 								</div>
 							</td>
-							<td style="width:25%; padding:10px; vertical-align:top;">
-								<a class="btn btn-primary" style="cursor:default;">
+							<td>
+								<a class="btn btn-primary">
 									@string/Settings_ModalLayout_Third
 								</a>
 								
-								<div style="height:10px;"></div>
-								
-								<div class="cssTreeview" style="height:400px; padding:0px 10px 0px 0px; overflow-y:scroll;">
+								<div class="cssTreeview">
 									
 								</div>
 							</td>

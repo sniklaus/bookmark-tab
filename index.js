@@ -241,17 +241,36 @@ var Bookmarks = {
 	},
 	
 	search: function(objectArguments, functionCallback) {
-		requireBookmarks.search({
-			'query': objectArguments.strSearch
-		}, {
-			'count': 10,
-			'sort': 'title',
-			'descending': false
-		}).on('end', function(resultHandle) {
-			for (var intFor1 = 0; intFor1 < resultHandle.length; intFor1 += 1) {
-				console.log(resultHandle[intFor1]);
-			}
-		});
+		var Lookup_resultHandle = [];
+		
+		var functionLookup = function() {
+			requireBookmarks.search({
+				'query': objectArguments.strSearch
+			}, {
+				'count': 10,
+				'sort': 'title',
+				'descending': false
+			}).on('end', function(resultHandle) {
+				{
+					for (var intFor1 = 0; intFor1 < resultHandle.length; intFor1 += 1) {
+						Lookup_resultHandle.push({
+							'intIdent': resultHandle[intFor1].id,
+							'strType': 'typeBookmark',
+							'strImage': 'http://grabicon.com/icon?domain=' + resultHandle[intFor1].url + '&size=16',
+							'strTitle': resultHandle[intFor1].title,
+							'strLink': resultHandle[intFor1].url
+						});
+					}
+				}
+				
+				functionCallback({
+					'strCallback': objectArguments.strCallback,
+					'resultHandle': Lookup_resultHandle
+				});
+			});
+		};
+		
+		functionLookup();
 	}
 };
 Bookmarks.init();

@@ -50,7 +50,7 @@
 	top:7px;
 }
 
-.cssTreeviewNodeImage img {
+.cssTreeviewNodeImage > img {
 	width:16px;
 	height:16px;
 }
@@ -69,10 +69,6 @@
 	text-align:left;
 	line-height:1;
 	white-space:normal;
-}
-
-.cssTreeviewNodeExtension {
-
 }
 
 .cssTreeviewNodePlaceholder {
