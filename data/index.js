@@ -39,6 +39,14 @@ self.port.on('bookmarksPeek', function(objectArguments) {
 	;
 });
 
+self.port.on('bookmarksFavicon', function(objectArguments) {
+	jQuery('#' + objectArguments.strCallback).find('.cssTreeviewNodeImage').find('img')
+		.attr({
+			'src': objectArguments.strFavicon
+		})
+	;
+});
+
 self.port.on('bookmarksSearch', function(objectArguments) {
 	jQuery('#idGeneral_Search').find('.cssTreeview')
 		.treeviewData({
@@ -81,9 +89,19 @@ PreferenceLayoutObserver.addObserver(function() {
 	jQuery('#idGeneral_Search').find('input')
 		.off('input')
 		.on('input', function() {
-			self.port.emit('bookmarksSearch', {
-				'strSearch': jQuery(this).val()
-			});
+			if (jQuery(this).val().length < 2) {
+				jQuery('#idGeneral_Search').find('.cssTreeview')
+					.treeviewData({
+						'objectNode': []
+					})
+				;
+				
+			} else if (jQuery(this).val().length >= 2) {
+				self.port.emit('bookmarksSearch', {
+					'strSearch': jQuery(this).val()
+				});
+				
+			}
 		})
 	;
 }
@@ -99,7 +117,46 @@ PreferenceLayoutObserver.addObserver(function() {
 						
 					},
 					'functionData': function(objectNode) {
-						
+						{
+							if (objectNode.strType === 'typeBookmark') {
+								if (objectNode.strImage === 'chrome://bookrect/content/images/bookmark.png') {
+									var objectArguments = {
+										'strCallback': '',
+										'strLink': ''
+									};
+									
+									{
+										objectArguments.strCallback += Math.random().toString(36).substr(2);
+										
+										objectArguments.strCallback += Math.random().toString(36).substr(2);
+										
+										objectArguments.strCallback += Math.random().toString(36).substr(2);
+									}
+									
+									{
+										jQuery(this)
+											.attr({
+												'id': objectArguments.strCallback
+											})
+										;
+										
+										jQuery(this).find('.cssTreeviewNodeImage').find('img')
+											.attr({
+												'onerror': 'this.src = "chrome://bookrect/content/images/bookmark.png";'
+											})
+										;
+									}
+									
+									{
+										objectArguments.strLink = objectNode.strLink;
+									}
+									
+									{
+										self.port.emit('bookmarksFavicon', objectArguments);
+									}
+								}
+							}
+						}
 					},
 					'functionClose': function(objectNode) {
 						
@@ -250,7 +307,46 @@ PreferenceLayoutObserver.addObserver(function() {
 							}
 						},
 						'functionData': function(objectNode) {
-							
+							{
+								if (objectNode.strType === 'typeBookmark') {
+									if (objectNode.strImage === 'chrome://bookrect/content/images/bookmark.png') {
+										var objectArguments = {
+											'strCallback': '',
+											'strLink': ''
+										};
+										
+										{
+											objectArguments.strCallback += Math.random().toString(36).substr(2);
+											
+											objectArguments.strCallback += Math.random().toString(36).substr(2);
+											
+											objectArguments.strCallback += Math.random().toString(36).substr(2);
+										}
+										
+										{
+											jQuery(this)
+												.attr({
+													'id': objectArguments.strCallback
+												})
+											;
+											
+											jQuery(this).find('.cssTreeviewNodeImage').find('img')
+												.attr({
+													'onerror': 'this.src = "chrome://bookrect/content/images/bookmark.png";'
+												})
+											;
+										}
+										
+										{
+											objectArguments.strLink = objectNode.strLink;
+										}
+										
+										{
+											self.port.emit('bookmarksFavicon', objectArguments);
+										}
+									}
+								}
+							}
 						},
 						'functionClose': function(objectNode) {
 							
@@ -351,92 +447,44 @@ PreferenceLayoutObserver.addObserver(function() {
 						},
 						'functionData': function(objectNode) {
 							{
-								jQuery(this)
-									.append(jQuery('<div></div>')
-										.addClass('glyphicon')
-										.addClass('glyphicon-plus')
-										.off('click')
-										.on('click', function(eventHandle) {
-											{
-												eventHandle.stopPropagation();
-												
-												eventHandle.preventDefault();
-											}
+								if (objectNode.strType === 'typeBookmark') {
+									if (objectNode.strImage === 'chrome://bookrect/content/images/bookmark.png') {
+										var objectArguments = {
+											'strCallback': '',
+											'strLink': ''
+										};
+										
+										{
+											objectArguments.strCallback += Math.random().toString(36).substr(2);
 											
-											{
-												PreferenceLayoutObserver.boolEnabled = false;
-											}
+											objectArguments.strCallback += Math.random().toString(36).substr(2);
 											
-											{
-												PreferenceLayout.acquire();
-												
-												PreferenceLayout.selectOpen(
-													'SELECT * ' +
-													'FROM   PreferenceLayout ' +
-													'WHERE  intItem = :PARAM0 ',
-													[ String(jQuery(this).closest('.cssTreeviewNodeContainer').data('intIdent')) ]
-												);
-												
-												PreferenceLayout.selectNext();
-												
-												if (PreferenceLayout.intIdent !== 0) {
-													PreferenceLayout.intIdent = PreferenceLayout.intIdent;
-													PreferenceLayout.intColumn = PreferenceLayout.intColumn;
-													PreferenceLayout.intPosition = PreferenceLayout.intPosition;
-													PreferenceLayout.intItem = PreferenceLayout.intItem;
-													
-													PreferenceLayout.remove();
-												}
-												
-												PreferenceLayout.selectClose();
-												
-												PreferenceLayout.release();
-											}
+											objectArguments.strCallback += Math.random().toString(36).substr(2);
+										}
+										
+										{
+											jQuery(this)
+												.attr({
+													'id': objectArguments.strCallback
+												})
+											;
 											
-											{
-												PreferenceLayout.acquire();
-												
-												PreferenceLayout.selectOpen(
-													'SELECT   * ' +
-													'FROM     PreferenceLayout ' +
-													'WHERE    intColumn = 0 ' +
-													'ORDER BY intPosition DESC ',
-													[]
-												);
-												
-												PreferenceLayout.selectNext();
-												
-												if (PreferenceLayout.intIdent === 0) {
-													PreferenceLayout.intIdent = 0;
-													PreferenceLayout.intColumn = 0;
-													PreferenceLayout.intPosition = 0;
-													PreferenceLayout.intItem = jQuery(this).closest('.cssTreeviewNodeContainer').data('intIdent');
-													
-													PreferenceLayout.create();
-													
-												} else if (PreferenceLayout.intIdent !== 0) {
-													PreferenceLayout.intIdent = 0;
-													PreferenceLayout.intColumn = 0;
-													PreferenceLayout.intPosition = PreferenceLayout.intPosition + 1;
-													PreferenceLayout.intItem = jQuery(this).closest('.cssTreeviewNodeContainer').data('intIdent');
-													
-													PreferenceLayout.create();
-													
-												}
-												
-												PreferenceLayout.selectClose();
-												
-												PreferenceLayout.release();
-											}
-											
-											{
-												PreferenceLayoutObserver.boolEnabled = true;
-												
-												PreferenceLayoutObserver.update();
-											}
-										})
-									)
-								;
+											jQuery(this).find('.cssTreeviewNodeImage').find('img')
+												.attr({
+													'onerror': 'this.src = "chrome://bookrect/content/images/bookmark.png";'
+												})
+											;
+										}
+										
+										{
+											objectArguments.strLink = objectNode.strLink;
+										}
+										
+										{
+											self.port.emit('bookmarksFavicon', objectArguments);
+										}
+									}
+								}
 							}
 							
 							{
@@ -446,12 +494,97 @@ PreferenceLayoutObserver.addObserver(function() {
 											'href': '#'
 										})
 									;
-									
-								} else if (objectNode.strType === 'typeSeparator') {
-									jQuery(this).find('.cssTreeviewNodeExtension')
-										.remove()
+								}
+							}
+							
+							{
+								if (objectNode.strType !== 'typeSeparator') {
+									jQuery(this)
+										.append(jQuery('<div></div>')
+											.addClass('glyphicon')
+											.addClass('glyphicon-plus')
+											.off('click')
+											.on('click', function(eventHandle) {
+												{
+													eventHandle.stopPropagation();
+													
+													eventHandle.preventDefault();
+												}
+												
+												{
+													PreferenceLayoutObserver.boolEnabled = false;
+												}
+												
+												{
+													PreferenceLayout.acquire();
+													
+													PreferenceLayout.selectOpen(
+														'SELECT * ' +
+														'FROM   PreferenceLayout ' +
+														'WHERE  intItem = :PARAM0 ',
+														[ String(jQuery(this).closest('.cssTreeviewNodeContainer').data('intIdent')) ]
+													);
+													
+													PreferenceLayout.selectNext();
+													
+													if (PreferenceLayout.intIdent !== 0) {
+														PreferenceLayout.intIdent = PreferenceLayout.intIdent;
+														PreferenceLayout.intColumn = PreferenceLayout.intColumn;
+														PreferenceLayout.intPosition = PreferenceLayout.intPosition;
+														PreferenceLayout.intItem = PreferenceLayout.intItem;
+														
+														PreferenceLayout.remove();
+													}
+													
+													PreferenceLayout.selectClose();
+													
+													PreferenceLayout.release();
+												}
+												
+												{
+													PreferenceLayout.acquire();
+													
+													PreferenceLayout.selectOpen(
+														'SELECT   * ' +
+														'FROM     PreferenceLayout ' +
+														'WHERE    intColumn = 0 ' +
+														'ORDER BY intPosition DESC ',
+														[]
+													);
+													
+													PreferenceLayout.selectNext();
+													
+													if (PreferenceLayout.intIdent === 0) {
+														PreferenceLayout.intIdent = 0;
+														PreferenceLayout.intColumn = 0;
+														PreferenceLayout.intPosition = 0;
+														PreferenceLayout.intItem = jQuery(this).closest('.cssTreeviewNodeContainer').data('intIdent');
+														
+														PreferenceLayout.create();
+														
+													} else if (PreferenceLayout.intIdent !== 0) {
+														PreferenceLayout.intIdent = 0;
+														PreferenceLayout.intColumn = 0;
+														PreferenceLayout.intPosition = PreferenceLayout.intPosition + 1;
+														PreferenceLayout.intItem = jQuery(this).closest('.cssTreeviewNodeContainer').data('intIdent');
+														
+														PreferenceLayout.create();
+														
+													}
+													
+													PreferenceLayout.selectClose();
+													
+													PreferenceLayout.release();
+												}
+												
+												{
+													PreferenceLayoutObserver.boolEnabled = true;
+													
+													PreferenceLayoutObserver.update();
+												}
+											})
+										)
 									;
-									
 								}
 							}
 						},
@@ -539,46 +672,44 @@ PreferenceLayoutObserver.addObserver(function() {
 						},
 						'functionData': function(objectNode) {
 							{
-								jQuery(this)
-									.append(jQuery('<div></div>')
-										.addClass('glyphicon')
-										.addClass('glyphicon-minus')
-										.off('click')
-										.on('click', function(eventHandle) {
-											{
-												eventHandle.stopPropagation();
-												
-												eventHandle.preventDefault();
-											}
+								if (objectNode.strType === 'typeBookmark') {
+									if (objectNode.strImage === 'chrome://bookrect/content/images/bookmark.png') {
+										var objectArguments = {
+											'strCallback': '',
+											'strLink': ''
+										};
+										
+										{
+											objectArguments.strCallback += Math.random().toString(36).substr(2);
 											
-											{
-												PreferenceLayout.acquire();
-												
-												PreferenceLayout.selectOpen(
-													'SELECT * ' +
-													'FROM   PreferenceLayout ' +
-													'WHERE  intItem = :PARAM0 ',
-													[ String(jQuery(this).closest('.cssTreeviewNodeContainer').data('intIdent')) ]
-												);
-												
-												PreferenceLayout.selectNext();
-												
-												if (PreferenceLayout.intIdent !== 0) {
-													PreferenceLayout.intIdent = PreferenceLayout.intIdent;
-													PreferenceLayout.intColumn = PreferenceLayout.intColumn;
-													PreferenceLayout.intPosition = PreferenceLayout.intPosition;
-													PreferenceLayout.intItem = PreferenceLayout.intItem;
-													
-													PreferenceLayout.remove();
-												}
-												
-												PreferenceLayout.selectClose();
-												
-												PreferenceLayout.release();
-											}
-										})
-									)
-								;
+											objectArguments.strCallback += Math.random().toString(36).substr(2);
+											
+											objectArguments.strCallback += Math.random().toString(36).substr(2);
+										}
+										
+										{
+											jQuery(this)
+												.attr({
+													'id': objectArguments.strCallback
+												})
+											;
+											
+											jQuery(this).find('.cssTreeviewNodeImage').find('img')
+												.attr({
+													'onerror': 'this.src = "chrome://bookrect/content/images/bookmark.png";'
+												})
+											;
+										}
+										
+										{
+											objectArguments.strLink = objectNode.strLink;
+										}
+										
+										{
+											self.port.emit('bookmarksFavicon', objectArguments);
+										}
+									}
+								}
 							}
 							
 							{
@@ -594,6 +725,51 @@ PreferenceLayoutObserver.addObserver(function() {
 										})
 									;
 									
+								}
+							}
+							
+							{
+								if (objectNode.strType !== 'typeSeparator') {
+									jQuery(this)
+										.append(jQuery('<div></div>')
+											.addClass('glyphicon')
+											.addClass('glyphicon-minus')
+											.off('click')
+											.on('click', function(eventHandle) {
+												{
+													eventHandle.stopPropagation();
+													
+													eventHandle.preventDefault();
+												}
+												
+												{
+													PreferenceLayout.acquire();
+													
+													PreferenceLayout.selectOpen(
+														'SELECT * ' +
+														'FROM   PreferenceLayout ' +
+														'WHERE  intItem = :PARAM0 ',
+														[ String(jQuery(this).closest('.cssTreeviewNodeContainer').data('intIdent')) ]
+													);
+													
+													PreferenceLayout.selectNext();
+													
+													if (PreferenceLayout.intIdent !== 0) {
+														PreferenceLayout.intIdent = PreferenceLayout.intIdent;
+														PreferenceLayout.intColumn = PreferenceLayout.intColumn;
+														PreferenceLayout.intPosition = PreferenceLayout.intPosition;
+														PreferenceLayout.intItem = PreferenceLayout.intItem;
+														
+														PreferenceLayout.remove();
+													}
+													
+													PreferenceLayout.selectClose();
+													
+													PreferenceLayout.release();
+												}
+											})
+										)
+									;
 								}
 							}
 						},

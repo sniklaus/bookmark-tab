@@ -22,9 +22,3 @@ attribute {
 	strType:bool
 	strDefault:'false'
 }
-
-attribute {
-	strName:'boolSubfolders'
-	strType:bool
-	strDefault:'true'
-}

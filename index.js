@@ -2,6 +2,7 @@
 
 var requireBookmarks = require('sdk/places/bookmarks');
 var requireChrome = require('chrome');
+var requireFavicon = require('sdk/places/favicon');
 var requireHeritage = require('sdk/core/heritage');
 var requirePagemod = require('sdk/page-mod');
 var requirePanel = require('sdk/panel');
@@ -40,6 +41,12 @@ var Bookmarks = {
 		bindHandle.port.on('bookmarksList', function(objectArguments) {
 			Bookmarks.list.call(bindHandle, objectArguments, function(objectArguments) {
 				bindHandle.port.emit('bookmarksList', objectArguments);
+			});
+		});
+		
+		bindHandle.port.on('bookmarksFavicon', function(objectArguments) {
+			Bookmarks.favicon.call(bindHandle, objectArguments, function(objectArguments) {
+				bindHandle.port.emit('bookmarksFavicon', objectArguments);
 			});
 		});
 		
@@ -92,7 +99,7 @@ var Bookmarks = {
 							Lookup_resultHandle.push({
 								'intIdent': intIdent,
 								'strType': 'typeBookmark',
-								'strImage': 'http://grabicon.com/icon?domain=' + PlacesUtils.bookmarks.getBookmarkURI(intIdent).spec + '&size=16',
+								'strImage': 'chrome://bookrect/content/images/bookmark.png',
 								'strTitle': PlacesUtils.bookmarks.getItemTitle(intIdent),
 								'strLink': PlacesUtils.bookmarks.getBookmarkURI(intIdent).spec
 							});
@@ -195,7 +202,7 @@ var Bookmarks = {
 										'intTimestamp': objectNode.lastModified,
 										'intParent': objectArguments.intIdent,
 										'strType': 'typeBookmark',
-										'strImage': 'http://grabicon.com/icon?domain=' + objectNode.uri + '&size=16',
+										'strImage': 'chrome://bookrect/content/images/bookmark.png',
 										'strTitle': objectNode.title,
 										'strLink': objectNode.uri,
 										'strTags': objectNode.tags,
@@ -240,6 +247,26 @@ var Bookmarks = {
 		functionLookup();
 	},
 	
+	favicon: function(objectArguments, functionCallback) {
+		var Lookup_resultHandle = [];
+		
+		var functionLookup = function() {
+			requireFavicon.getFavicon(objectArguments.strLink)
+				.then(function(strFavicon) {
+					if (strFavicon !== null) {
+						functionCallback({
+							'strCallback': objectArguments.strCallback,
+							'strFavicon': strFavicon
+						});
+					}
+				})
+				.catch(requireChrome.Cu.reportError)
+			;
+		};
+		
+		functionLookup();
+	},
+	
 	search: function(objectArguments, functionCallback) {
 		var Lookup_resultHandle = [];
 		
@@ -247,7 +274,7 @@ var Bookmarks = {
 			requireBookmarks.search({
 				'query': objectArguments.strSearch
 			}, {
-				'count': 10,
+				'count': 32,
 				'sort': 'title',
 				'descending': false
 			}).on('end', function(resultHandle) {
@@ -256,7 +283,7 @@ var Bookmarks = {
 						Lookup_resultHandle.push({
 							'intIdent': resultHandle[intFor1].id,
 							'strType': 'typeBookmark',
-							'strImage': 'http://grabicon.com/icon?domain=' + resultHandle[intFor1].url + '&size=16',
+							'strImage': 'chrome://bookrect/content/images/bookmark.png',
 							'strTitle': resultHandle[intFor1].title,
 							'strLink': resultHandle[intFor1].url
 						});

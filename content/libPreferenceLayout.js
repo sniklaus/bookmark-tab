@@ -97,7 +97,7 @@ var PreferenceLayout = {
 			{
 				// @formatter:off
 				PreferenceLayout.statementCount = PreferenceLayout.sqlserviceHandle.createStatement(
-					'SELECT COUNT(*) FROM PreferenceLayout '
+					'SELECT COUNT(*) AS intCount FROM PreferenceLayout '
 				);
 				// @formatter:on
 			}
@@ -278,7 +278,7 @@ var PreferenceLayout = {
 			var boolStep = PreferenceLayout.statementCount.step();
 			
 			if (boolStep === true) {
-				intCount = PreferenceLayout.statementCount.row.COUNT; // TODO: change
+				intCount = PreferenceLayout.statementCount.row.intCount;
 				
 			} else if (boolStep === false) {
 				intCount = 0;

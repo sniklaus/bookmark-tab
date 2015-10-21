@@ -95,34 +95,6 @@ var PreferenceAdvanced = {
 		}
 	},
 	
-	getBoolSubfolders: function() {
-		if (Services.prefs.prefHasUserValue('extensions.BookRect.Advanced.boolSubfolders') === true) {
-			return Services.prefs.getBoolPref('extensions.BookRect.Advanced.boolSubfolders');
-		}
-		
-		return true;
-	},
-	
-	setBoolSubfolders: function(boolSubfolders) {
-		{
-			Services.prefs.setBoolPref('extensions.BookRect.Advanced.boolSubfolders', boolSubfolders);
-		}
-		
-		{
-			PreferenceAdvancedObserver.update();
-		}
-	},
-	
-	clearBoolSubfolders: function() {
-		{
-			Services.prefs.clearUserPref('extensions.BookRect.Advanced.boolSubfolders');
-		}
-		
-		{
-			PreferenceAdvancedObserver.update();
-		}
-	},
-	
 	clear: function() {
 		{
 			PreferenceAdvancedObserver.boolEnabled = false;
@@ -134,8 +106,6 @@ var PreferenceAdvanced = {
 			PreferenceAdvanced.clearBoolSearch();
 			
 			PreferenceAdvanced.clearBoolState();
-			
-			PreferenceAdvanced.clearBoolSubfolders();
 		}
 		
 		{
