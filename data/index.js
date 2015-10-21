@@ -139,12 +139,6 @@ PreferenceLayoutObserver.addObserver(function() {
 												'id': objectArguments.strCallback
 											})
 										;
-										
-										jQuery(this).find('.cssTreeviewNodeImage').find('img')
-											.attr({
-												'onerror': 'this.src = "chrome://bookrect/content/images/bookmark.png";'
-											})
-										;
 									}
 									
 									{
@@ -329,12 +323,6 @@ PreferenceLayoutObserver.addObserver(function() {
 													'id': objectArguments.strCallback
 												})
 											;
-											
-											jQuery(this).find('.cssTreeviewNodeImage').find('img')
-												.attr({
-													'onerror': 'this.src = "chrome://bookrect/content/images/bookmark.png";'
-												})
-											;
 										}
 										
 										{
@@ -466,12 +454,6 @@ PreferenceLayoutObserver.addObserver(function() {
 											jQuery(this)
 												.attr({
 													'id': objectArguments.strCallback
-												})
-											;
-											
-											jQuery(this).find('.cssTreeviewNodeImage').find('img')
-												.attr({
-													'onerror': 'this.src = "chrome://bookrect/content/images/bookmark.png";'
 												})
 											;
 										}
@@ -691,12 +673,6 @@ PreferenceLayoutObserver.addObserver(function() {
 											jQuery(this)
 												.attr({
 													'id': objectArguments.strCallback
-												})
-											;
-											
-											jQuery(this).find('.cssTreeviewNodeImage').find('img')
-												.attr({
-													'onerror': 'this.src = "chrome://bookrect/content/images/bookmark.png";'
 												})
 											;
 										}

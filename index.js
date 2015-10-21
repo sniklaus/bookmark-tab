@@ -2,7 +2,6 @@
 
 var requireBookmarks = require('sdk/places/bookmarks');
 var requireChrome = require('chrome');
-var requireFavicon = require('sdk/places/favicon');
 var requireHeritage = require('sdk/core/heritage');
 var requirePagemod = require('sdk/page-mod');
 var requirePanel = require('sdk/panel');
@@ -13,6 +12,7 @@ var requireToggle = require('sdk/ui/button/toggle');
 var requireXpcom = require('sdk/platform/xpcom');
 
 requireChrome.Cu.import("resource:///modules/NewTabURL.jsm");
+requireChrome.Cu.import('resource://gre/modules/NetUtil.jsm');
 requireChrome.Cu.import('resource://gre/modules/PlacesUtils.jsm');
 requireChrome.Cu.import('resource://gre/modules/Services.jsm');
 
@@ -227,8 +227,10 @@ var Bookmarks = {
 							
 							{
 								if (PlacesUtils.nodeIsBookmark(objectNode) === true) {
-									if (objectNode.icon.indexOf('moz-anno:favicon:') !== -1) {
-										Lookup_resultHandle[Lookup_resultHandle.length - 1].strImage = objectNode.icon;
+									if (objectNode.icon !== null) {
+										if (objectNode.icon.indexOf('moz-anno:favicon:') !== -1) {
+											Lookup_resultHandle[Lookup_resultHandle.length - 1].strImage = objectNode.icon;
+										}
 									}
 								}
 							}
@@ -251,17 +253,14 @@ var Bookmarks = {
 		var Lookup_resultHandle = [];
 		
 		var functionLookup = function() {
-			requireFavicon.getFavicon(objectArguments.strLink)
-				.then(function(strFavicon) {
-					if (strFavicon !== null) {
-						functionCallback({
-							'strCallback': objectArguments.strCallback,
-							'strFavicon': strFavicon
-						});
-					}
-				})
-				.catch(requireChrome.Cu.reportError)
-			;
+			PlacesUtils.favicons.getFaviconDataForPage(NetUtil.newURI(objectArguments.strLink), function(objectLink) {
+				if (objectLink !== null) {
+					functionCallback({
+						'strCallback': objectArguments.strCallback,
+						'strFavicon': 'moz-anno:favicon:' + objectLink.spec
+					});
+				}
+			});
 		};
 		
 		functionLookup();
