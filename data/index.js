@@ -48,7 +48,7 @@ self.port.on('bookmarksFavicon', function(objectArguments) {
 });
 
 self.port.on('bookmarksSearch', function(objectArguments) {
-	jQuery('#idGeneral_Search').find('.cssTreeview')
+	jQuery('#idGeneral_Search_Output')
 		.treeviewData({
 			'objectNode': objectArguments.resultHandle
 		})
@@ -60,13 +60,19 @@ PreferenceAdvancedObserver.addObserver(function() {
 });
 
 PreferenceLayoutObserver.addObserver(function() {
-	jQuery('#idGeneral_Bookmarks').find('.cssTreeview').each(function() {
+	jQuery('#idGeneral_Bookmarks_First, #idGeneral_Bookmarks_Second, #idGeneral_Bookmarks_Third').find('.cssTreeview').each(function() {
 		jQuery(this)
 			.triggerHandler('update')
 		;
 	});
 	
-	jQuery('#idSettings_ModalLayout').find('.cssTreeview').each(function() {
+	jQuery('#idSettings_ModalLayout_Available').find('.cssTreeview').each(function() {
+		jQuery(this)
+			.triggerHandler('update')
+		;
+	});
+	
+	jQuery('#idSettings_ModalLayout_First, #idSettings_ModalLayout_Second, #idSettings_ModalLayout_Third').find('.cssTreeview').each(function() {
 		jQuery(this)
 			.triggerHandler('update')
 		;
@@ -86,11 +92,21 @@ PreferenceLayoutObserver.addObserver(function() {
 }
 
 {
-	jQuery('#idGeneral_Search').find('input')
+	if (PreferenceAdvanced.getBoolSearch() === false) {
+		jQuery('#idGeneral_Search')
+			.css({
+				'display': 'none'
+			})
+		;
+	}
+}
+
+{
+	jQuery('#idGeneral_Search_Input')
 		.off('input')
 		.on('input', function() {
 			if (jQuery(this).val().length < 2) {
-				jQuery('#idGeneral_Search').find('.cssTreeview')
+				jQuery('#idGeneral_Search_Output')
 					.treeviewData({
 						'objectNode': []
 					})
@@ -107,7 +123,7 @@ PreferenceLayoutObserver.addObserver(function() {
 }
 
 {
-	jQuery('#idGeneral_Search').find('.cssTreeview')
+	jQuery('#idGeneral_Search_Output')
 		.off('update')
 		.on('update', function() {
 			jQuery(this)
@@ -192,13 +208,13 @@ PreferenceLayoutObserver.addObserver(function() {
 		})
 	;
 	
-	jQuery('#idGeneral_Search').find('.cssTreeview')
+	jQuery('#idGeneral_Search_Output')
 		.triggerHandler('update')
 	;
 }
 
 {
-	jQuery('#idGeneral_Bookmarks').find('.cssTreeview').each(function(intFor1) {
+	jQuery('#idGeneral_Bookmarks_First, #idGeneral_Bookmarks_Second, #idGeneral_Bookmarks_Third').find('.cssTreeview').each(function(intFor1) {
 		jQuery(this)
 			.data({
 				'intColumn': intFor1
@@ -383,6 +399,19 @@ PreferenceLayoutObserver.addObserver(function() {
 }
 
 {
+	jQuery('#idSettings_Advanced')
+		.off('click')
+		.on('click', function() {
+			{
+				jQuery('#idSettings_ModalAdvanced')
+					.modalShow()
+				;
+			}
+		})
+	;
+}
+
+{
 	jQuery('#idSettings_Layout')
 		.off('click')
 		.on('click', function() {
@@ -396,7 +425,7 @@ PreferenceLayoutObserver.addObserver(function() {
 }
 
 {
-	jQuery('#idSettings_ModalLayout').find('.cssTreeview').slice(0, 1).each(function(intFor1) {
+	jQuery('#idSettings_ModalLayout_Available').find('.cssTreeview').each(function() {
 		jQuery(this)
 			.off('update')
 			.on('update', function() {
@@ -483,8 +512,8 @@ PreferenceLayoutObserver.addObserver(function() {
 								if (objectNode.strType !== 'typeSeparator') {
 									jQuery(this)
 										.append(jQuery('<div></div>')
-											.addClass('glyphicon')
-											.addClass('glyphicon-plus')
+											.addClass('fa')
+											.addClass('fa-plus')
 											.off('click')
 											.on('click', function(eventHandle) {
 												{
@@ -586,7 +615,7 @@ PreferenceLayoutObserver.addObserver(function() {
 		;
 	});
 	
-	jQuery('#idSettings_ModalLayout').find('.cssTreeview').slice(1, 4).each(function(intFor1) {
+	jQuery('#idSettings_ModalLayout_First, #idSettings_ModalLayout_Second, #idSettings_ModalLayout_Third').find('.cssTreeview').each(function(intFor1) {
 		jQuery(this)
 			.data({
 				'intColumn': intFor1
@@ -708,8 +737,8 @@ PreferenceLayoutObserver.addObserver(function() {
 								if (objectNode.strType !== 'typeSeparator') {
 									jQuery(this)
 										.append(jQuery('<div></div>')
-											.addClass('glyphicon')
-											.addClass('glyphicon-minus')
+											.addClass('fa')
+											.addClass('fa-minus')
 											.off('click')
 											.on('click', function(eventHandle) {
 												{
@@ -765,7 +794,7 @@ PreferenceLayoutObserver.addObserver(function() {
 		;
 	});
 	
-	jQuery('#idSettings_ModalLayout').find('.cssTreeview').slice(1, 4).each(function(intFor1) {
+	jQuery('#idSettings_ModalLayout_First, #idSettings_ModalLayout_Second, #idSettings_ModalLayout_Third').find('.cssTreeview').each(function() {
 		jQuery(this)
 			.sortable({
 				'group': 'Index_ModalConfigure',
@@ -791,7 +820,7 @@ PreferenceLayoutObserver.addObserver(function() {
 						
 						PreferenceLayout.transactionOpen();
 						
-						jQuery('table').eq(1).find('td').find('.cssTreeview').slice(1, 4).each(function(intFor1) {
+						jQuery('#idSettings_ModalLayout_First, #idSettings_ModalLayout_Second, #idSettings_ModalLayout_Third').find('.cssTreeview').each(function(intFor1) {
 							jQuery(this).find('.cssTreeviewNodeContainer').each(function(intFor2) {
 								PreferenceLayout.intIdent = 0;
 								PreferenceLayout.intColumn = intFor1;

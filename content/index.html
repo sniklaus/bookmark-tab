@@ -45,6 +45,8 @@
 			}
 		</style>
 		
+		<link rel="stylesheet" type="text/css" href="chrome://bookrect/content/fontawesome.css" />
+		
 		<style type="text/css">
 			.dragged {
 				display:block;
@@ -118,10 +120,23 @@
 			}
 			
 			#idGeneral_Search {
-				margin:0px 0px 10px 0px;
+				margin:0px 0px 20px 0px;
 				border:none;
 				border-spacing:0px;
 				padding:0px;
+			}
+			
+			#idGeneral_Search > div:nth-of-type(1) {
+				display:block;
+				position:relative;
+			}
+			
+			#idGeneral_Search > div:nth-of-type(1) > span.fa {
+				display:block;
+				position:absolute;
+				
+				right:11px;
+				top:9px;
 			}
 			
 			#idGeneral_Bookmarks table {
@@ -136,11 +151,21 @@
 				vertical-align:top;
 			}
 			
-			#idSettings_Layout {
+			#idSettings_Advanced {
 				display:block;
 				position:fixed;
 				
 				right:15px;
+				bottom:15px;
+				
+				z-index:10000;
+			}
+			
+			#idSettings_Layout {
+				display:block;
+				position:fixed;
+				
+				right:65px;
 				bottom:15px;
 				
 				z-index:10000;
@@ -167,11 +192,22 @@
 				vertical-align:top;
 			}
 			
-			#idSettings_ModalLayout table > tbody > tr > td > a.btn {
-				cursor:default;
+			#idSettings_ModalLayout_Available > div:nth-of-type(1),
+			#idSettings_ModalLayout_First > div:nth-of-type(1),
+			#idSettings_ModalLayout_Second > div:nth-of-type(1),
+			#idSettings_ModalLayout_Third > div:nth-of-type(1) {
+				margin:0px;
+				border:1px solid #DDDDDD;
+				border-space:0px;
+				padding:6px 12px 6px 12px;
+				
+				background-color:#F5F5F5;
 			}
 			
-			#idSettings_ModalLayout table > tbody > tr > td > div.cssTreeview {
+			#idSettings_ModalLayout_Available > .cssTreeview,
+			#idSettings_ModalLayout_First > .cssTreeview,
+			#idSettings_ModalLayout_Second > .cssTreeview,
+			#idSettings_ModalLayout_Third > .cssTreeview {
 				height:400px;
 				
 				margin:10px 0px 0px 0px;
@@ -182,15 +218,20 @@
 				overflow-y:scroll;
 			}
 			
-			#idSettings_ModalLayout table > tbody > tr > td:nth-of-type(1) > div.cssTreeview .cssTreeviewNode {
+			#idSettings_ModalLayout_Available .cssTreeviewNode {
 				cursor:pointer;
 			}
 			
-			#idSettings_ModalLayout table > tbody > tr > td > div.cssTreeview .cssTreeviewNode {
+			#idSettings_ModalLayout_First .cssTreeviewNode,
+			#idSettings_ModalLayout_Second .cssTreeviewNode,
+			#idSettings_ModalLayout_Third .cssTreeviewNode {
 				cursor:move;
 			}
 			
-			#idSettings_ModalLayout table > tbody > tr > td > div.cssTreeview .cssTreeviewNode > div.glyphicon {
+			#idSettings_ModalLayout_Available .cssTreeviewNode > div.fa,
+			#idSettings_ModalLayout_First .cssTreeviewNode > div.fa,
+			#idSettings_ModalLayout_Second .cssTreeviewNode > div.fa,
+			#idSettings_ModalLayout_Third .cssTreeviewNode > div.fa {
 				cursor:alias;
 				
 				display:block;
@@ -199,18 +240,18 @@
 				right:7px;
 				top:7px;
 				
-				width:18px;
-				
 				font-size:14px;
-				text-align:center;
 			}
 		</style>
 	</head>
 	<body>
 		<div id="idGeneral_Search">
-			<input class="form-control" type="text" placeholder="@string/General_Search" />
+			<div>
+				<input class="form-control" id="idGeneral_Search_Input" type="text" />
+				<span class="fa fa-search"></span>
+			</div>
 			
-			<div class="cssTreeview">
+			<div class="cssTreeview" id="idGeneral_Search_Output">
 			
 			</div>
 		</div>
@@ -219,17 +260,17 @@
 			<table cellpadding="0" cellspacing="0" border="0">
 				<tbody>
 					<tr>
-						<td>
+						<td id="idGeneral_Bookmarks_First">
 							<div class="cssTreeview">
 							
 							</div>
 						</td>
-						<td>
+						<td id="idGeneral_Bookmarks_Second">
 							<div class="cssTreeview">
 							
 							</div>
 						</td>
-						<td>
+						<td id="idGeneral_Bookmarks_Third">
 							<div class="cssTreeview">
 							
 							</div>
@@ -239,8 +280,31 @@
 			</table>
 		</div>
 		
+		<div class="btn btn-primary" id="idSettings_Advanced">
+			<span class="fa fa-cog"></span>
+		</div>
+		
+		<div class="modal-overlay"></div>
+		<div class="modal-dialog" id="idSettings_ModalAdvanced">
+			<div class="panel panel-default modal-content">
+				<div class="panel-body">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							@string/Settings_ModalAdvanced_Pawns_Caption
+						</div>
+						<div class="panel-body">
+							<a class="btn btn-primary" id="idSettings_ModalAdvanced_Autostart">
+								@string/Chess_Pawns_RegularPawns
+								<span class="glyphicon glyphicon-unchecked pull-right"></span>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
 		<div class="btn btn-primary" id="idSettings_Layout">
-			<span class="glyphicon glyphicon-cog"></span>
+			<span class="fa fa-arrows"></span>
 		</div>
 		
 		<div class="modal-overlay"></div>
@@ -249,37 +313,37 @@
 				<div class="panel-body">
 					<table cellpadding="0" cellspacing="0" border="0">
 						<tr>
-							<td>
-								<a class="btn btn-primary">
+							<td id="idSettings_ModalLayout_Available">
+								<div>
 									@string/Settings_ModalLayout_Available
-								</a>
+								</div>
 								
 								<div class="cssTreeview">
 									
 								</div>
 							</td>
-							<td>
-								<a class="btn btn-primary">
+							<td id="idSettings_ModalLayout_First">
+								<div>
 									@string/Settings_ModalLayout_First
-								</a>
+								</div>
 								
 								<div class="cssTreeview">
 									
 								</div>
 							</td>
-							<td>
-								<a class="btn btn-primary">
+							<td id="idSettings_ModalLayout_Second">
+								<div>
 									@string/Settings_ModalLayout_Second
-								</a>
+								</div>
 								
 								<div class="cssTreeview">
 									
 								</div>
 							</td>
-							<td>
-								<a class="btn btn-primary">
+							<td id="idSettings_ModalLayout_Third">
+								<div>
 									@string/Settings_ModalLayout_Third
-								</a>
+								</div>
 								
 								<div class="cssTreeview">
 									
