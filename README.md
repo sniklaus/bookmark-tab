@@ -1,0 +1,1 @@
+see: [https://addons.mozilla.org/en-US/firefox/addon/bookrect/](https://addons.mozilla.org/en-US/firefox/addon/bookrect/)
