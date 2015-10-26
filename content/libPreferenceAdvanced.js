@@ -67,6 +67,34 @@ var PreferenceAdvanced = {
 		}
 	},
 	
+	getBoolCompact: function() {
+		if (Services.prefs.prefHasUserValue('extensions.BookRect.Advanced.boolCompact') === true) {
+			return Services.prefs.getBoolPref('extensions.BookRect.Advanced.boolCompact');
+		}
+		
+		return true;
+	},
+	
+	setBoolCompact: function(boolCompact) {
+		{
+			Services.prefs.setBoolPref('extensions.BookRect.Advanced.boolCompact', boolCompact);
+		}
+		
+		{
+			PreferenceAdvancedObserver.update();
+		}
+	},
+	
+	clearBoolCompact: function() {
+		{
+			Services.prefs.clearUserPref('extensions.BookRect.Advanced.boolCompact');
+		}
+		
+		{
+			PreferenceAdvancedObserver.update();
+		}
+	},
+	
 	getBoolState: function() {
 		if (Services.prefs.prefHasUserValue('extensions.BookRect.Advanced.boolState') === true) {
 			return Services.prefs.getBoolPref('extensions.BookRect.Advanced.boolState');
@@ -104,6 +132,8 @@ var PreferenceAdvanced = {
 			PreferenceAdvanced.clearBoolAutostart();
 			
 			PreferenceAdvanced.clearBoolSearch();
+			
+			PreferenceAdvanced.clearBoolCompact();
 			
 			PreferenceAdvanced.clearBoolState();
 		}

@@ -119,6 +119,93 @@
 				background-color:#FFFFFF;
 			}
 			
+			.cssTreeview {
+				
+			}
+			
+			.cssTreeview_NodeContainer {
+				
+			}
+			
+			.cssTreeview_Node {
+				cursor:pointer;
+				
+				display:block;
+				position:relative;
+				
+				margin:0px;
+				border:1px solid #FFFFFF;
+				border-radius:4px;
+				border-spacing:0px;
+				padding:7px;
+				
+				background-color:#FFFFFF;
+				
+				color:#000000;
+				font-size:12px;
+				font-weight:normal;
+				font-family:Helvetica;
+				text-decoration:none;
+				text-align:left;
+				line-height:1;
+				white-space:normal;
+			}
+			
+			.cssTreeview_Node:hover {
+				margin:0px;
+				border:1px solid #DDDDDD;
+				border-radius:4px;
+				border-spacing:0px;
+				padding:7px;
+				
+				background-color:#F5F5F5;
+				
+				color:#000000;
+				font-size:12px;
+				font-weight:normal;
+				font-family:Helvetica;
+				text-decoration:none;
+				text-align:left;
+				line-height:1;
+				white-space:normal;
+			}
+			
+			.cssTreeview_NodeImage {
+				display:block;
+				position:absolute;
+				
+				left:7px;
+				top:7px;
+			}
+			
+			.cssTreeview_NodeImage > img {
+				width:16px;
+				height:16px;
+			}
+			
+			.cssTreeview_NodeTitle {
+				margin:2px 0px 0px 26px;
+				border:none;
+				border-spacing:0px;
+				padding:0px;
+				
+				color:#000000;
+				font-size:12px;
+				font-weight:normal;
+				font-family:Helvetica;
+				text-decoration:none;
+				text-align:left;
+				line-height:1;
+				white-space:normal;
+			}
+			
+			.cssTreeview_NodePlaceholder {
+				margin:0px 0px 0px 28px;
+				border:none;
+				border-spacing:0px;
+				padding:0px;
+			}
+			
 			#idGeneral_Search {
 				margin:0px 0px 20px 0px;
 				border:none;
@@ -219,20 +306,20 @@
 				overflow-y:scroll;
 			}
 			
-			#idSettings_ModalLayout_Available .cssTreeviewNode {
+			#idSettings_ModalLayout_Available .cssTreeview_Node {
 				cursor:pointer;
 			}
 			
-			#idSettings_ModalLayout_First .cssTreeviewNode,
-			#idSettings_ModalLayout_Second .cssTreeviewNode,
-			#idSettings_ModalLayout_Third .cssTreeviewNode {
+			#idSettings_ModalLayout_First .cssTreeview_Node,
+			#idSettings_ModalLayout_Second .cssTreeview_Node,
+			#idSettings_ModalLayout_Third .cssTreeview_Node {
 				cursor:move;
 			}
 			
-			#idSettings_ModalLayout_Available .cssTreeviewNode > div.fa,
-			#idSettings_ModalLayout_First .cssTreeviewNode > div.fa,
-			#idSettings_ModalLayout_Second .cssTreeviewNode > div.fa,
-			#idSettings_ModalLayout_Third .cssTreeviewNode > div.fa {
+			#idSettings_ModalLayout_Available .cssTreeview_Node > div.fa,
+			#idSettings_ModalLayout_First .cssTreeview_Node > div.fa,
+			#idSettings_ModalLayout_Second .cssTreeview_Node > div.fa,
+			#idSettings_ModalLayout_Third .cssTreeview_Node > div.fa {
 				cursor:alias;
 				
 				display:block;

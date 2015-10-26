@@ -18,6 +18,12 @@ attribute {
 }
 
 attribute {
+	strName:'boolCompact'
+	strType:bool
+	strDefault:'true'
+}
+
+attribute {
 	strName:'boolState'
 	strType:bool
 	strDefault:'false'

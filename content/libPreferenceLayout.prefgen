@@ -1,24 +1,24 @@
 general {
 	strOutput:Firefox
-	strType:Database
+	strType:Attribute
 	strPackage:'BookRect'
 	strName:'Layout'
 }
 
 attribute {
-	strName:'intColumn'
-	strType:int
-	strDefault:''
+	strName:'strFirst'
+	strType:str
+	strDefault:'"[]"'
 }
 
 attribute {
-	strName:'intPosition'
-	strType:int
-	strDefault:''
+	strName:'strSecond'
+	strType:str
+	strDefault:'"[]"'
 }
 
 attribute {
-	strName:'intItem'
-	strType:int
-	strDefault:''
+	strName:'strThird'
+	strType:str
+	strDefault:'"[]"'
 }

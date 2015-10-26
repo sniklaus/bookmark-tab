@@ -330,6 +330,28 @@ exports.main = function(optionsHandle) {
 	}
 	
 	{
+		if (optionsHandle.loadReason === 'install') {
+			var intFirst = JSON.parse(requirePreferences.get('extensions.BookRect.Layout.strFirst'));
+			var intSecond = JSON.parse(requirePreferences.get('extensions.BookRect.Layout.strSecond'));
+			var intThird = JSON.parse(requirePreferences.get('extensions.BookRect.Layout.strThird'));
+			
+			if (intFirst.length === 0) {
+				if (intSecond.length === 0) {
+					if (intThird.length === 0) {
+						intFirst.push(PlacesUtils.toolbarFolderId);
+						intFirst.push(PlacesUtils.bookmarksMenuFolderId);
+						intFirst.push(PlacesUtils.unfiledBookmarksFolderId);
+					}
+				}
+			}
+			
+			requirePreferences.set('extensions.BookRect.Layout.strFirst', JSON.stringify(intFirst));
+			requirePreferences.set('extensions.BookRect.Layout.strSecond', JSON.stringify(intSecond));
+			requirePreferences.set('extensions.BookRect.Layout.strThird', JSON.stringify(intThird));
+		}
+	}
+	
+	{
 		requireXpcom.Factory({
 			'contract': '@mozilla.org/network/protocol/about;1?what=bookrect',
 			'Component': requireHeritage.Class({
@@ -390,7 +412,8 @@ exports.main = function(optionsHandle) {
 			'width': 640,
 			'height': 480,
 			'contentURL': 'chrome://bookrect/content/index.html',
-			'contentScriptFile': [ requireSelf.data.url('./index.js') ]
+			'contentScriptFile': [ requireSelf.data.url('./index.js') ],
+			'contentScriptOptions': {}
 		});
 		
 		{
@@ -420,7 +443,7 @@ exports.main = function(optionsHandle) {
 exports.onUnload = function(optionsHandle) {
 	{
 		if (NewTabURL.get() === 'about:bookrect') {
-			requirePreferences.reset();
+			NewTabURL.reset();
 		}
 	}
 };
