@@ -16,6 +16,110 @@ requireChrome.Cu.import('resource://gre/modules/NetUtil.jsm');
 requireChrome.Cu.import('resource://gre/modules/PlacesUtils.jsm');
 requireChrome.Cu.import('resource://gre/modules/Services.jsm');
 
+var Controller = {
+	init: function() {
+		
+	},
+	
+	dispel: function() {
+		
+	},
+	
+	bind: function(bindHandle) {
+		bindHandle.port.on('controllerNotify', function(objectArguments) {
+			Controller.notify.call(bindHandle, objectArguments, function(objectArguments) {
+				bindHandle.port.emit('controllerNotify', objectArguments);
+			});
+		});
+	},
+	
+	notify: function(objectArguments, functionCallback) {
+		{
+			requirePreferences.set('extensions.BookRect.Controller.longTimestamp', String(new Date().getTime()));
+		}
+		
+		functionCallback({});
+	},
+	
+	onBeginUpdateBatch: function() {
+		
+	},
+	
+	onEndUpdateBatch: function() {
+		
+	},
+	
+	onItemAdded: function() {
+		{
+			requirePreferences.set('extensions.BookRect.Controller.longTimestamp', String(new Date().getTime()));
+		}
+	},
+	
+	onItemChanged: function() {
+		{
+			requirePreferences.set('extensions.BookRect.Controller.longTimestamp', String(new Date().getTime()));
+		}
+	},
+	
+	onItemMoved: function() {
+		{
+			requirePreferences.set('extensions.BookRect.Controller.longTimestamp', String(new Date().getTime()));
+		}
+	},
+	
+	onItemRemoved: function() {
+		{
+			requirePreferences.set('extensions.BookRect.Controller.longTimestamp', String(new Date().getTime()));
+		}
+	},
+	
+	onItemVisited: function() {
+		
+	}
+};
+Controller.init();
+
+var Browser = {
+	init: function() {
+		
+	},
+	
+	dispel: function() {
+		
+	},
+	
+	bind: function(bindHandle) {
+		bindHandle.port.on('browserNavigate', function(objectArguments) {
+			Bookmarks.navigate.call(bindHandle, objectArguments, function(objectArguments) {
+				bindHandle.port.emit('browserNavigate', objectArguments);
+			});
+		});
+	},
+	
+	navigate: function(objectArguments, functionCallback) {
+		{
+			if (this.hide !== undefined) {
+				this.hide();
+			}
+		}
+		
+		{
+			if (objectArguments.strOpen === 'openOverwrite') {
+				requireTabs.activeTab.url = objectArguments.strLink;
+				
+			} else if (objectArguments.strOpen === 'openTab') {
+				requireTabs.open(objectArguments.strLink);
+				
+			} else if (objectArguments.strOpen === 'openWindow') {
+				
+			}
+		}
+		
+		functionCallback({});
+	}
+};
+Browser.init();
+
 var Bookmarks = {
 	init: function() {
 		
@@ -26,12 +130,6 @@ var Bookmarks = {
 	},
 	
 	bind: function(bindHandle) {
-		bindHandle.port.on('bookmarksNavigate', function(objectArguments) {
-			Bookmarks.navigate.call(bindHandle, objectArguments, function(objectArguments) {
-				bindHandle.port.emit('bookmarksNavigate', objectArguments);
-			});
-		});
-		
 		bindHandle.port.on('bookmarksPeek', function(objectArguments) {
 			Bookmarks.peek.call(bindHandle, objectArguments, function(objectArguments) {
 				bindHandle.port.emit('bookmarksPeek', objectArguments);
@@ -55,26 +153,6 @@ var Bookmarks = {
 				bindHandle.port.emit('bookmarksSearch', objectArguments);
 			});
 		});
-	},
-	
-	navigate: function(objectArguments, functionCallback) {
-		{
-			if (this.hide !== undefined) {
-				this.hide();
-			}
-		}
-		
-		{
-			if (objectArguments.strTab === 'tabCurrent') {
-				requireTabs.activeTab.url = objectArguments.strLink;
-				
-			} else if (objectArguments.strTab === 'tabNew') {
-				requireTabs.open(objectArguments.strLink);
-				
-			}
-		}
-		
-		functionCallback({});
 	},
 	
 	peek: function(objectArguments, functionCallback) {
@@ -330,6 +408,10 @@ exports.main = function(optionsHandle) {
 	}
 	
 	{
+		PlacesUtils.bookmarks.addObserver(Controller, false);
+	}
+	
+	{
 		if (optionsHandle.loadReason === 'install') {
 			var intFirst = JSON.parse(requirePreferences.get('extensions.BookRect.Layout.strFirst'));
 			var intSecond = JSON.parse(requirePreferences.get('extensions.BookRect.Layout.strSecond'));
@@ -380,6 +462,8 @@ exports.main = function(optionsHandle) {
 		    'onAttach': function(workerHandle) {
 				{
 					Bookmarks.bind(workerHandle);
+					
+					Controller.bind(workerHandle);
 				}
 		    }
 		});
@@ -436,6 +520,8 @@ exports.main = function(optionsHandle) {
 		
 		{
 			Bookmarks.bind(toolbarpanelHandle);
+			
+			Controller.bind(toolbarpanelHandle);
 		}
 	}
 };
@@ -445,5 +531,9 @@ exports.onUnload = function(optionsHandle) {
 		if (NewTabURL.get() === 'about:bookrect') {
 			NewTabURL.reset();
 		}
+	}
+	
+	{
+		PlacesUtils.bookmarks.removeObserver(Controller);
 	}
 };

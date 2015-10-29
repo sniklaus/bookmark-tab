@@ -1,6 +1,8 @@
 'use strict';
 
 var Panel = {
+	longTimestamp: 0,
+	
 	init: function() {
 		{
 			self.port.on('panelShow', Panel.showCallback);
@@ -10,7 +12,9 @@ var Panel = {
 	},
 	
 	dispel: function() {
-		
+		{
+			Panel.longTimestamp = 0;
+		}
 	},
 	
 	showCallback: function(objectArguments) {
@@ -19,72 +23,85 @@ var Panel = {
 		}
 		
 		{
-			PreferenceAdvancedObserver.update();
-			
-			PreferenceLayoutObserver.update();
-		}
-		
-		{
-			jQuery(window.frames)
-				.off('click')
-				.on('click', function(eventHandle) {
-					console.log('click');
-					if (eventHandle.which !== 1) {
-						if (eventHandle.which !== 2) {
-							return;
-						}
-					}
-					
-					if (jQuery(eventHandle.target).closest('.cssTreeview_NodeContainer').size() === 0) {
-						return;
-						
-					} else if (jQuery(eventHandle.target).closest('.cssTreeview_NodeContainer').find('.cssTreeview_Node').get(0).tagName.toLowerCase() !== 'a') {
-						return;
-						
-					}
-					
-					{
-						eventHandle.stopPropagation();
-						
-						eventHandle.preventDefault();
-					}
-					
-					{
-						var objectArguments = {
-							'strTab': '',
-							'strLink': jQuery(eventHandle.target).closest('.cssTreeview_NodeContainer').find('.cssTreeview_Node').attr('href')
-						};
-						
-						{
-							if (eventHandle.which === 1) {
-								objectArguments.strTab = 'tabCurrent';
+			if (Panel.longTimestamp === 0) {
+				{
+					jQuery(window.frames)
+						.off('click')
+						.on('click', function(eventHandle) {
+							if (eventHandle.which !== 1) {
+								if (eventHandle.which !== 2) {
+									return;
+								}
+							}
+							
+							if (jQuery(eventHandle.target).closest('.cssTreeview_NodeContainer').size() === 0) {
+								return;
 								
-							} else if (eventHandle.which === 2) {
-								objectArguments.strTab = 'tabNew';
+							} else if (jQuery(eventHandle.target).closest('.cssTreeview_NodeContainer').find('.cssTreeview_Node').get(0).tagName.toLowerCase() !== 'a') {
+								return;
 								
 							}
-						}
-						
-						{
-							self.port.emit('bookmarksNavigate', objectArguments);
-						}
-					}
-				})
-			;
+							
+							{
+								eventHandle.stopPropagation();
+								
+								eventHandle.preventDefault();
+							}
+							
+							{
+								var objectArguments = {
+									'strOpen': '',
+									'strLink': jQuery(eventHandle.target).closest('.cssTreeview_NodeContainer').find('.cssTreeview_Node').attr('href')
+								};
+								
+								{
+									if (eventHandle.which === 1) {
+										objectArguments.strOpen = 'openOverwrite';
+										
+									} else if (eventHandle.which === 2) {
+										objectArguments.strOpen = 'openTab';
+										
+									}
+								}
+								
+								{
+									Browser.navigate(objectArguments);
+								}
+							}
+						})
+					;
+				}
+				
+				{
+					jQuery('#idSettings_Advanced')
+						.css({
+							'display': 'none'
+						})
+					;
+					
+					jQuery('#idSettings_Layout')
+						.css({
+							'display': 'none'
+						})
+					;
+				}
+			}
 		}
 		
 		{
-			jQuery('#idSettings_Advanced')
-				.css({
-					'display': 'none'
-				})
-			;
-			
-			jQuery('#idSettings_Layout')
-				.css({
-					'display': 'none'
-				})
-			;
+			if (Panel.longTimestamp !== PreferenceController.getLongTimestamp()) {
+				{
+					Panel.longTimestamp = PreferenceController.getLongTimestamp();
+				}
+				
+				{
+					PreferenceControllerObserver.update();
+					
+					PreferenceAdvancedObserver.update();
+					
+					PreferenceLayoutObserver.update();
+				}
+			}
 		}
 	},
 	
@@ -93,6 +110,135 @@ var Panel = {
 	}
 };
 Panel.init();
+
+var Controller = {
+	init: function() {
+		{
+			self.port.on('controllerNotify', Controller.notifyCallback);
+		}
+	},
+	
+	dispel: function() {
+		
+	},
+	
+	notify: function(objectArguments) {
+		{
+			self.port.emit('controllerNotify', objectArguments);
+		}
+	},
+	
+	notifyCallback: function(objectArguments) {
+		
+	}
+};
+Controller.init();
+
+var Browser = {
+	init: function() {
+		{
+			self.port.on('browserNavigate', Browser.navigateCallback);
+		}
+	},
+	
+	dispel: function() {
+		
+	},
+	
+	navigate: function(objectArguments) {
+		{
+			self.port.emit('browserNavigate', objectArguments);
+		}
+	},
+	
+	navigateCallback: function(objectArguments) {
+		
+	}
+};
+Browser.init();
+
+var Bookmarks = {
+	init: function() {
+		{
+			self.port.on('bookmarksList', Bookmarks.listCallback);
+			
+			self.port.on('bookmarksPeek', Bookmarks.peekCallback);
+			
+			self.port.on('bookmarksFavicon', Bookmarks.faviconCallback);
+			
+			self.port.on('bookmarksSearch', Bookmarks.searchCallback);
+		}
+	},
+	
+	dispel: function() {
+		
+	},
+	
+	list: function(objectArguments) {
+		{
+			self.port.emit('bookmarksList', objectArguments);
+		}
+	},
+	
+	listCallback: function(objectArguments) {
+		{
+			jQuery('#' + objectArguments.strCallback)
+				.treeviewData({
+					'objectNode': objectArguments.resultHandle
+				})
+			;
+		}
+	},
+	
+	peek: function(objectArguments) {
+		{
+			self.port.emit('bookmarksPeek', objectArguments);
+		}
+	},
+	
+	peekCallback: function(objectArguments) {
+		{
+			jQuery('#' + objectArguments.strCallback)
+				.treeviewData({
+					'objectNode': objectArguments.resultHandle
+				})
+			;
+		}
+	},
+	
+	favicon: function(objectArguments) {
+		{
+			self.port.emit('bookmarksFavicon', objectArguments);
+		}
+	},
+	
+	faviconCallback: function(objectArguments) {
+		{
+			jQuery('#' + objectArguments.strCallback).find('.cssTreeview_NodeImage').find('img')
+				.attr({
+					'src': objectArguments.strFavicon
+				})
+			;
+		}
+	},
+	
+	search: function(objectArguments) {
+		{
+			self.port.emit('bookmarksSearch', objectArguments);
+		}
+	},
+	
+	searchCallback: function(objectArguments) {
+		{
+			jQuery('#idGeneral_Search_Output')
+				.treeviewData({
+					'objectNode': objectArguments.resultHandle
+				})
+			;
+		}
+	}
+};
+Bookmarks.init();
 
 var Treeview = {
 	init: function() {
@@ -339,36 +485,8 @@ var Treeview = {
 };
 Treeview.init();
 
-self.port.on('bookmarksList', function(objectArguments) {
-	jQuery('#' + objectArguments.strCallback)
-		.treeviewData({
-			'objectNode': objectArguments.resultHandle
-		})
-	;
-});
-
-self.port.on('bookmarksPeek', function(objectArguments) {
-	jQuery('#' + objectArguments.strCallback)
-		.treeviewData({
-			'objectNode': objectArguments.resultHandle
-		})
-	;
-});
-
-self.port.on('bookmarksFavicon', function(objectArguments) {
-	jQuery('#' + objectArguments.strCallback).find('.cssTreeview_NodeImage').find('img')
-		.attr({
-			'src': objectArguments.strFavicon
-		})
-	;
-});
-
-self.port.on('bookmarksSearch', function(objectArguments) {
-	jQuery('#idGeneral_Search_Output')
-		.treeviewData({
-			'objectNode': objectArguments.resultHandle
-		})
-	;
+PreferenceControllerObserver.addObserver(function() {
+	
 });
 
 PreferenceAdvancedObserver.addObserver(function() {
@@ -429,7 +547,7 @@ PreferenceLayoutObserver.addObserver(function() {
 				;
 				
 			} else if (jQuery(this).val().length >= 2) {
-				self.port.emit('bookmarksSearch', {
+				Bookmarks.search({
 					'strSearch': jQuery(this).val()
 				});
 				
@@ -478,7 +596,7 @@ PreferenceLayoutObserver.addObserver(function() {
 									}
 									
 									{
-										self.port.emit('bookmarksFavicon', objectArguments);
+										Bookmarks.favicon(objectArguments);
 									}
 								}
 							}
@@ -564,7 +682,7 @@ PreferenceLayoutObserver.addObserver(function() {
 									}
 									
 									{
-										self.port.emit('bookmarksPeek', objectArguments);
+										Bookmarks.peek(objectArguments);
 									}
 									
 								} else if (objectNode.intIdent !== 0) {
@@ -573,7 +691,7 @@ PreferenceLayoutObserver.addObserver(function() {
 									}
 									
 									{
-										self.port.emit('bookmarksList', objectArguments);
+										Bookmarks.list(objectArguments);
 									}
 									
 								}
@@ -629,7 +747,7 @@ PreferenceLayoutObserver.addObserver(function() {
 										}
 										
 										{
-											self.port.emit('bookmarksFavicon', objectArguments);
+											Bookmarks.favicon(objectArguments);
 										}
 									}
 								}
@@ -710,7 +828,7 @@ PreferenceLayoutObserver.addObserver(function() {
 							}
 							
 							{
-								self.port.emit('bookmarksList', objectArguments);
+								Bookmarks.list(objectArguments);
 							}
 						},
 						'functionData': function(objectNode) {
@@ -743,7 +861,7 @@ PreferenceLayoutObserver.addObserver(function() {
 										}
 										
 										{
-											self.port.emit('bookmarksFavicon', objectArguments);
+											Bookmarks.favicon(objectArguments);
 										}
 									}
 								}
@@ -794,6 +912,10 @@ PreferenceLayoutObserver.addObserver(function() {
 												PreferenceLayoutObserver.boolEnabled = true;
 												
 												PreferenceLayoutObserver.update();
+											}
+											
+											{
+												Controller.notify();
 											}
 										})
 									)
@@ -859,7 +981,7 @@ PreferenceLayoutObserver.addObserver(function() {
 							}
 							
 							{
-								self.port.emit('bookmarksPeek', objectArguments);
+								Bookmarks.peek(objectArguments);
 							}
 						},
 						'functionData': function(objectNode) {
@@ -892,7 +1014,7 @@ PreferenceLayoutObserver.addObserver(function() {
 										}
 										
 										{
-											self.port.emit('bookmarksFavicon', objectArguments);
+											Bookmarks.favicon(objectArguments);
 										}
 									}
 								}
@@ -956,6 +1078,10 @@ PreferenceLayoutObserver.addObserver(function() {
 												PreferenceLayoutObserver.boolEnabled = true;
 												
 												PreferenceLayoutObserver.update();
+											}
+											
+											{
+												Controller.notify();
 											}
 										})
 									)
@@ -1021,6 +1147,10 @@ PreferenceLayoutObserver.addObserver(function() {
 						PreferenceLayoutObserver.boolEnabled = true;
 						
 						PreferenceLayoutObserver.update();
+					}
+					
+					{
+						Controller.notify();
 					}
 				}
 			})
