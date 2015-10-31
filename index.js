@@ -26,19 +26,7 @@ var Controller = {
 	},
 	
 	bind: function(bindHandle) {
-		bindHandle.port.on('controllerNotify', function(objectArguments) {
-			Controller.notify.call(bindHandle, objectArguments, function(objectArguments) {
-				bindHandle.port.emit('controllerNotify', objectArguments);
-			});
-		});
-	},
-	
-	notify: function(objectArguments, functionCallback) {
-		{
-			requirePreferences.set('extensions.BookRect.Controller.longTimestamp', String(new Date().getTime()));
-		}
 		
-		functionCallback({});
 	},
 	
 	onBeginUpdateBatch: function() {
@@ -467,11 +455,17 @@ exports.main = function(optionsHandle) {
 		requirePagemod.PageMod({
 			'include': [ 'about:bookrect', 'chrome://bookrect/content/index.html' ],
 			'contentScriptFile': [ requireSelf.data.url('./index.js') ],
+			'contentScriptOptions': {
+				'strType': 'typePagemod',
+				'intBookmarks': [ PlacesUtils.toolbarFolderId, PlacesUtils.bookmarksMenuFolderId, PlacesUtils.unfiledBookmarksFolderId ]
+			},
 		    'onAttach': function(workerHandle) {
 				{
-					Bookmarks.bind(workerHandle);
-					
 					Controller.bind(workerHandle);
+					
+					Browser.bind(workerHandle);
+					
+					Bookmarks.bind(workerHandle);
 				}
 		    }
 		});
@@ -505,7 +499,10 @@ exports.main = function(optionsHandle) {
 			'height': 480,
 			'contentURL': 'chrome://bookrect/content/index.html',
 			'contentScriptFile': [ requireSelf.data.url('./index.js') ],
-			'contentScriptOptions': {}
+			'contentScriptOptions': {
+				'strType': 'typePanel',
+				'intBookmarks': [ PlacesUtils.toolbarFolderId, PlacesUtils.bookmarksMenuFolderId, PlacesUtils.unfiledBookmarksFolderId ]
+			}
 		});
 		
 		{
@@ -527,9 +524,11 @@ exports.main = function(optionsHandle) {
 		}
 		
 		{
-			Bookmarks.bind(toolbarpanelHandle);
-			
 			Controller.bind(toolbarpanelHandle);
+			
+			Browser.bind(toolbarpanelHandle);
+			
+			Bookmarks.bind(toolbarpanelHandle);
 		}
 	}
 };

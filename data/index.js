@@ -1,7 +1,7 @@
 'use strict';
 
 var Panel = {
-	longTimestamp: 0,
+	strConfiguration: '',
 	
 	init: function() {
 		{
@@ -13,7 +13,7 @@ var Panel = {
 	
 	dispel: function() {
 		{
-			Panel.longTimestamp = 0;
+			Panel.strConfiguration = '';
 		}
 	},
 	
@@ -23,7 +23,7 @@ var Panel = {
 		}
 		
 		{
-			if (Panel.longTimestamp === 0) {
+			if (Panel.strConfiguration === '') {
 				{
 					jQuery(window.frames)
 						.off('click')
@@ -95,9 +95,26 @@ var Panel = {
 		}
 		
 		{
-			if (Panel.longTimestamp !== PreferenceController.getLongTimestamp()) {
+			var strConfiguration = '';
+			
+			{
+				strConfiguration += PreferenceController.getLongTimestamp() + ';';
+				
+				strConfiguration += PreferenceAdvanced.getBoolAutostart() + ';';
+				strConfiguration += PreferenceAdvanced.getBoolSearch() + ';';
+				strConfiguration += PreferenceAdvanced.getBoolCompact() + ';';
+				strConfiguration += PreferenceAdvanced.getBoolState() + ';';
+				
+				strConfiguration += String(PreferenceLayout.getStrFirst()) + ';';
+				strConfiguration += String(PreferenceLayout.getStrSecond()) + ';';
+				strConfiguration += String(PreferenceLayout.getStrThird()) + ';';
+				
+				strConfiguration += String(PreferenceStylesheet.getStrGeneral()) + ';';
+			}
+			
+			if (Panel.strConfiguration !== strConfiguration) {
 				{
-					Panel.longTimestamp = PreferenceController.getLongTimestamp();
+					Panel.strConfiguration = strConfiguration;
 				}
 				
 				{
@@ -106,6 +123,8 @@ var Panel = {
 					PreferenceAdvancedObserver.update();
 					
 					PreferenceLayoutObserver.update();
+					
+					PreferenceStylesheetObserver.update();
 				}
 			}
 		}
@@ -119,22 +138,10 @@ Panel.init();
 
 var Controller = {
 	init: function() {
-		{
-			self.port.on('controllerNotify', Controller.notifyCallback);
-		}
-	},
-	
-	dispel: function() {
 		
 	},
 	
-	notify: function(objectArguments) {
-		{
-			self.port.emit('controllerNotify', objectArguments);
-		}
-	},
-	
-	notifyCallback: function(objectArguments) {
+	dispel: function() {
 		
 	}
 };
@@ -496,6 +503,8 @@ PreferenceControllerObserver.addObserver(function() {
 });
 
 PreferenceAdvancedObserver.addObserver(function() {
+	jQuery('#idGeneral_Search').triggerHandler('update');
+	
 	jQuery('#idSettings_ModalAdvanced_Autostart').triggerHandler('update');
 	
 	jQuery('#idSettings_ModalAdvanced_Search').triggerHandler('update');
@@ -520,6 +529,8 @@ PreferenceLayoutObserver.addObserver(function() {
 });
 
 PreferenceStylesheetObserver.addObserver(function() {
+	jQuery('#idStylesheet_General').triggerHandler('update');
+	
 	jQuery('#idSettings_ModalStylesheet_General').triggerHandler('update');
 });
 
@@ -536,21 +547,44 @@ PreferenceStylesheetObserver.addObserver(function() {
 }
 
 {
-	if (PreferenceAdvanced.getBoolSearch() === false) {
-		jQuery('#idGeneral_Search')
-			.css({
-				'display': 'none'
-			})
-		;
-	}
+	jQuery('#idStylesheet_General')
+		.off('update')
+		.on('update', function() {
+			if (String(PreferenceStylesheet.getStrGeneral()) !== '') {
+				jQuery(this)
+					.text(String(PreferenceStylesheet.getStrGeneral()))
+				;
+			}
+		})
+	;
+	
+	jQuery('#idStylesheet_General').triggerHandler('update');
 }
 
 {
-	if (String(PreferenceStylesheet.getStrGeneral()) !== '') {
-		jQuery('#idStylesheet_General')
-			.text(String(PreferenceStylesheet.getStrGeneral()))
-		;
-	}
+	jQuery('#idGeneral_Search')
+		.off('update')
+		.on('update', function() {
+			if (PreferenceAdvanced.getBoolSearch() === true) {
+				jQuery(this)
+					.css({
+						'display': 'block'
+					})
+				;
+				
+				
+			} else if (PreferenceAdvanced.getBoolSearch() === false) {
+				jQuery(this)
+					.css({
+						'display': 'none'
+					})
+				;
+				
+			}
+		})
+	;
+	
+	jQuery('#idGeneral_Search').triggerHandler('update');
 }
 
 {
@@ -680,7 +714,7 @@ PreferenceStylesheetObserver.addObserver(function() {
 									}
 									
 									{
-										if (window.self.options !== null) {
+										if (window.self.options.strType === 'typePanel') {
 											if (PreferenceAdvanced.getBoolCompact() === true) {
 												{
 													objectArguments.intIdent = [];
@@ -924,6 +958,12 @@ PreferenceStylesheetObserver.addObserver(function() {
 }
 
 {
+	jQuery('#idSettings_ModalAdvanced_State').parent().parent()
+		.css({
+			'display': 'none' // TODO: implement
+		})
+	;
+	
 	jQuery('#idSettings_ModalAdvanced_State')
 		.off('click')
 		.on('click', function() {
@@ -1114,10 +1154,6 @@ PreferenceStylesheetObserver.addObserver(function() {
 												
 												PreferenceLayoutObserver.update();
 											}
-											
-											{
-												Controller.notify();
-											}
 										})
 									)
 								;
@@ -1278,10 +1314,6 @@ PreferenceStylesheetObserver.addObserver(function() {
 												
 												PreferenceLayoutObserver.update();
 											}
-											
-											{
-												Controller.notify();
-											}
 										})
 									)
 								;
@@ -1345,10 +1377,6 @@ PreferenceStylesheetObserver.addObserver(function() {
 						
 						PreferenceLayoutObserver.update();
 					}
-					
-					{
-						Controller.notify();
-					}
 				}
 			})
 		;
@@ -1356,7 +1384,7 @@ PreferenceStylesheetObserver.addObserver(function() {
 }
 
 {
-	jQuery('#idSettings_Layout_Reset')
+	jQuery('#idSettings_ModalLayout_Reset')
 		.off('click')
 		.on('click', function() {
 			{
@@ -1365,9 +1393,7 @@ PreferenceStylesheetObserver.addObserver(function() {
 				var intThird = [];
 				
 				{ 
-					// TODO: intFirst.push(PlacesUtils.toolbarFolderId);
-					// TODO: intFirst.push(PlacesUtils.bookmarksMenuFolderId);
-					// TODO: intFirst.push(PlacesUtils.unfiledBookmarksFolderId);
+					intFirst = intFirst.concat(window.self.options.intBookmarks);
 				}
 				
 				PreferenceLayout.setStrFirst(JSON.stringify(intFirst));
@@ -1403,8 +1429,6 @@ PreferenceStylesheetObserver.addObserver(function() {
 		})
 		.off('update')
 		.on('update', function() {
-			var strGeneral = '';
-			
 			if (String(PreferenceStylesheet.getStrGeneral()) === '') {
 				jQuery(this)
 					.val(jQuery('#idStylesheet_General').text().replace(new RegExp('(^)([\\s]+)', 'g'), '').replace(new RegExp('\\t\\t\\t', 'g'), ''))

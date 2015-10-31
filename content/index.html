@@ -17,29 +17,29 @@
 		<style type="text/css">
 			.modal-overlay {
 				display:none;
-			    position:fixed;
-			    
-			    left:0px;
-			    right:0px;
-			    top:0px;
-			    bottom:0px;
-			    
-			    z-index:12000;
+				position:fixed;
+				
+				left:0px;
+				right:0px;
+				top:0px;
+				bottom:0px;
+				
+				z-index:12000;
 			}
 			
 			.modal-dialog {
 				display:none;
-			    position:fixed;
-			    
-			    left:50%;
-			    top:50%;
-			    
-			    width:100%;
-			    
-			    z-index:12000;
-			    
+				position:fixed;
+				
+				left:50%;
+				top:50%;
+				
+				width:100%;
+				
+				z-index:12000;
+				
 				margin:0px;
-			  	border:none;
+				border:none;
 				border-spacing:0px;
 				padding:15px;
 			}
@@ -137,7 +137,7 @@
 				display:block;
 				position:relative;
 				
-				height:31px;
+				min-height:31px;
 				
 				margin:0px;
 				border:1px solid #FFFFFF;
@@ -251,11 +251,75 @@
 				right:15px;
 				bottom:15px;
 				
+				width:40px;
+				
 				z-index:10000;
 			}
 			
 			#idSettings_ModalAdvanced {
 				max-width:50%;
+			}
+			
+			#idSettings_ModalAdvanced_Autostart {
+				display:block;
+				position:static;
+				
+				padding:10px 15px 10px 15px;
+				
+				text-align:left;
+				line-height:1;
+				white-space:normal;
+			}
+			
+			#idSettings_ModalAdvanced_Search {
+				display:block;
+				position:static;
+				
+				margin:0px;
+				border:none;
+				border-spacing:0px;
+				padding:10px 15px 10px 15px;
+				
+				text-align:left;
+				line-height:1;
+				white-space:normal;
+			}
+			
+			#idSettings_ModalAdvanced_Compact {
+				display:block;
+				position:static;
+				
+				margin:0px;
+				border:none;
+				border-spacing:0px;
+				padding:10px 15px 10px 15px;
+				
+				text-align:left;
+				line-height:1;
+				white-space:normal;
+			}
+			
+			#idSettings_ModalAdvanced_State {
+				display:block;
+				position:static;
+				
+				margin:0px;
+				border:none;
+				border-spacing:0px;
+				padding:10px 15px 10px 15px;
+				
+				text-align:left;
+				line-height:1;
+				white-space:normal;
+			}
+			
+			#idSettings_ModalAdvanced_Footer {
+				margin:15px 0px 0px 0px;
+				border:none;
+				border-spacing:0px;
+				padding:0px;
+				
+				text-align:right;
 			}
 			
 			#idSettings_Layout {
@@ -264,6 +328,8 @@
 				
 				right:65px;
 				bottom:15px;
+				
+				width:40px;
 				
 				z-index:10000;
 			}
@@ -350,6 +416,15 @@
 				font-size:14px;
 			}
 			
+			#idSettings_ModalLayout_Footer {
+				margin:15px 0px 0px 0px;
+				border:none;
+				border-spacing:0px;
+				padding:0px;
+				
+				text-align:right;
+			}
+			
 			#idSettings_Stylesheet {
 				display:block;
 				position:fixed;
@@ -357,11 +432,22 @@
 				right:115px;
 				bottom:15px;
 				
+				width:40px;
+				
 				z-index:10000;
 			}
 			
 			#idSettings_ModalStylesheet {
 				max-width:50%;
+			}
+			
+			#idSettings_ModalStylesheet_Footer {
+				margin:15px 0px 0px 0px;
+				border:none;
+				border-spacing:0px;
+				padding:0px;
+				
+				text-align:right;
 			}
 		</style>
 	</head>
@@ -457,9 +543,9 @@
 						</div>
 					</div>
 					
-					<div style="margin:15px 0px 0px 0px; text-align:right;">
+					<div id="idSettings_ModalAdvanced_Footer">
 						<a class="btn btn-primary" id="idSettings_ModalAdvanced_Reset">
-							@string/idSettings_ModalAdvanced_Reset
+							@string/Settings_ModalAdvanced_Reset
 						</a>
 					</div>
 				</div>
@@ -515,9 +601,9 @@
 						</tr>
 					</table>
 					
-					<div style="margin:15px 0px 0px 0px; text-align:right;">
+					<div id="idSettings_ModalLayout_Footer">
 						<a class="btn btn-primary" id="idSettings_ModalLayout_Reset">
-							@string/idSettings_ModalLayout_Reset
+							@string/Settings_ModalLayout_Reset
 						</a>
 					</div>
 				</div>
@@ -534,9 +620,9 @@
 				<div class="panel-body">
 					<textarea class="form-control" id="idSettings_ModalStylesheet_General" rows="20"></textarea>
 					
-					<div style="margin:15px 0px 0px 0px; text-align:right;">
+					<div id="idSettings_ModalStylesheet_Footer">
 						<a class="btn btn-primary" id="idSettings_ModalStylesheet_Reset">
-							@string/idSettings_ModalStylesheet_Reset
+							@string/Settings_ModalStylesheet_Reset
 						</a>
 					</div>
 				</div>
