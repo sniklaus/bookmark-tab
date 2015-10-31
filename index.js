@@ -164,6 +164,14 @@ var Bookmarks = {
 					var intIdent = objectArguments.intIdent[intFor1];
 					
 					{
+						try {
+							PlacesUtils.bookmarks.getItemType(intIdent)
+						} catch (e) {
+							continue;
+						}
+					}
+					
+					{
 						if (PlacesUtils.bookmarks.getItemType(intIdent) === PlacesUtils.bookmarks.TYPE_FOLDER) {
 							Lookup_resultHandle.push({
 								'intIdent': intIdent,

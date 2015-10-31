@@ -1,0 +1,12 @@
+general {
+	strOutput:Firefox
+	strType:Attribute
+	strPackage:'BookRect'
+	strName:'Stylesheet'
+}
+
+attribute {
+	strName:'strGeneral'
+	strType:str
+	strDefault:'""'
+}

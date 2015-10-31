@@ -43,14 +43,5 @@
 				<em:translator>CodeRect</em:translator>
 			</Description>
 		</em:localized>
-		
-		<em:localized>
-			<Description>
-				<em:locale>fr</em:locale>
-				<em:name>Bookmark Tab</em:name>
-				<em:description>Vos marque-pages s'affichent lorsque vous ouvrez un nouvel onglet.</em:description>
-				<em:translator>Jojaba</em:translator>
-			</Description>
-		</em:localized>
 	</Description>
 </RDF>

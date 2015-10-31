@@ -1,5 +1,3 @@
 content		BookRect					content/
 
-locale		BookRect		de			locale/de/
 locale		BookRect		en-US		locale/en-US/
-locale		BookRect		fr			locale/fr/

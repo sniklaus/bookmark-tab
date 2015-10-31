@@ -52,7 +52,7 @@
 				display:block;
 				position:absolute;
 				
-				z-index:1000;
+				z-index:13000;
 			}
 			
 			.placeholder {
@@ -108,8 +108,10 @@
 		<script type="text/javascript" src="chrome://bookrect/content/libPreferenceAdvancedObserver.js"></script>
 		<script type="text/javascript" src="chrome://bookrect/content/libPreferenceLayout.js"></script>
 		<script type="text/javascript" src="chrome://bookrect/content/libPreferenceLayoutObserver.js"></script>
+		<script type="text/javascript" src="chrome://bookrect/content/libPreferenceStylesheet.js"></script>
+		<script type="text/javascript" src="chrome://bookrect/content/libPreferenceStylesheetObserver.js"></script>
 		
-		<style type="text/css">
+		<style id="idStylesheet_General" type="text/css">
 			body {
 				cursor:default;
 				
@@ -134,6 +136,8 @@
 				
 				display:block;
 				position:relative;
+				
+				height:31px;
 				
 				margin:0px;
 				border:1px solid #FFFFFF;
@@ -250,6 +254,10 @@
 				z-index:10000;
 			}
 			
+			#idSettings_ModalAdvanced {
+				max-width:50%;
+			}
+			
 			#idSettings_Layout {
 				display:block;
 				position:fixed;
@@ -273,12 +281,21 @@
 			#idSettings_ModalLayout table > tbody > tr > td {
 				width:25%;
 				
+				vertical-align:top;
+			}
+			
+			#idSettings_ModalLayout table > tbody > tr > td:nth-of-type(2) {
 				margin:0px;
 				border:none;
 				border-spacing:0px;
-				padding:10px;
-				
-				vertical-align:top;
+				padding:0px 10px 0px 10px;
+			}
+			
+			#idSettings_ModalLayout table > tbody > tr > td:nth-of-type(3) {
+				margin:0px;
+				border:none;
+				border-spacing:0px;
+				padding:0px 10px 0px 10px;
 			}
 			
 			#idSettings_ModalLayout_Available > div:nth-of-type(1),
@@ -331,6 +348,20 @@
 				top:7px;
 				
 				font-size:14px;
+			}
+			
+			#idSettings_Stylesheet {
+				display:block;
+				position:fixed;
+				
+				right:115px;
+				bottom:15px;
+				
+				z-index:10000;
+			}
+			
+			#idSettings_ModalStylesheet {
+				max-width:50%;
 			}
 		</style>
 	</head>
@@ -389,6 +420,48 @@
 							</a>
 						</div>
 					</div>
+					
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							@string/Settings_ModalAdvanced_Search_Caption
+						</div>
+						<div class="panel-body">
+							<a class="btn btn-primary" id="idSettings_ModalAdvanced_Search">
+								@string/Settings_ModalAdvanced_Search
+								<span class="fa fa-square-o pull-right"></span>
+							</a>
+						</div>
+					</div>
+					
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							@string/Settings_ModalAdvanced_Compact_Caption
+						</div>
+						<div class="panel-body">
+							<a class="btn btn-primary" id="idSettings_ModalAdvanced_Compact">
+								@string/Settings_ModalAdvanced_Compact
+								<span class="fa fa-square-o pull-right"></span>
+							</a>
+						</div>
+					</div>
+					
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							@string/Settings_ModalAdvanced_State_Caption
+						</div>
+						<div class="panel-body">
+							<a class="btn btn-primary" id="idSettings_ModalAdvanced_State">
+								@string/Settings_ModalAdvanced_State
+								<span class="fa fa-square-o pull-right"></span>
+							</a>
+						</div>
+					</div>
+					
+					<div style="margin:15px 0px 0px 0px; text-align:right;">
+						<a class="btn btn-primary" id="idSettings_ModalAdvanced_Reset">
+							@string/idSettings_ModalAdvanced_Reset
+						</a>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -441,6 +514,31 @@
 							</td>
 						</tr>
 					</table>
+					
+					<div style="margin:15px 0px 0px 0px; text-align:right;">
+						<a class="btn btn-primary" id="idSettings_ModalLayout_Reset">
+							@string/idSettings_ModalLayout_Reset
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="btn btn-primary" id="idSettings_Stylesheet">
+			<span class="fa fa-paint-brush"></span>
+		</div>
+		
+		<div class="modal-overlay"></div>
+		<div class="modal-dialog" id="idSettings_ModalStylesheet">
+			<div class="panel panel-default modal-content">
+				<div class="panel-body">
+					<textarea class="form-control" id="idSettings_ModalStylesheet_General" rows="20"></textarea>
+					
+					<div style="margin:15px 0px 0px 0px; text-align:right;">
+						<a class="btn btn-primary" id="idSettings_ModalStylesheet_Reset">
+							@string/idSettings_ModalStylesheet_Reset
+						</a>
+					</div>
 				</div>
 			</div>
 		</div>

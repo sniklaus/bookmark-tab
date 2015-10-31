@@ -84,6 +84,12 @@ var Panel = {
 							'display': 'none'
 						})
 					;
+					
+					jQuery('#idSettings_Stylesheet')
+						.css({
+							'display': 'none'
+						})
+					;
 				}
 			}
 		}
@@ -490,27 +496,31 @@ PreferenceControllerObserver.addObserver(function() {
 });
 
 PreferenceAdvancedObserver.addObserver(function() {
+	jQuery('#idSettings_ModalAdvanced_Autostart').triggerHandler('update');
 	
+	jQuery('#idSettings_ModalAdvanced_Search').triggerHandler('update');
+	
+	jQuery('#idSettings_ModalAdvanced_Compact').triggerHandler('update');
+	
+	jQuery('#idSettings_ModalAdvanced_State').triggerHandler('update');
 });
 
 PreferenceLayoutObserver.addObserver(function() {
 	jQuery('#idGeneral_Bookmarks_First, #idGeneral_Bookmarks_Second, #idGeneral_Bookmarks_Third').find('.cssTreeview').each(function() {
-		jQuery(this)
-			.triggerHandler('update')
-		;
+		jQuery(this).triggerHandler('update');
 	});
 	
 	jQuery('#idSettings_ModalLayout_Available').find('.cssTreeview').each(function() {
-		jQuery(this)
-			.triggerHandler('update')
-		;
+		jQuery(this).triggerHandler('update');
 	});
 	
 	jQuery('#idSettings_ModalLayout_First, #idSettings_ModalLayout_Second, #idSettings_ModalLayout_Third').find('.cssTreeview').each(function() {
-		jQuery(this)
-			.triggerHandler('update')
-		;
+		jQuery(this).triggerHandler('update');
 	});
+});
+
+PreferenceStylesheetObserver.addObserver(function() {
+	jQuery('#idSettings_ModalStylesheet_General').triggerHandler('update');
 });
 
 {
@@ -531,6 +541,14 @@ PreferenceLayoutObserver.addObserver(function() {
 			.css({
 				'display': 'none'
 			})
+		;
+	}
+}
+
+{
+	if (String(PreferenceStylesheet.getStrGeneral()) !== '') {
+		jQuery('#idStylesheet_General')
+			.text(String(PreferenceStylesheet.getStrGeneral()))
 		;
 	}
 }
@@ -610,9 +628,7 @@ PreferenceLayoutObserver.addObserver(function() {
 		})
 	;
 	
-	jQuery('#idGeneral_Search_Output')
-		.triggerHandler('update')
-	;
+	jQuery('#idGeneral_Search_Output').triggerHandler('update');
 }
 
 {
@@ -761,9 +777,7 @@ PreferenceLayoutObserver.addObserver(function() {
 			})
 		;
 		
-		jQuery(this)
-			.triggerHandler('update')
-		;
+		jQuery(this).triggerHandler('update');
 	});
 }
 
@@ -775,6 +789,193 @@ PreferenceLayoutObserver.addObserver(function() {
 				jQuery('#idSettings_ModalAdvanced')
 					.modalShow()
 				;
+			}
+		})
+	;
+}
+
+{
+	jQuery('#idSettings_ModalAdvanced_Autostart')
+		.off('click')
+		.on('click', function() {
+			if (PreferenceAdvanced.getBoolAutostart() === true) {
+				PreferenceAdvanced.setBoolAutostart(false);
+				
+			} else if (PreferenceAdvanced.getBoolAutostart() === false) {
+				PreferenceAdvanced.setBoolAutostart(true);
+				
+			}
+		})
+		.off('update')
+		.on('update', function() {
+			if (PreferenceAdvanced.getBoolAutostart() === true) {
+				jQuery(this)
+					.addClass('btn-primary')
+					.removeClass('btn-default')
+				;
+				
+				jQuery(this).find('span')
+					.addClass('fa-check-square-o')
+					.removeClass('fa-square-o')
+				;
+				
+			} else if (PreferenceAdvanced.getBoolAutostart() === false) {
+				jQuery(this)
+					.addClass('btn-default')
+					.removeClass('btn-primary')
+				;
+				
+				jQuery(this).find('span')
+					.addClass('fa-square-o')
+					.removeClass('fa-check-square-o')
+				;
+				
+			}
+		})
+	;
+	
+	jQuery('#idSettings_ModalAdvanced_Autostart').triggerHandler('update');
+}
+
+{
+	jQuery('#idSettings_ModalAdvanced_Search')
+		.off('click')
+		.on('click', function() {
+			if (PreferenceAdvanced.getBoolSearch() === true) {
+				PreferenceAdvanced.setBoolSearch(false);
+				
+			} else if (PreferenceAdvanced.getBoolSearch() === false) {
+				PreferenceAdvanced.setBoolSearch(true);
+				
+			}
+		})
+		.off('update')
+		.on('update', function() {
+			if (PreferenceAdvanced.getBoolSearch() === true) {
+				jQuery(this)
+					.addClass('btn-primary')
+					.removeClass('btn-default')
+				;
+				
+				jQuery(this).find('span')
+					.addClass('fa-check-square-o')
+					.removeClass('fa-square-o')
+				;
+				
+			} else if (PreferenceAdvanced.getBoolSearch() === false) {
+				jQuery(this)
+					.addClass('btn-default')
+					.removeClass('btn-primary')
+				;
+				
+				jQuery(this).find('span')
+					.addClass('fa-square-o')
+					.removeClass('fa-check-square-o')
+				;
+				
+			}
+		})
+	;
+	
+	jQuery('#idSettings_ModalAdvanced_Search').triggerHandler('update');
+}
+
+{
+	jQuery('#idSettings_ModalAdvanced_Compact')
+		.off('click')
+		.on('click', function() {
+			if (PreferenceAdvanced.getBoolCompact() === true) {
+				PreferenceAdvanced.setBoolCompact(false);
+				
+			} else if (PreferenceAdvanced.getBoolCompact() === false) {
+				PreferenceAdvanced.setBoolCompact(true);
+				
+			}
+		})
+		.off('update')
+		.on('update', function() {
+			if (PreferenceAdvanced.getBoolCompact() === true) {
+				jQuery(this)
+					.addClass('btn-primary')
+					.removeClass('btn-default')
+				;
+				
+				jQuery(this).find('span')
+					.addClass('fa-check-square-o')
+					.removeClass('fa-square-o')
+				;
+				
+			} else if (PreferenceAdvanced.getBoolCompact() === false) {
+				jQuery(this)
+					.addClass('btn-default')
+					.removeClass('btn-primary')
+				;
+				
+				jQuery(this).find('span')
+					.addClass('fa-square-o')
+					.removeClass('fa-check-square-o')
+				;
+				
+			}
+		})
+	;
+	
+	jQuery('#idSettings_ModalAdvanced_Compact').triggerHandler('update');
+}
+
+{
+	jQuery('#idSettings_ModalAdvanced_State')
+		.off('click')
+		.on('click', function() {
+			if (PreferenceAdvanced.getBoolState() === true) {
+				PreferenceAdvanced.setBoolState(false);
+				
+			} else if (PreferenceAdvanced.getBoolState() === false) {
+				PreferenceAdvanced.setBoolState(true);
+				
+			}
+		})
+		.off('update')
+		.on('update', function() {
+			if (PreferenceAdvanced.getBoolState() === true) {
+				jQuery(this)
+					.addClass('btn-primary')
+					.removeClass('btn-default')
+				;
+				
+				jQuery(this).find('span')
+					.addClass('fa-check-square-o')
+					.removeClass('fa-square-o')
+				;
+				
+			} else if (PreferenceAdvanced.getBoolState() === false) {
+				jQuery(this)
+					.addClass('btn-default')
+					.removeClass('btn-primary')
+				;
+				
+				jQuery(this).find('span')
+					.addClass('fa-square-o')
+					.removeClass('fa-check-square-o')
+				;
+				
+			}
+		})
+	;
+	
+	jQuery('#idSettings_ModalAdvanced_State').triggerHandler('update');
+}
+
+{
+	jQuery('#idSettings_ModalAdvanced_Reset')
+		.off('click')
+		.on('click', function() {
+			{
+				PreferenceAdvanced.clear();
+			}
+			
+			{
+				window.location.reload();
 			}
 		})
 	;
@@ -930,9 +1131,7 @@ PreferenceLayoutObserver.addObserver(function() {
 			})
 		;
 		
-		jQuery(this)
-			.triggerHandler('update')
-		;
+		jQuery(this).triggerHandler('update');
 	});
 	
 	jQuery('#idSettings_ModalLayout_First, #idSettings_ModalLayout_Second, #idSettings_ModalLayout_Third').find('.cssTreeview').each(function(intFor1) {
@@ -1096,9 +1295,7 @@ PreferenceLayoutObserver.addObserver(function() {
 			})
 		;
 		
-		jQuery(this)
-			.triggerHandler('update')
-		;
+		jQuery(this).triggerHandler('update');
 	});
 	
 	jQuery('#idSettings_ModalLayout_First, #idSettings_ModalLayout_Second, #idSettings_ModalLayout_Third').find('.cssTreeview').each(function() {
@@ -1156,4 +1353,86 @@ PreferenceLayoutObserver.addObserver(function() {
 			})
 		;
 	});
+}
+
+{
+	jQuery('#idSettings_Layout_Reset')
+		.off('click')
+		.on('click', function() {
+			{
+				var intFirst = [];
+				var intSecond = [];
+				var intThird = [];
+				
+				{ 
+					// TODO: intFirst.push(PlacesUtils.toolbarFolderId);
+					// TODO: intFirst.push(PlacesUtils.bookmarksMenuFolderId);
+					// TODO: intFirst.push(PlacesUtils.unfiledBookmarksFolderId);
+				}
+				
+				PreferenceLayout.setStrFirst(JSON.stringify(intFirst));
+				PreferenceLayout.setStrSecond(JSON.stringify(intSecond));
+				PreferenceLayout.setStrThird(JSON.stringify(intThird));
+			}
+			
+			{
+				window.location.reload();
+			}
+		})
+	;
+}
+
+{
+	jQuery('#idSettings_Stylesheet')
+		.off('click')
+		.on('click', function() {
+			{
+				jQuery('#idSettings_ModalStylesheet')
+					.modalShow()
+				;
+			}
+		})
+	;
+}
+
+{
+	jQuery('#idSettings_ModalStylesheet_General')
+		.off('input')
+		.on('input', function() {
+			PreferenceStylesheet.setStrGeneral(jQuery(this).val());
+		})
+		.off('update')
+		.on('update', function() {
+			var strGeneral = '';
+			
+			if (String(PreferenceStylesheet.getStrGeneral()) === '') {
+				jQuery(this)
+					.val(jQuery('#idStylesheet_General').text().replace(new RegExp('(^)([\\s]+)', 'g'), '').replace(new RegExp('\\t\\t\\t', 'g'), ''))
+				;
+				
+			} else if (String(PreferenceStylesheet.getStrGeneral()) !== '') {
+				jQuery(this)
+					.val(String(PreferenceStylesheet.getStrGeneral()))
+				;
+				
+			}
+		})
+	;
+	
+	jQuery('#idSettings_ModalStylesheet_General').triggerHandler('update');
+}
+
+{
+	jQuery('#idSettings_ModalStylesheet_Reset')
+		.off('click')
+		.on('click', function() {
+			{
+				PreferenceStylesheet.clear();
+			}
+			
+			{
+				window.location.reload();
+			}
+		})
+	;
 }
