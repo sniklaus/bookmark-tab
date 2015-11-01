@@ -77,11 +77,31 @@ var Browser = {
 	},
 	
 	bind: function(bindHandle) {
+		bindHandle.port.on('browserNewtab', function(objectArguments) {
+			Browser.newtab.call(bindHandle, objectArguments, function(objectArguments) {
+				bindHandle.port.emit('browserNewtab', objectArguments);
+			});
+		});
+		
 		bindHandle.port.on('browserNavigate', function(objectArguments) {
-			Bookmarks.navigate.call(bindHandle, objectArguments, function(objectArguments) {
+			Browser.navigate.call(bindHandle, objectArguments, function(objectArguments) {
 				bindHandle.port.emit('browserNavigate', objectArguments);
 			});
 		});
+	},
+	
+	newtab: function(objectArguments, functionCallback) {
+		{
+			if (objectArguments.strOverride === '') {
+				NewTabURL.reset();
+				
+			} else if (objectArguments.strOverride !== '') {
+				NewTabURL.override(objectArguments.strOverride);
+				
+			}
+		}
+		
+		functionCallback({});
 	},
 	
 	navigate: function(objectArguments, functionCallback) {
@@ -378,27 +398,18 @@ Bookmarks.init();
 exports.main = function(optionsHandle) {
 	{
 		if (optionsHandle.loadReason === 'install') {
-			NewTabURL.override('about:bookrect');
+			requirePreferences.set('extensions.BookRect.Advanced.boolAutostart', true);
 			
 		} else if (optionsHandle.loadReason === 'enable') {
-			NewTabURL.override('about:bookrect');
-			
-		} else if (optionsHandle.loadReason === 'upgrade') {
-			NewTabURL.override('about:bookrect');
-			
-		} else if (optionsHandle.loadReason === 'downgrade') {
-			NewTabURL.override('about:bookrect');
-			
-		} else if (requirePreferences.get('extensions.BookRect.Advanced.boolAutostart') === true) {
-			NewTabURL.override('about:bookrect');
+			requirePreferences.set('extensions.BookRect.Advanced.boolAutostart', true);
 			
 		}
 		
-		if (NewTabURL.get() === 'about:bookrect') {
-			requirePreferences.set('extensions.BookRect.Advanced.boolAutostart', true);
+		if (requirePreferences.get('extensions.BookRect.Advanced.boolAutostart', true) === true) {
+			NewTabURL.override('about:bookrect');
 			
-		} else if (NewTabURL.get() !== 'about:bookrect') {
-			requirePreferences.set('extensions.BookRect.Advanced.boolAutostart', false);
+		} else if (requirePreferences.get('extensions.BookRect.Advanced.boolAutostart', true) === true) {
+			NewTabURL.reset();
 			
 		}
 	}
@@ -409,9 +420,9 @@ exports.main = function(optionsHandle) {
 	
 	{
 		if (optionsHandle.loadReason === 'install') {
-			var intFirst = JSON.parse(requirePreferences.get('extensions.BookRect.Layout.strFirst'));
-			var intSecond = JSON.parse(requirePreferences.get('extensions.BookRect.Layout.strSecond'));
-			var intThird = JSON.parse(requirePreferences.get('extensions.BookRect.Layout.strThird'));
+			var intFirst = JSON.parse(requirePreferences.get('extensions.BookRect.Layout.strFirst', '[]'));
+			var intSecond = JSON.parse(requirePreferences.get('extensions.BookRect.Layout.strSecond', '[]'));
+			var intThird = JSON.parse(requirePreferences.get('extensions.BookRect.Layout.strThird', '[]'));
 			
 			if (intFirst.length === 0) {
 				if (intSecond.length === 0) {
@@ -535,9 +546,7 @@ exports.main = function(optionsHandle) {
 
 exports.onUnload = function(optionsHandle) {
 	{
-		if (NewTabURL.get() === 'about:bookrect') {
-			NewTabURL.reset();
-		}
+		NewTabURL.reset();
 	}
 	
 	{

@@ -158,6 +158,16 @@ var Browser = {
 		
 	},
 	
+	newtab: function(objectArguments) {
+		{
+			self.port.emit('browserNewtab', objectArguments);
+		}
+	},
+	
+	newtabCallback: function(objectArguments) {
+		
+	},
+	
 	navigate: function(objectArguments) {
 		{
 			self.port.emit('browserNavigate', objectArguments);
@@ -835,8 +845,16 @@ PreferenceStylesheetObserver.addObserver(function() {
 			if (PreferenceAdvanced.getBoolAutostart() === true) {
 				PreferenceAdvanced.setBoolAutostart(false);
 				
+				Browser.newtab({
+					'strOverride': ''
+				});
+				
 			} else if (PreferenceAdvanced.getBoolAutostart() === false) {
 				PreferenceAdvanced.setBoolAutostart(true);
+				
+				Browser.newtab({
+					'strOverride': 'about:bookrect'
+				});
 				
 			}
 		})
