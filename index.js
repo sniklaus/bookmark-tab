@@ -230,7 +230,7 @@ var Bookmarks = {
 					{
 						Lookup_resultHandle.push({
 							'intIdent': PlacesUtils.toolbarFolderId,
-							'intTimestamp': 0,
+							'longTimestamp': 0,
 							'intParent': 0,
 							'strType': 'typeFolder',
 							'strImage': 'chrome://bookrect/content/images/folder.png',
@@ -244,7 +244,7 @@ var Bookmarks = {
 					{
 						Lookup_resultHandle.push({
 							'intIdent': PlacesUtils.bookmarksMenuFolderId,
-							'intTimestamp': 0,
+							'longTimestamp': 0,
 							'intParent': 0,
 							'strType': 'typeFolder',
 							'strImage': 'chrome://bookrect/content/images/folder.png',
@@ -258,7 +258,7 @@ var Bookmarks = {
 					{
 						Lookup_resultHandle.push({
 							'intIdent': PlacesUtils.unfiledBookmarksFolderId,
-							'intTimestamp': 0,
+							'longTimestamp': 0,
 							'intParent': 0,
 							'strType': 'typeFolder',
 							'strImage': 'chrome://bookrect/content/images/folder.png',
@@ -280,7 +280,7 @@ var Bookmarks = {
 								if (PlacesUtils.nodeIsFolder(objectNode) === true) {
 									Lookup_resultHandle.push({
 										'intIdent': objectNode.itemId,
-										'intTimestamp': objectNode.lastModified,
+										'longTimestamp': objectNode.lastModified,
 										'intParent': objectArguments.intIdent,
 										'strType': 'typeFolder',
 										'strImage': 'chrome://bookrect/content/images/folder.png',
@@ -293,7 +293,7 @@ var Bookmarks = {
 								} else if (PlacesUtils.nodeIsBookmark(objectNode) === true) {
 									Lookup_resultHandle.push({
 										'intIdent': objectNode.itemId,
-										'intTimestamp': objectNode.lastModified,
+										'longTimestamp': objectNode.lastModified,
 										'intParent': objectArguments.intIdent,
 										'strType': 'typeBookmark',
 										'strImage': 'chrome://bookrect/content/images/bookmark.png',
@@ -306,7 +306,7 @@ var Bookmarks = {
 								} else if (PlacesUtils.nodeIsSeparator(objectNode) === true) {
 									Lookup_resultHandle.push({
 										'intIdent': objectNode.itemId,
-										'intTimestamp': objectNode.lastModified,
+										'longTimestamp': objectNode.lastModified,
 										'intParent': objectArguments.intIdent,
 										'strType': 'typeSeparator',
 										'strImage': '',
@@ -420,23 +420,23 @@ exports.main = function(optionsHandle) {
 	
 	{
 		if (optionsHandle.loadReason === 'install') {
-			var intFirst = JSON.parse(requirePreferences.get('extensions.BookRect.Layout.strFirst', '[]'));
-			var intSecond = JSON.parse(requirePreferences.get('extensions.BookRect.Layout.strSecond', '[]'));
-			var intThird = JSON.parse(requirePreferences.get('extensions.BookRect.Layout.strThird', '[]'));
+			var objectFirst = JSON.parse(requirePreferences.get('extensions.BookRect.Layout.strFirst', '[]'));
+			var objectSecond = JSON.parse(requirePreferences.get('extensions.BookRect.Layout.strSecond', '[]'));
+			var objectThird = JSON.parse(requirePreferences.get('extensions.BookRect.Layout.strThird', '[]'));
 			
-			if (intFirst.length === 0) {
-				if (intSecond.length === 0) {
-					if (intThird.length === 0) {
-						intFirst.push(PlacesUtils.toolbarFolderId);
-						intFirst.push(PlacesUtils.bookmarksMenuFolderId);
-						intFirst.push(PlacesUtils.unfiledBookmarksFolderId);
+			if (objectFirst.length === 0) {
+				if (objectSecond.length === 0) {
+					if (objectThird.length === 0) {
+						objectFirst.push(PlacesUtils.toolbarFolderId);
+						objectFirst.push(PlacesUtils.bookmarksMenuFolderId);
+						objectFirst.push(PlacesUtils.unfiledBookmarksFolderId);
 					}
 				}
 			}
 			
-			requirePreferences.set('extensions.BookRect.Layout.strFirst', JSON.stringify(intFirst));
-			requirePreferences.set('extensions.BookRect.Layout.strSecond', JSON.stringify(intSecond));
-			requirePreferences.set('extensions.BookRect.Layout.strThird', JSON.stringify(intThird));
+			requirePreferences.set('extensions.BookRect.Layout.strFirst', JSON.stringify(objectFirst));
+			requirePreferences.set('extensions.BookRect.Layout.strSecond', JSON.stringify(objectSecond));
+			requirePreferences.set('extensions.BookRect.Layout.strThird', JSON.stringify(objectThird));
 		}
 	}
 	

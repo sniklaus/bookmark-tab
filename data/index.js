@@ -1154,17 +1154,17 @@ PreferenceStylesheetObserver.addObserver(function() {
 											}
 											
 											{
-												var intFirst = JSON.parse(PreferenceLayout.getStrFirst());
-												var intSecond = JSON.parse(PreferenceLayout.getStrSecond());
-												var intThird = JSON.parse(PreferenceLayout.getStrThird());
+												var objectFirst = JSON.parse(PreferenceLayout.getStrFirst());
+												var objectSecond = JSON.parse(PreferenceLayout.getStrSecond());
+												var objectThird = JSON.parse(PreferenceLayout.getStrThird());
 												
 												{
-													intFirst.push(jQuery(this).closest('.cssTreeview_NodeContainer').data('intIdent'));
+													objectFirst.push(jQuery(this).closest('.cssTreeview_NodeContainer').data('intIdent'));
 												}
 												
-												PreferenceLayout.setStrFirst(JSON.stringify(intFirst));
-												PreferenceLayout.setStrSecond(JSON.stringify(intSecond));
-												PreferenceLayout.setStrThird(JSON.stringify(intThird));
+												PreferenceLayout.setStrFirst(JSON.stringify(objectFirst));
+												PreferenceLayout.setStrSecond(JSON.stringify(objectSecond));
+												PreferenceLayout.setStrThird(JSON.stringify(objectThird));
 											}
 											
 											{
@@ -1307,24 +1307,24 @@ PreferenceStylesheetObserver.addObserver(function() {
 											}
 											
 											{
-												var intFirst = JSON.parse(PreferenceLayout.getStrFirst());
-												var intSecond = JSON.parse(PreferenceLayout.getStrSecond());
-												var intThird = JSON.parse(PreferenceLayout.getStrThird());
+												var objectFirst = JSON.parse(PreferenceLayout.getStrFirst());
+												var objectSecond = JSON.parse(PreferenceLayout.getStrSecond());
+												var objectThird = JSON.parse(PreferenceLayout.getStrThird());
 												
 												if (jQuery(this).closest('.cssTreeview').data('intColumn') === 0) {
-													intFirst.splice(jQuery(this).closest('.cssTreeview_NodeContainer').index(), 1);
+													objectFirst.splice(jQuery(this).closest('.cssTreeview_NodeContainer').index(), 1);
 													
 												} else if (jQuery(this).closest('.cssTreeview').data('intColumn') === 1) {
-													intSecond.splice(jQuery(this).closest('.cssTreeview_NodeContainer').index(), 1);
+													objectSecond.splice(jQuery(this).closest('.cssTreeview_NodeContainer').index(), 1);
 													
 												} else if (jQuery(this).closest('.cssTreeview').data('intColumn') === 2) {
-													intThird.splice(jQuery(this).closest('.cssTreeview_NodeContainer').index(), 1);
+													objectThird.splice(jQuery(this).closest('.cssTreeview_NodeContainer').index(), 1);
 													
 												}
 												
-												PreferenceLayout.setStrFirst(JSON.stringify(intFirst));
-												PreferenceLayout.setStrSecond(JSON.stringify(intSecond));
-												PreferenceLayout.setStrThird(JSON.stringify(intThird));
+												PreferenceLayout.setStrFirst(JSON.stringify(objectFirst));
+												PreferenceLayout.setStrSecond(JSON.stringify(objectSecond));
+												PreferenceLayout.setStrThird(JSON.stringify(objectThird));
 											}
 											
 											{
@@ -1366,28 +1366,28 @@ PreferenceStylesheetObserver.addObserver(function() {
 					}
 					
 					{
-						var intFirst = [];
-						var intSecond = [];
-						var intThird = [];
+						var objectFirst = [];
+						var objectSecond = [];
+						var objectThird = [];
 						
 						jQuery('#idSettings_ModalLayout_First, #idSettings_ModalLayout_Second, #idSettings_ModalLayout_Third').find('.cssTreeview').each(function(intFor1) {
 							jQuery(this).find('.cssTreeview_NodeContainer').each(function() {
 								if (intFor1 === 0) {
-									intFirst.push(jQuery(this).data('intIdent'));
+									objectFirst.push(jQuery(this).data('intIdent'));
 									
 								} else if (intFor1 === 1) {
-									intSecond.push(jQuery(this).data('intIdent'));
+									objectSecond.push(jQuery(this).data('intIdent'));
 									
 								} else if (intFor1 === 2) {
-									intThird.push(jQuery(this).data('intIdent'));
+									objectThird.push(jQuery(this).data('intIdent'));
 									
 								}
 							});
 						});
 						
-						PreferenceLayout.setStrFirst(JSON.stringify(intFirst));
-						PreferenceLayout.setStrSecond(JSON.stringify(intSecond));
-						PreferenceLayout.setStrThird(JSON.stringify(intThird));
+						PreferenceLayout.setStrFirst(JSON.stringify(objectFirst));
+						PreferenceLayout.setStrSecond(JSON.stringify(objectSecond));
+						PreferenceLayout.setStrThird(JSON.stringify(objectThird));
 					}
 					
 					{
@@ -1406,17 +1406,17 @@ PreferenceStylesheetObserver.addObserver(function() {
 		.off('click')
 		.on('click', function() {
 			{
-				var intFirst = [];
-				var intSecond = [];
-				var intThird = [];
+				var objectFirst = [];
+				var objectSecond = [];
+				var objectThird = [];
 				
 				{ 
-					intFirst = intFirst.concat(window.self.options.intBookmarks);
+					objectFirst = objectFirst.concat(window.self.options.intBookmarks);
 				}
 				
-				PreferenceLayout.setStrFirst(JSON.stringify(intFirst));
-				PreferenceLayout.setStrSecond(JSON.stringify(intSecond));
-				PreferenceLayout.setStrThird(JSON.stringify(intThird));
+				PreferenceLayout.setStrFirst(JSON.stringify(objectFirst));
+				PreferenceLayout.setStrSecond(JSON.stringify(objectSecond));
+				PreferenceLayout.setStrThird(JSON.stringify(objectThird));
 			}
 			
 			{
