@@ -464,7 +464,7 @@ exports.main = function(optionsHandle) {
 	
 	{
 		requirePagemod.PageMod({
-			'include': [ 'about:bookrect', 'chrome://bookrect/content/index.html' ],
+			'include': [ 'about:bookrect', 'about:bookrect#*', 'chrome://bookrect/content/index.html', 'chrome://bookrect/content/index.html#*' ],
 			'contentScriptFile': [ requireSelf.data.url('./index.js') ],
 			'contentScriptOptions': {
 				'strType': 'typePagemod',

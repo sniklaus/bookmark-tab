@@ -98,16 +98,18 @@ var Panel = {
 			var strConfiguration = '';
 			
 			{
-				strConfiguration += PreferenceController.getLongTimestamp() + ';';
-				
 				strConfiguration += PreferenceAdvanced.getBoolAutostart() + ';';
 				strConfiguration += PreferenceAdvanced.getBoolSearch() + ';';
 				strConfiguration += PreferenceAdvanced.getBoolCompact() + ';';
 				strConfiguration += PreferenceAdvanced.getBoolState() + ';';
 				
+				strConfiguration += PreferenceController.getLongTimestamp() + ';';
+				
 				strConfiguration += String(PreferenceLayout.getStrFirst()) + ';';
 				strConfiguration += String(PreferenceLayout.getStrSecond()) + ';';
 				strConfiguration += String(PreferenceLayout.getStrThird()) + ';';
+				
+				strConfiguration += String(PreferenceState.getStrState()) + ';';
 				
 				strConfiguration += String(PreferenceStylesheet.getStrGeneral()) + ';';
 			}
@@ -118,11 +120,13 @@ var Panel = {
 				}
 				
 				{
-					PreferenceControllerObserver.update();
-					
 					PreferenceAdvancedObserver.update();
 					
+					PreferenceControllerObserver.update();
+					
 					PreferenceLayoutObserver.update();
+					
+					PreferenceStateObserver.update();
 					
 					PreferenceStylesheetObserver.update();
 				}
@@ -376,7 +380,7 @@ var Treeview = {
 							.append(jQuery('<div></div>')
 								.addClass('cssTreeview_Node')
 								.off('click')
-								.on('click', function(eventHandle) {
+								.on('click', function() {
 									{
 										if (jQuery(this).closest('.cssTreeview_NodeContainer').find('.cssTreeview_NodePlaceholder').children().size() === 0) {
 											{
@@ -394,7 +398,7 @@ var Treeview = {
 													'strImage': jQuery(this).closest('.cssTreeview_NodeContainer').data('strImage'),
 													'strTitle': jQuery(this).closest('.cssTreeview_NodeContainer').data('strTitle'),
 													'strLink': jQuery(this).closest('.cssTreeview_NodeContainer').data('strLink')
-												}, eventHandle);
+												});
 											}
 											
 										} else if (jQuery(this).closest('.cssTreeview_NodeContainer').find('.cssTreeview_NodePlaceholder').children().size() !== 0) {
@@ -411,7 +415,7 @@ var Treeview = {
 													'strImage': jQuery(this).closest('.cssTreeview_NodeContainer').data('strImage'),
 													'strTitle': jQuery(this).closest('.cssTreeview_NodeContainer').data('strTitle'),
 													'strLink': jQuery(this).closest('.cssTreeview_NodeContainer').data('strLink')
-												}, eventHandle);
+												});
 											}
 											
 										}
@@ -508,10 +512,6 @@ var Treeview = {
 };
 Treeview.init();
 
-PreferenceControllerObserver.addObserver(function() {
-	
-});
-
 PreferenceAdvancedObserver.addObserver(function() {
 	jQuery('#idGeneral_Search').triggerHandler('update');
 	
@@ -522,6 +522,10 @@ PreferenceAdvancedObserver.addObserver(function() {
 	jQuery('#idSettings_ModalAdvanced_Compact').triggerHandler('update');
 	
 	jQuery('#idSettings_ModalAdvanced_State').triggerHandler('update');
+});
+
+PreferenceControllerObserver.addObserver(function() {
+	
 });
 
 PreferenceLayoutObserver.addObserver(function() {
@@ -538,6 +542,10 @@ PreferenceLayoutObserver.addObserver(function() {
 	});
 });
 
+PreferenceStateObserver.addObserver(function() {
+	
+});
+
 PreferenceStylesheetObserver.addObserver(function() {
 	jQuery('#idStylesheet_General').triggerHandler('update');
 	
@@ -552,6 +560,20 @@ PreferenceStylesheetObserver.addObserver(function() {
 		
 		{
 			window.gURLBar.select();
+		}
+	}
+	
+	if (window.location.hash.substr(1) !== '') {
+		{
+			jQuery('#idGeneral_Search_Input')
+				.val(window.location.hash.substr(1))
+			;
+		}
+		
+		{
+			Bookmarks.search({
+				'strSearch': window.location.hash.substr(1)
+			});
 		}
 	}
 }
@@ -601,6 +623,14 @@ PreferenceStylesheetObserver.addObserver(function() {
 	jQuery('#idGeneral_Search_Input')
 		.off('input')
 		.on('input', function() {
+			if (jQuery(this).val() === '' ) {
+				window.location.hash = '';
+				
+			} else if (jQuery(this).val() !== '') {
+				window.location.hash = '#' + jQuery(this).val();
+				
+			}
+			
 			if (jQuery(this).val().length < 2) {
 				jQuery('#idGeneral_Search_Output')
 					.treeviewData({
@@ -776,6 +806,20 @@ PreferenceStylesheetObserver.addObserver(function() {
 									}
 								}
 							}
+							
+							{
+								if (objectNode.strType === 'typeFolder') {
+									var objectState = JSON.parse(PreferenceState.getStrState());
+									
+									{
+										if (objectState.hasOwnProperty(objectNode.intIdent) === false) {
+											objectState[objectNode.intIdent] = new Date().getTime();
+										}
+									}
+									
+									PreferenceState.setStrState(JSON.stringify(objectState));
+								}
+							}
 						},
 						'functionData': function(objectNode) {
 							{
@@ -812,9 +856,43 @@ PreferenceStylesheetObserver.addObserver(function() {
 									}
 								}
 							}
+							
+							{
+								if (objectNode.strType === 'typeFolder') {
+									if (PreferenceAdvanced.getBoolState() === true) {
+										if (PreferenceState.intTimestamp === undefined) {
+											PreferenceState.intTimestamp = new Date().getTime();
+											
+											PreferenceState.objectState = JSON.parse(PreferenceState.getStrState());
+											
+										} else if (PreferenceState.intTimestamp < new Date().getTime() - 1000) {
+											PreferenceState.intTimestamp = new Date().getTime();
+											
+											PreferenceState.objectState = JSON.parse(PreferenceState.getStrState());
+											
+										}
+										
+										if (PreferenceState.objectState.hasOwnProperty(objectNode.intIdent) === true) {
+											jQuery(this).triggerHandler('click');
+										}
+									}
+								}
+							}
 						},
 						'functionClose': function(objectNode) {
-							
+							{
+								if (objectNode.strType === 'typeFolder') {
+									var objectState = JSON.parse(PreferenceState.getStrState());
+									
+									{
+										if (objectState.hasOwnProperty(objectNode.intIdent) === true) {
+											delete objectState[objectNode.intIdent];
+										}
+									}
+									
+									PreferenceState.setStrState(JSON.stringify(objectState));
+								}
+							}
 						}
 					})
 				;
@@ -976,12 +1054,6 @@ PreferenceStylesheetObserver.addObserver(function() {
 }
 
 {
-	jQuery('#idSettings_ModalAdvanced_State').parent().parent()
-		.css({
-			'display': 'none' // TODO: implement
-		})
-	;
-	
 	jQuery('#idSettings_ModalAdvanced_State')
 		.off('click')
 		.on('click', function() {
