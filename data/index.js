@@ -566,7 +566,7 @@ PreferenceStylesheetObserver.addObserver(function() {
 	if (window.location.hash.substr(1) !== '') {
 		{
 			jQuery('#idGeneral_Search_Input')
-				.val(window.location.hash.substr(1))
+				.val(decodeURIComponent(window.location.hash.substr(1)))
 			;
 		}
 		
