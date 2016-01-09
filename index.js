@@ -195,7 +195,7 @@ var Bookmarks = {
 								'intIdent': intIdent,
 								'strType': 'typeBookmark',
 								'strImage': 'chrome://bookrect/content/images/bookmark.png',
-								'strTitle': PlacesUtils.bookmarks.getItemTitle(intIdent),
+								'strTitle': PlacesUtils.bookmarks.getItemTitle(intIdent) || PlacesUtils.bookmarks.getBookmarkURI(intIdent).spec,
 								'strLink': PlacesUtils.bookmarks.getBookmarkURI(intIdent).spec
 							});
 							
@@ -298,7 +298,7 @@ var Bookmarks = {
 										'intParent': objectArguments.intIdent,
 										'strType': 'typeBookmark',
 										'strImage': 'chrome://bookrect/content/images/bookmark.png',
-										'strTitle': objectNode.title,
+										'strTitle': objectNode.title || objectNode.uri,
 										'strLink': objectNode.uri,
 										'strTags': objectNode.tags,
 										'intAccesscount': objectNode.accessCount
