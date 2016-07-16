@@ -34,7 +34,7 @@ var Panel = {
 								}
 							}
 							
-							if (jQuery(eventHandle.target).closest('.cssTreeview_NodeContainer').size() === 0) {
+							if (jQuery(eventHandle.target).closest('.cssTreeview_NodeContainer').length === 0) {
 								return;
 								
 							} else if (jQuery(eventHandle.target).closest('.cssTreeview_NodeContainer').find('.cssTreeview_Node').get(0).tagName.toLowerCase() !== 'a') {
@@ -382,7 +382,7 @@ var Treeview = {
 								.off('click')
 								.on('click', function() {
 									{
-										if (jQuery(this).closest('.cssTreeview_NodeContainer').find('.cssTreeview_NodePlaceholder').children().size() === 0) {
+										if (jQuery(this).closest('.cssTreeview_NodeContainer').find('.cssTreeview_NodePlaceholder').children().length === 0) {
 											{
 												jQuery(this).closest('.cssTreeview_NodeContainer').find('.cssTreeview_NodePlaceholder')
 													.treeview({
@@ -401,7 +401,7 @@ var Treeview = {
 												});
 											}
 											
-										} else if (jQuery(this).closest('.cssTreeview_NodeContainer').find('.cssTreeview_NodePlaceholder').children().size() !== 0) {
+										} else if (jQuery(this).closest('.cssTreeview_NodeContainer').find('.cssTreeview_NodePlaceholder').children().length !== 0) {
 											{
 												jQuery(this).closest('.cssTreeview_NodeContainer').find('.cssTreeview_NodePlaceholder')
 													.empty()
@@ -553,6 +553,8 @@ PreferenceStylesheetObserver.addObserver(function() {
 });
 
 {
+	// TODO: make focussed element configurable
+	
 	if (window.gURLBar !== undefined) {
 		{
 			window.gURLBar.focus();
