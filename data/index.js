@@ -577,6 +577,10 @@ PreferenceStylesheetObserver.addObserver(function() {
 				'strSearch': window.location.hash.substr(1)
 			});
 		}
+
+		{
+			jQuery('#idGeneral_Search_Input').focus();
+		}
 	}
 
 	window.addEventListener("hashchange", function() {
@@ -590,6 +594,10 @@ PreferenceStylesheetObserver.addObserver(function() {
 			Bookmarks.search({
 				'strSearch': window.location.hash.substr(1)
 			});
+		}
+
+		{
+			jQuery('#idGeneral_Search_Input').focus();
 		}
 	});
 }
