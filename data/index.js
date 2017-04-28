@@ -583,7 +583,7 @@ PreferenceStylesheetObserver.addObserver(function() {
 		}
 	}
 
-	window.addEventListener("hashchange", function() {
+	window.addEventListener('hashchange', function() {
 		{
 			jQuery('#idGeneral_Search_Input')
 				.val(decodeURIComponent(window.location.hash.substr(1)))

@@ -11,11 +11,10 @@ var requireTabs = require('sdk/tabs');
 var requireToggle = require('sdk/ui/button/toggle');
 var requireXpcom = require('sdk/platform/xpcom');
 
+requireChrome.Cu.import("resource:///modules/NewTabURL.jsm");
 requireChrome.Cu.import('resource://gre/modules/NetUtil.jsm');
 requireChrome.Cu.import('resource://gre/modules/PlacesUtils.jsm');
 requireChrome.Cu.import('resource://gre/modules/Services.jsm');
-
-var aboutnewtabHandle = requireChrome.Cc['@mozilla.org/browser/aboutnewtab-service;1'].getService(requireChrome.Ci.nsIAboutNewTabService);
 
 var Controller = {
 	init: function() {
@@ -94,10 +93,10 @@ var Browser = {
 	newtab: function(objectArguments, functionCallback) {
 		{
 			if (objectArguments.strOverride === '') {
-				aboutnewtabHandle.resetNewTabURL();
+				NewTabURL.reset();
 				
 			} else if (objectArguments.strOverride !== '') {
-				aboutnewtabHandle.newTabURL = objectArguments.strOverride;
+				NewTabURL.override(objectArguments.strOverride);
 				
 			}
 		}
@@ -407,10 +406,10 @@ exports.main = function(optionsHandle) {
 		}
 		
 		if (requirePreferences.get('extensions.BookRect.Advanced.boolAutostart', true) === true) {
-			aboutnewtabHandle.newTabURL = 'about:bookrect';
+			NewTabURL.override('about:bookrect');
 			
 		} else if (requirePreferences.get('extensions.BookRect.Advanced.boolAutostart', true) === true) {
-			aboutnewtabHandle.resetNewTabURL();
+			NewTabURL.reset();
 			
 		}
 	}
@@ -547,7 +546,7 @@ exports.main = function(optionsHandle) {
 
 exports.onUnload = function(optionsHandle) {
 	{
-		aboutnewtabHandle.resetNewTabURL();
+		NewTabURL.reset();
 	}
 	
 	{
